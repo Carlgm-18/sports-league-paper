@@ -3,18 +3,16 @@
 Para implementar este tipo de sistemas requerimos de tecnologías que nos permitan implementar las funcionalidades que deseamos mediante: 
 
 \begin{enumerate}
-    \item Un servidor que hace el papel de API que se conecta a una base de datos para persistir datos tabulares y relacionales y un almacenamiento de objetos para guardar imágenes de perfil y documentos.
+    \item Un servidor que hace el papel de API que se conecta a: una base de datos para persistir datos tabulares y relacionales y un almacenamiento de objetos para guardar imágenes de perfil y documentos.
     \item Una interfaz multiplataforma que se conecta a la API para mostrar los datos persistidos e interactuar con ellos.
 \end{enumerate}
 
 Para implementar la API podemos elegir entre varios lenguajes de programación y sus correspondientes frameworks y librerías: Python con FastAPI o Django, PHP con Laravel, Rust con Tokio y Java/Kotlin con SpringBoot entre otros. 
 
-Para la base de datos  
+Para la \ac{BD} encontramos opciones como MySQL, PostgreSQL, SQL Server, Oracle, MariaDB si queremos un sistema relacional. Aunque también podemos optar por MongoDB, Redis o Cassandra, entre otros, si preferimos sistemas no relacionales.
 
-Para implementar la interfaz de usuario gráfica multiplataforma podemos optar por las siguientes tecnologías
+Para el \ac{OS} la opción más utilizada es el almacenamiento en la nube que ofrece Amazon S3. Una alternativa a Amazon S3 podría ser Cloudflare R2. Estas soluciones alojadas en la nube acarrean un costo si el volumen de datos y consultas es alto. Lo bueno es que podemos optar por versiones autoalojadas para tener más privacidad y control sobre los recursos, además de eliminar cualquier costo. La última opción, pero menos recomendada, sería guardar las imágenes y documentos en una carpeta del sistema de ficheros del servidor donde se aloja el back-end. 
 
-\chapter{Proceso de desarrollo}
+Finalmente, para implementar la interfaz de usuario gráfica multiplataforma podemos optar por las siguientes tecnologías: React Native, Ionic y Quasar, basadas en tecnologías web; o Flutter y Kotlin Multiplataforma, basadas en tecnologías nativas.
 
-En este capítulo veremos todos los pasos que han sido necesarios abarcar para completar el \ac{TFG}, desde la recogida de requisitos hasta la verificación del correcto funcionamiento del sistema 
-
-\section{Recogida de requisitos}
+% TODO: write about selected technologies and justification
