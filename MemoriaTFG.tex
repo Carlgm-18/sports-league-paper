@@ -1,3 +1,4 @@
+% LTeX: enabled=false
 %% ----------------ATENCIÓ-----------------------
 %% Aquest document està preparat per codificació 
 %% UTF-8. Si es llegeix amb un editor 
@@ -69,6 +70,14 @@
 % teoremes, exemples, ...
 \usepackage{tcolorbox}
 
+% Para personalizar listas y enumeraciones
+% como las de los requisitos funcionales.
+\usepackage{enumitem}
+
+% Para poder usar tablas que ocupan varias páginas,
+% como la de los requisitos.
+\usepackage{longtable}
+
 % Si voleu que les referències bibliogràfiques
 % apareguin amb el format "autor-any" en comptes 
 % de "número" heu d'usar el paquet natbib.
@@ -94,10 +103,15 @@
 % afegir nous paquets, feis-ho a continuació.
 % El paquet "hyperref" crea enllaços automàticament 
 % dins el document. Aquests enllaços permeten la 
-% navegació a través de les diferents referències 
-% figures, bibliografia, fórmules, índex, ...
-% tant sols assenyalant-los amb el ratolí. 
-\usepackage[backref, colorlinks=true, all colors=black]{hyperref}
+% navegació a través de les diferents referències (figures, bibliografia, 
+% fórmules, índex, ...) tant sols assenyalant-los amb el ratolí. 
+\usepackage[breaklinks=true, backref, colorlinks=true, all colors=black]{hyperref}
+
+% Configuración para mejorar el espaciado y evitar advertencias de overfull/underfull
+% Aumenta la tolerancia para la justificación de párrafos.
+\tolerance=1000
+\emergencystretch=3em
+\raggedbottom
 
 % Si voleu que els enllaços apareguin en colors diferents,
 % eliminau l'opció "all colors=black". 
