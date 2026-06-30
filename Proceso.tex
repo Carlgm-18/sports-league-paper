@@ -1,7 +1,10 @@
 \chapter{Proceso de desarrollo}
 
-En este capítulo veremos todos los pasos que han sido necesarios abarcar para completar el \ac{TFG}, desde la recogida de requisitos hasta la verificación del correcto funcionamiento del sistema 
+En este capítulo veremos todos los pasos que han sido necesarios abarcar para completar el \ac{TFG}, desde la recogida de requisitos hasta la verificación del correcto funcionamiento del sistema.
 
+Para completar el proyecto se ha optado por un desarrollo en cascada. Este enfoque nos permite asegurar que un paso está completo antes de pasar al siguiente. No se ha optado por metodologías ágiles, ya que incurren en procesos no tan necesarios cuando no tenemos un equipo de trabajo y la organización del proyecto recae en una sola persona.
+
+El primer paso ha sido la recogida y análisis de requisitos. Seguidamente, se ha hecho el diseño tanto gráfico como arquitectónico de todos los servicios. Se ha continuado con la implementación en el siguiente orden: implementación completa del back-end junto con la \ac{BD} y el \ac{OS} seguida de la implementación del front-end. Por último, se han creado los test sobre el back-end para verificar el correcto funcionamiento del sistema.
 
 \section{Análisis y diseño}
 
@@ -27,125 +30,142 @@ Las respuestas presentadas en los formularios concluyeron en los siguientes resu
 
 % TODO: python-generated .tex with forms results.
 
-A partir de estos datos se generaron los siguientes requisitos funcionales, separados según la entidad a la que están asociados. Hemos utilizado esta separación, ya que de este modo, tendremos más claro como diseñar la \ac{BD}
+A partir de estos datos se generaron los siguientes requisitos funcionales, separados según la entidad a la que están asociados. Hemos utilizado esta separación, ya que de este modo, tendremos más claro como diseñar la \ac{BD}.
 
 \subsection{Reunión con la OUSIS}
 
-% TODO: explain OUSIS meetings
+Al mismo tiempo que se empezó con la recogida de requisitos, fui contactado por la \ac{OUSIS}. Habían escuchado que estaba desarrollando este proyecto y decidieron contactar conmigo para aclarar ciertas dudas que tenían.
+
+Tuvimos dos reuniones en la que no se hicieron ningún acta de reunión. En la primera, estuve acompañado por Raimon Massanet y consistió en una ronda de preguntas por parte de los responsables de la \ac{OUSIS}: Joan Mercant Requena y Olalla Garcia Taibo. Fue necesario aclarar que las encuestas eran de carácter completamente anónimo y no se recogía ningún dato personal.
+
+En la segunda reunión, acompañado por Antonio Crespí, se estableció un contacto profesional para utilizar los resultados del proyecto como una base para implementar un nuevo sistema de gestión de actividades deportivas dentro de la \ac{UIB}. Algunas de sus peticiones fueron: poder utilizar la aplicación para gestionar otras actividades que no sean ligas deportivas y extender el uso de la aplicación a más deportes, ya que en un principio la aplicación estaba enfocada únicamente a voleibol. Debido a esto, se intentó que todo el proyecto fuera capaz de soportar estos requisitos a futuro, pero sin alterar el alcance base del sistema.
 
 \subsection{Requisitos funcionales}
 
-\subsubsection*{1. Usuario (User)}
-\begin{enumerate}[label=\textbf{REQ-USR-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir a los usuarios poder crear una cuenta para registrar sus datos en el sistema.
-    \item El sistema debe permitir a los usuarios registrar la siguiente información: nombre completo, email, contraseña, sexo, referencias de las distintas licencias arbitrales que pueda tener un usuario y foto de perfil.
-    \item El sistema debe permitir que los usuarios puedan indicar el deporte al que corresponden sus distintas licencias arbitrales.
-    \item El sistema debe permitir a los usuarios iniciar sesión con una cuenta ya creada dadas sus credenciales: nombre de usuario o email y contraseña.
-    \item El sistema debe permitir a los usuarios con sesión iniciada crear ligas deportivas. El usuario que crea una liga se convierte automáticamente en administrador de la liga.
-    \item El sistema debe permitir a los usuarios sin cuenta poder ver ligas ya creadas.
-    \item El sistema debe permitir que los usuarios puedan almacenar su firma como una imagen que pueda ser reutilizada para firmar en los partidos en caso de ser capitán o árbitro.
-\end{enumerate}
+A partir de los resultados de las encuestas y las reuniones con la \ac{OUSIS} se sintetizaron los siguientes requisitos funcionales y no funcionales:
 
-\subsubsection*{2. Liga (League)}
-\begin{enumerate}[label=\textbf{REQ-LIG-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir crear ligas con la siguiente información: nombre, descripción, icono, banner, ubicación, fecha de inicio, fecha de fin y fecha máxima para inscribirse.
-    \item El sistema debe permitir configurar los siguientes parámetros dentro de una liga: categoría (Masculina, Femenina o Mixta), número de integrantes femeninos mínimos en caso de que la categoría sea mixta, número mínimo y máximo de integrantes en cada equipo y duración de las jornadas en semanas.
-    \item El sistema debe permitir implementar un sistema de roles dentro de las ligas: Administrador, Árbitro, Capitán y Jugador.
-    \item El sistema debe permitir a los usuarios con sesión iniciada unirse a ligas creadas. Al unirse se convierte en Jugador dentro de esa liga.
-    \item El sistema debe permitir que los participantes de una liga puedan crear incidencias dentro de ésta. Las incidencias deben ir acompañadas de una descripción.
-    \item El sistema debe permitir que los administradores de una liga puedan expulsar a los participantes de ésta.
-    \item El sistema debe permitir que una liga esté conformada por distintas fases.
-    \item El sistema debe permitir que un usuario pueda elegir ver únicamente las ligas en las que está participando.
-\end{enumerate}
+{
+\renewcommand{\arraystretch}{1.8}
+\begin{longtable}{|l|l|p{0.6\textwidth}|}
+\caption{Requisitos funcionales del sistema}\label{tab:reqs}\\
+\hline
+\textbf{Código} & \textbf{Entidad} & \textbf{Descripción} \\
+\hline
+\endfirsthead
+\multicolumn{3}{c}
+{{\bfseries \tablename\ \thetable{} -- continuación de la página anterior}} \\
+\hline
+\textbf{Código} & \textbf{Entidad} & \textbf{Descripción} \\
+\hline
+\endhead
+\multicolumn{3}{r}{{Continúa en la página siguiente}} \\ \hline
+\endfoot
+\hline
+\endlastfoot
+RF-USR-1 & Usuario & El sistema debe permitir a los usuarios poder crear una cuenta para registrar sus datos en el sistema. \\ \hline
+RF-USR-2 & Usuario & El sistema debe permitir a los usuarios registrar la siguiente información: nombre completo, email, contraseña, sexo, referencias de las distintas licencias arbitrales que pueda tener un usuario y foto de perfil. \\ \hline
+RF-USR-3 & Usuario & El sistema debe permitir que los usuarios puedan indicar el deporte al que corresponden sus distintas licencias arbitrales. \\ \hline
+RF-USR-4 & Usuario & El sistema debe permitir a los usuarios iniciar sesión con una cuenta ya creada dadas sus credenciales: nombre de usuario o email y contraseña. \\ \hline
+RF-USR-5 & Usuario & El sistema debe permitir a los usuarios con sesión iniciada crear ligas deportivas. El usuario que crea una liga se convierte automáticamente en administrador de la liga. \\ \hline
+RF-USR-6 & Usuario & El sistema debe permitir a los usuarios sin cuenta poder ver ligas ya creadas. \\ \hline
+RF-USR-7 & Usuario & El sistema debe permitir que los usuarios puedan almacenar su firma como una imagen que pueda ser reutilizada para firmar en los partidos en caso de ser capitán o árbitro. \\ \hline
+RF-LIG-1 & Liga & El sistema debe permitir crear ligas con la siguiente información: nombre, descripción, icono, banner, ubicación, fecha de inicio, fecha de fin y fecha máxima para inscribirse. \\ \hline
+RF-LIG-2 & Liga & El sistema debe permitir configurar los siguientes parámetros dentro de una liga: categoría (Masculina, Femenina o Mixta), número de integrantes femeninos mínimos en caso de que la categoría sea mixta, número mínimo y máximo de integrantes en cada equipo y duración de las jornadas en semanas. \\ \hline
+RF-LIG-3 & Liga & El sistema debe permitir implementar un sistema de roles dentro de las ligas: Administrador, Árbitro, Capitán y Jugador. \\ \hline
+RF-LIG-4 & Liga & El sistema debe permitir a los usuarios con sesión iniciada unirse a ligas creadas. Al unirse se convierte en Jugador dentro de esa liga. \\ \hline
+RF-LIG-5 & Liga & El sistema debe permitir que los participantes de una liga puedan crear incidencias dentro de esta. Las incidencias deben ir acompañadas de una descripción. \\ \hline
+RF-LIG-6 & Liga & El sistema debe permitir que los administradores de una liga puedan expulsar a los participantes de esta. \\ \hline
+RF-LIG-7 & Liga & El sistema debe permitir que una liga esté conformada por distintas fases. \\ \hline
+RF-LIG-8 & Liga & El sistema debe permitir que un usuario pueda elegir ver únicamente las ligas en las que está participando. \\ \hline
+RF-EQU-1 & Equipo & El sistema debe permitir a los usuarios dentro de una liga crear y enviar solicitudes a los administradores para poder crear equipos dentro de la liga. \\ \hline
+RF-EQU-2 & Equipo & El sistema debe poder permitir crear equipos con la siguiente información: nombre, iniciales, descripción, lema, color primario, color secundario y escudo. \\ \hline
+RF-EQU-3 & Equipo & El sistema debe permitir al administrador de una liga aceptar o rechazar solicitudes de creación de equipo. En caso de ser rechazada se debe poder incluir un mensaje con la justificación pertinente. \\ \hline
+RF-EQU-4 & Equipo & El sistema debe permitir que, al aceptar una solicitud de creación de equipo, el solicitante se convierta automáticamente en el capitán del equipo solicitado. \\ \hline
+RF-EQU-5 & Equipo & El sistema debe permitir que los jugadores que no tengan equipo puedan enviar una solicitud al capitán de un equipo para poder unirse a este. \\ \hline
+RF-EQU-6 & Equipo & El sistema debe permitir que los capitanes puedan aceptar o rechazar las solicitudes de unión de su equipo. \\ \hline
+RF-EQU-7 & Equipo & El sistema debe permitir que los capitanes de los equipos puedan enviar solicitudes a jugadores sin equipo para que se unan a este. \\ \hline
+RF-EQU-8 & Equipo & El sistema debe permitir que los jugadores puedan aceptar o rechazar las solicitudes para unirse a un equipo. \\ \hline
+RF-EQU-9 & Equipo & El sistema debe permitir que los capitanes de un equipo puedan expulsar a los jugadores de este. \\ \hline
+RF-EQU-10 & Equipo & El sistema debe permitir que los jugadores puedan elegir un número de dorsal dentro de su equipo que no se haya elegido antes. \\ \hline
+RF-EQU-11 & Equipo & El sistema debe permitir que el capitán de un equipo pueda eliminar el equipo que lidera. \\ \hline
+RF-ROL-1 & Rol & El sistema debe permitir que los participantes de una liga puedan tener uno o más roles asignados. \\ \hline
+RF-ROL-2 & Rol & El sistema debe permitir que el creador de una liga pueda asignar el rol de Administrador a otros participantes de esta. De este modo se puede repartir el trabajo que conlleva gestionar la liga. \\ \hline
+RF-ROL-3 & Rol & El sistema debe permitir que los jugadores de una liga puedan crear solicitudes para que los administradores les puedan asignar el rol de Árbitro en dicha liga. \\ \hline
+RF-ROL-4 & Rol & El sistema debe permitir que los administradores rechacen o acepten las solicitudes de los jugadores para convertirse en árbitros. Dicha respuesta y solicitud cuenta con la misma información que las solicitudes para crear equipos. \\ \hline
+RF-ROL-5 & Rol & El sistema debe permitir que los administradores puedan retirar el rol de Árbitro a los participantes árbitros que vea conveniente. \\ \hline
+RF-ROL-6 & Rol & El sistema debe permitir que los administradores puedan eliminar un equipo. \\ \hline
+RF-FAS-1 & Fase & El sistema debe permitir configurar cada fase con la siguiente información: nombre, fecha de inicio, fecha de fin, formato y su orden dentro de la secuencia de fases. \\ \hline
+RF-FAS-2 & Fase & El sistema debe permitir que cada fase pueda ser uno de los siguientes formatos: Torneo y Clasificatorio. En el formato Clasificatorio se debe especificar el número de ganadores que tendrá. Podrían añadirse nuevos formatos en un futuro. \\ \hline
+RF-FAS-3 & Fase & El sistema debe permitir que cada fase esté compuesta por una o más Rondas. \\ \hline
+RF-RON-1 & Ronda & El sistema debe permitir que para cada Ronda se pueda establecer el día en que empieza dicha Ronda. \\ \hline
+RF-RON-2 & Ronda & El sistema debe permitir que en cada ronda se celebren diversos partidos. \\ \hline
+RF-RON-3 & Ronda & El sistema debe permitir que los usuarios con rol de Administrador de una liga establezcan la disponibilidad de la ubicación de juego para cada Ronda. \\ \hline
+RF-DIS-1 & Disponibilidad & El sistema debe permitir que la disponibilidad de una ronda se establezca como un conjunto de franjas horarias. \\ \hline
+RF-DIS-2 & Disponibilidad & El sistema debe permitir que en cada franja horaria se pueda especificar el día, la hora y la duración de la franja. \\ \hline
+RF-DIS-3 & Disponibilidad & El sistema debe permitir que los administradores de una liga puedan establecer la disponibilidad de la ubicación de juego para cada ronda. \\ \hline
+RF-DIS-4 & Disponibilidad & El sistema debe permitir que cada usuario, en especial los capitanes y los árbitros, puedan establecer su disponibilidad para cada ronda respecto a la disponibilidad establecida por los administradores para la ubicación de juego. \\ \hline
+RF-PAR-1 & Partido & El sistema debe permitir que los partidos se generen de forma automática dependiendo del formato de la Fase. \\ \hline
+RF-PAR-2 & Partido & El sistema debe permitir que en cada partido se enfrenten un equipo local y un equipo visitante. \\ \hline
+RF-PAR-3 & Partido & El sistema debe permitir que las asignaciones de los equipos que se enfrentan en los partidos se pueda hacer de forma automática o manual. \\ \hline
+RF-PAR-4 & Partido & El sistema debe permitir que la fecha de un partido se establezca mediante un sistema de negociación entre los capitanes de los equipos que deben enfrentarse. \\ \hline
+RF-PAR-5 & Partido & El sistema debe permitir que los administradores de una liga puedan fijar la fecha de un partido que no se haya fijado. \\ \hline
+RF-PAR-6 & Partido & El sistema debe permitir que a cada partido se pueda asignar un árbitro. El árbitro se puede asignar de forma manual por parte de los Administradores o de manera automática. \\ \hline
+RF-PAR-7 & Partido & El sistema debe permitir que la forma automática para asignar un árbitro a un partido se haga mediante un algoritmo que, para un árbitro con una cierta disponibilidad, se le asigne un partido cuya fecha coincida con alguna de las franjas disponibles del árbitro. El algoritmo también debe tener en cuenta la cantidad de partidos arbitrados por cada árbitro para poder repartir el arbitraje de manera equitativa. \\ \hline
+RF-PRO-1 & Propuesta & El sistema debe permitir que el proceso de negociación de la fecha de un partido consista en lo siguiente: el capitán del equipo local crea y envía una primera propuesta con la franja horaria disponible deseada al capitán del equipo visitante. El capitán del equipo visitante puede decidir aceptar o rechazar la propuesta, si la rechaza debe enviar una contrapropuesta. Este proceso se repite hasta que alguno de los dos acepte la propuesta. \\ \hline
+RF-RES-1 & Resultado & El sistema debe permitir que se puedan guardar un Resultado para cada partido. \\ \hline
+RF-RES-2 & Resultado & El sistema debe permitir que cada resultado contenga la siguiente información: puntuación del equipo local, puntuación del equipo visitante, observaciones encontradas durante el partido y firmas de los árbitros y capitanes antes y después del partido. \\ \hline
+RF-RES-3 & Resultado & El sistema debe permitir que cada capitán y árbitro pueda firmar el acta de un partido desde su propio dispositivo. \\ \hline
+RF-RES-4 & Resultado & El sistema debe permitir que un partido se divida en distintos Periodos. \\ \hline
+RF-RES-5 & Resultado & El sistema debe permitir que cada periodo guarde la siguiente información: orden numérico del periodo dentro del partido, tipo de periodo según el deporte (set, mitad, cuarto, etc.) y puntuación de los dos equipos para ese periodo. \\ \hline
+RF-PER-1 & Periodo de Partido & El sistema debe permitir que cada Periodo contenga: la puntuación del equipo local y del equipo visitante para ese periodo, orden numérico del periodo dentro del partido y tipo de periodo según el deporte. \\ \hline
+RF-PER-2 & Periodo de Partido & El sistema debe permitir que cada periodo pueda tener Eventos. \\ \hline
+RF-EVE-1 & Evento de Partido & El sistema debe permitir que para cada evento se guarde la siguiente información: el tiempo en el que se genera respecto al inicio del partido, puntuaciones del equipo local y visitante para ese periodo y qué equipo ha sido artífice de dicho evento. \\ \hline
+RF-EVE-2 & Evento de Partido & El sistema debe permitir que cada evento pueda ser uno de tres tipos distintos: sustitución, sanción o tiempo muerto. Para la sustitución se debe especificar los dos jugadores que se intercambian. En la sanción se debe especificar una descripción y el tipo de sanción. Para los tiempos muertos se debe especificar la duración de dicho tiempo. \\ \hline
+\end{longtable}
+}
 
-\subsubsection*{3. Equipo (Team)}
-\begin{enumerate}[label=\textbf{REQ-EQU-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir a los usuarios dentro de una liga crear y enviar solicitudes a los administradores para poder crear equipos dentro de la liga.
-    \item El sistema debe poder permitir crear equipos con la siguiente información: nombre, iniciales, descripción, lema, color primario, color secundario y escudo.
-    \item El sistema debe permitir al administrador de una liga aceptar o rechazar solicitudes de creación de equipo. En caso de ser rechazada se debe poder incluir un mensaje con la justificación pertinente.
-    \item El sistema debe permitir que, al aceptar una solicitud de creación de equipo, el solicitante se convierta automáticamente en el capitán del equipo solicitado.
-    \item El sistema debe permitir que los jugadores que no tengan equipo puedan enviar una solicitud al capitán de un equipo para poder unirse a éste.
-    \item El sistema debe permitir que los capitanes puedan aceptar o rechazar las solicitudes de unión de su equipo.
-    \item El sistema debe permitir que los capitanes de los equipos puedan enviar solicitudes a jugadores sin equipo para que se unan a éste.
-    \item El sistema debe permitir que los jugadores puedan aceptar o rechazar las solicitudes para unirse a un equipo.
-    \item El sistema debe permitir que los capitanes de un equipo puedan expulsar a los jugadores de éste.
-    \item El sistema debe permitir que los jugadores puedan elegir un número de dorsal dentro de su equipo que no se haya elegido antes.
-    \item El sistema debe permitir que el capitán de un equipo pueda eliminar el equipo que lidera.
-\end{enumerate}
-
-\subsubsection*{4. Rol (Role)}
-\begin{enumerate}[label=\textbf{REQ-ROL-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que los participantes de una liga puedan tener uno o más roles asignados.
-    \item El sistema debe permitir que el creador de una liga pueda asignar el rol de Administrador a otros participantes de ésta. De este modo se puede repartir el trabajo que conlleva gestionar la liga.
-    \item El sistema debe permitir que los jugadores de una liga puedan crear solicitudes para que los administradores les puedan asignar el rol de Árbitro en dicha liga.
-    \item El sistema debe permitir que los administradores rechacen o acepten las solicitudes de los jugadores para convertirse en árbitros. Dicha respuesta y solicitud cuenta con la misma información que las solicitudes para crear equipos.
-    \item El sistema debe permitir que los administradores puedan retirar el rol de Árbitro a los participantes árbitros que vea conveniente.
-    \item El sistema debe permitir que los administradores puedan eliminar un equipo.
-\end{enumerate}
-
-\subsubsection*{5. Fase (Phase)}
-\begin{enumerate}[label=\textbf{REQ-FAS-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir configurar cada fase con la siguiente información: nombre, fecha de inicio, fecha de fin, formato y su orden dentro de la secuencia de fases.
-    \item El sistema debe permitir que cada fase pueda ser uno de los siguientes formatos: Torneo y Clasificatorio. En el formato Clasificatorio se debe especificar el número de ganadores que tendrá. Podrían añadirse nuevos formatos en un futuro.
-    \item El sistema debe permitir que cada fase esté compuesta por una o más Rondas.
-\end{enumerate}
-
-\subsubsection*{6. Ronda (Round)}
-\begin{enumerate}[label=\textbf{REQ-RON-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que para cada Ronda se pueda establecer el día en que empieza dicha Ronda.
-    \item El sistema debe permitir que en cada ronda se celebren diversos partidos.
-    \item El sistema debe permitir que los usuarios con rol de Administrador de una liga establezcan la disponibilidad de la ubicación de juego para cada Ronda.
-\end{enumerate}
-
-\subsubsection*{7. Disponibilidad (Availability)}
-\begin{enumerate}[label=\textbf{REQ-DIS-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que la disponibilidad de una ronda se establezca como un conjunto de franjas horarias.
-    \item El sistema debe permitir que en cada franja horaria se pueda especificar el día, la hora y la duración de la franja.
-    \item El sistema debe permitir que los administradores de una liga puedan establecer la disponibilidad de la ubicación de juego para cada ronda.
-    \item El sistema debe permitir que cada usuario, en especial los capitanes y los árbitros, puedan establecer su disponibilidad para cada ronda respecto a la disponibilidad establecida por los administradores para la ubicación de juego.
-\end{enumerate}
-
-\subsubsection*{8. Partido (Match)}
-\begin{enumerate}[label=\textbf{REQ-PAR-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que los partidos se generen de forma automática dependiendo del formato de la Fase.
-    \item El sistema debe permitir que en cada partido se enfrenten un equipo local y un equipo visitante.
-    \item El sistema debe permitir que las asignaciones de los equipos que se enfrentan en los partidos se pueda hacer de forma automática o manual.
-    \item El sistema debe permitir que la fecha de un partido se establezca mediante un sistema de negociación entre los capitanes de los equipos que deben enfrentarse.
-    \item El sistema debe permitir que los administradores de una liga puedan fijar la fecha de un partido que no se haya fijado.
-    \item El sistema debe permitir que a cada partido se pueda asignar un árbitro. El árbitro se puede asignar de forma manual por parte de los Administradores o de manera automática.
-    \item El sistema debe permitir que la forma automática para asignar un árbitro a un partido se haga mediante un algoritmo que, para un árbitro con una cierta disponibilidad, se le asigne un partido cuya fecha coincida con alguna de las franjas disponibles del árbitro. El algoritmo también debe tener en cuenta la cantidad de partidos arbitrados por cada árbitro para poder repartir el arbitraje de manera equitativa.
-\end{enumerate}
-
-\subsubsection*{9. Propuesta (Proposal)}
-\begin{enumerate}[label=\textbf{REQ-PRO-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que el proceso de negociación de la fecha de un partido consista en lo siguiente: el capitán del equipo local crea y envía una primera propuesta con la franja horaria disponible deseada al capitán del equipo visitante. El capitán del equipo visitante puede decidir aceptar o rechazar la propuesta, si la rechaza debe enviar una contrapropuesta. Este proceso se repite hasta que alguno de los dos acepte la propuesta.
-\end{enumerate}
-
-\subsubsection*{10. Resultado (Result)}
-\begin{enumerate}[label=\textbf{REQ-RES-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que se puedan guardar un Resultado para cada partido.
-    \item El sistema debe permitir que cada resultado contenga la siguiente información: puntuación del equipo local, puntuación del equipo visitante, observaciones encontradas durante el partido y firmas de los árbitros y capitanes antes y después del partido.
-    \item El sistema debe permitir que cada capitán y árbitro pueda firmar el acta de un partido desde su propio dispositivo.
-    \item El sistema debe permitir que un partido se divida en distintos Periodos.
-    \item El sistema debe permitir que cada periodo guarde la siguiente información: orden numérico del periodo dentro del partido, tipo de periodo según el deporte (set, mitad, cuarto, etc.) y puntuación de los dos equipos para ese periodo.
-\end{enumerate}
-
-\subsubsection*{11. Periodo de Partido (Match Period)}
-\begin{enumerate}[label=\textbf{REQ-PER-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que cada Periodo contenga: la puntuación del equipo local y del equipo visitante para ese periodo, orden numérico del periodo dentro del partido y tipo de periodo según el deporte.
-    \item El sistema debe permitir que cada periodo pueda tener Eventos.
-\end{enumerate}
-
-\subsubsection*{12. Evento de Partido (Match Event)}
-\begin{enumerate}[label=\textbf{REQ-EVE-\arabic*:}, leftmargin=2.5cm, labelwidth=2cm, labelsep=0.3cm]
-    \item El sistema debe permitir que para cada evento se guarde la siguiente información: el tiempo en el que se genera respecto al inicio del partido, puntuaciones del equipo local y visitante para ese periodo y qué equipo ha sido artífice de dicho evento.
-    \item El sistema debe permitir que cada evento pueda ser uno de tres tipos distintos: sustitución, sanción o tiempo muerto. Para la sustitución se debe especificar los dos jugadores que se intercambian. En la sanción se debe especificar una descripción y el tipo de sanción. Para los tiempos muertos se debe especificar la duración de dicho tiempo.
-\end{enumerate}
-
+{\renewcommand{\arraystretch}{1.8}
+\begin{longtable}{|l|l|p{0.6\textwidth}|}
+\caption{Requisitos no funcionales del sistema}\label{tab:rnfs}\\
+\hline
+\textbf{Código} & \textbf{Tipo} & \textbf{Descripción} \\
+\hline
+\endfirsthead
+\multicolumn{3}{c}
+{{\bfseries \tablename\ \thetable{} -- continuación de la página anterior}} \\
+\hline
+\textbf{Código} & \textbf{Tipo} & \textbf{Descripción} \\
+\hline
+\endhead
+\multicolumn{3}{r}{{Continúa en la página siguiente}} \\ \hline
+\endfoot
+\hline
+\endlastfoot
+RNF-USA-1 & Usabilidad & La aplicación móvil debe permitir a un árbitro registrar eventos y cerrar un acta en un máximo de 3 a 5 clics desde la pantalla principal. \\ \hline
+RNF-USA-2 & Usabilidad & La interfaz debe contar con un contraste adecuado para garantizar la legibilidad en entornos exteriores (pistas al aire libre con mucha luz). \\ \hline
+RNF-SEG-1 & Seguridad & El acceso a los endpoints críticos (como forzar un horario o modificar roles) debe estar protegido mediante autenticación por token (JWT) y validación estricta de roles y atributos: \ac{ABAC}. \\ \hline
+RNF-SEG-2 & Seguridad & Las contraseñas de los usuarios no se almacenarán en texto plano bajo ninguna circunstancia; se utilizará un algoritmo de "hashing" fuerte (como "bcrypt"). \\ \hline
+RNF-SEG-3 & Seguridad & Sanitización de entradas: Todos los datos enviados desde la aplicación móvil hacia la API deben ser validados y sanitizados para prevenir ataques de inyección SQL (gestionado a través del \ac{ORM} de Spring JPA) y ataques XSS (Cross-Site Scripting). \\ \hline
+RNF-DEP-1 & Fiabilidad & El sistema debe garantizar la atomicidad de las operaciones críticas (como el guardado del acta final). Si la conexión se pierde a mitad del envío, la base de datos debe revertir los cambios para evitar estados inconsistentes (actas a medias). \\ \hline
+RNF-EFI-1 & Eficiencia (Espacio) & Las imágenes subidas al sistema (como firmas de capitanes, fotos de perfil o logos de equipos) deben comprimirse para no superar un peso máximo de 200KB por imagen. \\ \hline
+RNF-EFI-2 & Eficiencia (Rendimiento) & Las consultas de alta frecuencia, como la visualización de la clasificación, deben resolverse en menos de 200 ms desde el back-end, apoyándose en la base de datos optimizada (vistas materializadas). \\ \hline
+RNF-EFI-3 & Eficiencia (Rendimiento) & La aplicación móvil debe arrancar y mostrar la pantalla de inicio (Dashboard) en menos de 3 segundos en condiciones de red estándar (4G/Wifi). \\ \hline
+RNF-OPE-1 & Operacional & Las constantes del sistema de competición (como puntos por victoria, duración de jornadas) deben ser configurables desde la base de datos sin necesidad de recompilar el código del servidor. \\ \hline
+RNF-OPE-2 & Pila Tecnológica & Para garantizar la homogeneidad y mantenibilidad del sistema, el back-end debe desarrollarse estrictamente en Kotlin con Spring Boot (exponiendo API REST) y el front-end móvil en React Native con Expo. La persistencia de datos relacionales recaerá exclusivamente en PostgreSQL, mientras que la persistencia de datos no relacionales recaerá en un servicio Object Storage - S3 implementado con MinIO. \\ \hline
+RNF-OPE-3 & Contenerización & El entorno del servidor debe estar empaquetado mediante contenedores de Docker para asegurar que la aplicación funcione de manera idéntica tanto en la máquina local de desarrollo como en el servidor de producción. \\ \hline
+RNF-DES-1 & Desarrollo & Control de Versiones: Todo el código fuente del proyecto (front-end, back-end y scripts de base de datos) debe estar centralizado y versionado utilizando Git, alojado en un repositorio en la nube como GitHub. \\ \hline
+RNF-DES-2 & Desarrollo & Estrategia de Ramas (Branching): El equipo de desarrollo debe seguir un flujo de trabajo estructurado. Existirá una rama "main" que contendrá todo el código desarrollado. \\ \hline
+RNF-DES-3 & Desarrollo & Pruebas Automatizadas (Pruebas Unitarias): La lógica de negocio crítica en Kotlin (por ejemplo, el cálculo de los puntos de la liga o la máquina de estados de los partidos) debe estar cubierta por pruebas unitarias independientes de la base de datos. \\ \hline
+RNF-DES-4 & Desarrollo & Pruebas Automatizadas (Pruebas de Integración): Se deben incluir pruebas que verifiquen el correcto funcionamiento de los endpoints principales y sus consultas contra una base de datos de prueba (por ejemplo, usando "Testcontainers" o una base de datos en memoria). \\ \hline
+RNF-DES-5 & Desarrollo & Gestión de variables de entorno: Ninguna credencial, token secreto o contraseña de base de datos debe subirse al repositorio de código. Todas las configuraciones sensibles deben inyectarse mediante variables de entorno (archivos .env en React Native y application.yml parametrizado en Spring Boot). \\ \hline
+RNF-DES-6 & Desarrollo & El diseño de la API REST debe estar documentado mediante el estándar Open API (Swagger), actuando como único contrato y fuente de la verdad para sincronizar el trabajo entre el front-end y el back-end. \\ \hline
+RNF-DES-7 & Desarrollo & El código fuente del back-end debe seguir los principios de separación por capas (Controlador, Servicio, Repositorio) para asegurar que la lógica de negocio esté aislada y sea fácilmente verificable. Además, debe aplicarse una "separación vertical" por entidades para mantener dichas funcionalidades claramente separadas. \\ \hline
+\end{longtable}
+}
 
 \section{Diseño}
 
-En esta sección nos centraremos en el diseño tanto de la \ac{BD} como de la interfaz de usuario.
+En esta sección nos centraremos en el diseño de: la \ac{BD}, la interfaz de usuario y el contrato API.
 
 \subsection{Diseño de la BD}
 
@@ -164,7 +184,11 @@ Para el diseño de la interfaz se ha optado por usar la herramienta de Figma al 
 
 \subsection{Diseño del contrato API}
 
-El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. El contenido en detalle del contrato API se puede encontrar como anexo en el apartado correspondiente.
+El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end, para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. Para redactar el contrato se ha hecho uso del estándar Open API ampliamente usado en la industria del desarrollo. 
+
+Además, el contrato se ha separado por entidades para poder separar todo y mejorar el entendimiento para los desarrolladores. El versionado del contrato se ha llevado a cabo mediante Git y se ha subido a su propio repositorio. De esta forma, tanto el back-end como el front-end pueden utilizar el repositorio del contrato como un submódulo y operar siempre con la última versión.
+
+El contenido en detalle del contrato API se puede encontrar como anexo en el apartado correspondiente.
 
 \section{Arquitectura del sistema}
 
@@ -176,20 +200,30 @@ El nivel 1 muestra la relación de la aplicación con los usuarios y servicios e
 
 El nivel 2 indica cómo interactúan los diferentes sistemas entre ellos.
 
-% TODO: C4 model image, level 1
+% TODO: C4 model image, level 2
 
 El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema.
 
-% TODO: C4 model image, level 1
+% TODO: C4 model image, level 3
 
 \section{Planificación}
 
-Para llevar a cabo
+La planificación del proyecto puede apreciarse mediante el siguiente cronograma:
 
-
-\section{Cronograma}
-
+% TODO: write cronogram
 
 \section{Implementación}
+% TODO?: don't know if the selected technologies should be here or in chapter two
+% TODO: talk about leaderboard view table
+
+La \ac{BD} se ha implementado mediante los siguientes archivos .sql que dividen la creación de la \ac{BD} en cuatro pasos:
+
+\begin{enumerate}
+    \item \textbf{V1\_\_init\_schema}: crea todas las tablas necesarias para representar de forma correcta el diagrama UML.
+    \item \textbf{V2\_\_add\_soft\_delete\_triggers}: crea los disparadores necesarios para poder aplicar un sistema de borrado lógico sobre los recursos cuya eliminación física acarrearía estados no deseados dentro del sistema.
+    \item \textbf{V3\_\_create\_leaderboard\_view}: crea la vista encargada de calcular las puntuaciones de los equipos para cada liga, grupo y jornada.
+    \item \textbf{V99\_\_insert\_initial\_data}: inserta los datos necesarios para que el sistema pueda funcionar de forma correcta: los deportes disponibles, roles de usuario y una configuración y sistema de puntuación por defecto para ligas de voleibol.
+\end{enumerate}
 
 
+Para la generación de los \ac{DTO} en todos los servicios se han utilizado herramientas específicas para la generación de clases a partir de un contrato API. En el back-end, se ha utilizado la librería \dots; y en el front-end, el paquete \dots .
