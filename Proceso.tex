@@ -122,7 +122,7 @@ Las respuestas presentadas en los formularios concluyeron en los siguientes resu
 
 \subsection{Reunión con la OUSIS}
 
-Al mismo tiempo que se empezó con la recogida de requisitos, fui contactado por la \ac{OUSIS}. Habían escuchado que estaba desarrollando este proyecto y decidieron contactar conmigo para aclarar ciertas dudas que tenían.
+Al mismo tiempo que se empezó con la recogida de requisitos, se estableció contacto con la \ac{OUSIS}. Habían escuchado que se estaba desarrollando este proyecto y decidieron contactar para aclarar ciertas dudas que tenían.
 
 Tuvimos dos reuniones en la que no se hicieron ningún acta de reunión. En la primera, estuve acompañado por Raimon Massanet y consistió en una ronda de preguntas por parte de los responsables de la \ac{OUSIS}: Joan Mercant Requena y Olalla Garcia Taibo. Fue necesario aclarar que las encuestas eran de carácter completamente anónimo y no se recogía ningún dato personal.
 
@@ -232,8 +232,8 @@ RF-EVE-2 & Evento de Partido & El sistema debe permitir que cada evento pueda se
 RNF-USA-1 & Usabilidad & La aplicación móvil debe permitir a un árbitro registrar eventos y cerrar un acta en un máximo de 3 a 5 clics desde la pantalla principal. \\ \hline
 RNF-USA-2 & Usabilidad & La interfaz debe contar con un contraste adecuado para garantizar la legibilidad en entornos exteriores (pistas al aire libre con mucha luz). \\ \hline
 RNF-SEG-1 & Seguridad & El acceso a los endpoints críticos (como forzar un horario o modificar roles) debe estar protegido mediante autenticación por token (JWT) y validación estricta de roles y atributos: \ac{ABAC}. \\ \hline
-RNF-SEG-2 & Seguridad & Las contraseñas de los usuarios no se almacenarán en texto plano bajo ninguna circunstancia; se utilizará un algoritmo de "hashing" fuerte (como "bcrypt"). \\ \hline
-RNF-SEG-3 & Seguridad & Sanitización de entradas: Todos los datos enviados desde la aplicación móvil hacia la API deben ser validados y sanitizados para prevenir ataques de inyección SQL (gestionado a través del \ac{ORM} de Spring JPA) y ataques XSS (Cross-Site Scripting). \\ \hline
+RNF-SEG-2 & Seguridad & Las contraseñas de los usuarios no se almacenarán en texto plano bajo ninguna circunstancia; se utilizará un algoritmo de `hashing' fuerte (como `bcrypt'). \\ \hline
+RNF-SEG-3 & Seguridad & Sanitización de entradas: Todos los datos enviados desde la aplicación móvil hacia la API deben ser validados y sanitizados para prevenir ataques de inyección SQL (gestionado a través del \ac{ORM} de \emph{Spring JPA}) y ataques \ac{XSS}. \\ \hline
 RNF-DEP-1 & Fiabilidad & El sistema debe garantizar la atomicidad de las operaciones críticas (como el guardado del acta final). Si la conexión se pierde a mitad del envío, la base de datos debe revertir los cambios para evitar estados inconsistentes (actas a medias). \\ \hline
 RNF-EFI-1 & Eficiencia (Espacio) & Las imágenes subidas al sistema (como firmas de capitanes, fotos de perfil o logos de equipos) deben comprimirse para no superar un peso máximo de 200KB por imagen. \\ \hline
 RNF-EFI-2 & Eficiencia (Rendimiento) & Las consultas de alta frecuencia, como la visualización de la clasificación, deben resolverse en menos de 200 ms desde el back-end, apoyándose en la base de datos optimizada (vistas materializadas). \\ \hline
@@ -263,7 +263,7 @@ En esta sección nos centraremos en el diseño de: la \ac{BD}, la interfaz de us
 
 El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el enlace \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama de mucho más detallado.
 
-En el diagrama se pueden apreciar: las clases definidas con sus atributos correspondientes y las relaciones que relacionan dichas clases. Cabe aclarar que se pueden ver algunos nombre de clases repetidos seguido de un asterisco "*". Dicho formato indica que la clase ya ha sido definida y que simplemente se usa como una "referencia". Se ha decidido aplicar este formato por claridad visual. De esta forma evitamos que las relaciones que conectan dos clases muy separadas no estorben en la lectura del diagrama.
+En el diagrama se pueden apreciar: las clases definidas con sus atributos correspondientes y las relaciones que relacionan dichas clases. Cabe aclarar que se pueden ver algunos de los nombres de clases repetidos junto a un asterisco `*'. Dicho formato indica que la clase ya ha sido definida y que simplemente se usa como una `referencia'. Se ha decidido aplicar este formato por claridad visual. De esta forma evitamos que las relaciones que conectan dos clases muy separadas no estorben en la lectura del diagrama.
 
 % TODO?: Describe classes
 
@@ -280,7 +280,7 @@ El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quier
 
 Además, el contrato se ha separado por entidades para poder separar todo y mejorar el entendimiento para los desarrolladores. El versionado del contrato se ha llevado a cabo mediante Git y se ha subido a su propio repositorio. De esta forma, tanto el back-end como el front-end pueden utilizar el repositorio del contrato como un submódulo y operar siempre con la última versión.
 
-El contenido en detalle del contrato API se puede encontrar como anexo en el apartado correspondiente.
+El contenido en detalle del contrato API se puede encontrar en el repositorio correspondiente.
 
 \section{Arquitectura del sistema}
 
