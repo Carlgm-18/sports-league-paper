@@ -1,0 +1,144 @@
+
+\begin{figure}[H]
+    \centering
+    
+    % --- FILA 1, GRÁFICO 1 ---
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        
+        \begin{tikzpicture}
+            \begin{axis}[
+                title={\textbf{Usabilidad}},
+                width=\textwidth,
+                ybar,
+                bar width=15pt,
+                height=6cm,
+                bar width=8pt,
+                ymin=0, ymax=33,
+                xlabel={Puntuación},
+                ylabel={Votos (\%)},
+                xtick={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                symbolic x coords={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                nodes near coords, 
+                nodes near coords align={vertical},
+                every node near coord/.append style={
+                    font=\small,
+                    rotate=90,
+                    anchor=west,
+                    /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+                }
+            ]
+            \addplot[fill=blue!50] coordinates {
+                (1, 19.23) (2, 0.0) (3, 7.69) (4, 11.54) (5, 23.08) (6, 15.38) (7, 15.38) (8, 0.0) (9, 3.85) (10, 3.85)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    
+    \end{subfigure}
+    \hfill
+    % --- FILA 1, GRÁFICO 2 ---
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        
+        \begin{tikzpicture}
+            \begin{axis}[
+                title={\textbf{Accesibilidad}},
+                width=\textwidth,
+                ybar,
+                bar width=15pt,
+                height=6cm,
+                bar width=8pt,
+                ymin=0, ymax=33,
+                xlabel={Puntuación},
+                ylabel={Votos (\%)},
+                xtick={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                symbolic x coords={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                nodes near coords, 
+                nodes near coords align={vertical},
+                every node near coord/.append style={
+                    font=\small,
+                    rotate=90,
+                    anchor=west,
+                    /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+                }
+            ]
+            \addplot[fill=blue!50] coordinates {
+                (1, 11.54) (2, 7.69) (3, 11.54) (4, 7.69) (5, 11.54) (6, 3.85) (7, 23.08) (8, 7.69) (9, 0.0) (10, 15.38)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    % --- FILA 2, GRÁFICO 3 ---
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        
+        \begin{tikzpicture}
+            \begin{axis}[
+                title={\textbf{Manejo}},
+                width=\textwidth,
+                ybar,
+                bar width=15pt,
+                height=6cm,
+                bar width=8pt,
+                ymin=0, ymax=52,
+                xlabel={Puntuación},
+                ylabel={Votos (\%)},
+                xtick={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                symbolic x coords={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                nodes near coords, 
+                nodes near coords align={vertical},
+                every node near coord/.append style={
+                    font=\small,
+                    rotate=90,
+                    anchor=west,
+                    /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+                }
+            ]
+            \addplot[fill=blue!50] coordinates {
+                (1, 3.85) (2, 15.38) (3, 42.31) (4, 19.23) (5, 19.23) (6, 0.0) (7, 0.0) (8, 0.0) (9, 0.0) (10, 0.0)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    
+    \end{subfigure}
+    \hfill
+    % --- FILA 2, GRÁFICO 4 ---
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        
+        \begin{tikzpicture}
+            \begin{axis}[
+                title={\textbf{Diseño}},
+                width=\textwidth,
+                ybar,
+                bar width=15pt,
+                height=6cm,
+                bar width=8pt,
+                ymin=0, ymax=48,
+                xlabel={Puntuación},
+                ylabel={Votos (\%)},
+                xtick={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                symbolic x coords={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+                nodes near coords, 
+                nodes near coords align={vertical},
+                every node near coord/.append style={
+                    font=\small,
+                    rotate=90,
+                    anchor=west,
+                    /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+                }
+            ]
+            \addplot[fill=blue!50] coordinates {
+                (1, 38.46) (2, 15.38) (3, 34.62) (4, 7.69) (5, 3.85) (6, 0.0) (7, 0.0) (8, 0.0) (9, 0.0) (10, 0.0)
+            };
+            \end{axis}
+        \end{tikzpicture}
+    
+    \end{subfigure}
+    \caption{Evaluación de los aspectos comunes}
+    \label{fig:cuadricula_graficos}
+\end{figure}
