@@ -26,7 +26,7 @@ Esto nos puede indicar que la aplicación tan solo la usan los usuarios que estr
     \label{fig:col_device}
 \end{figure}
 
-Esta gráfica nos confirma el uso multiplataforma que hacen los usuarios de la aplicación, ya sea para ver ciertos datos de forma rápida con dispositivos móviles o consultas más precisas y extensas con el navegador web.
+Esta gráfica nos confirma el uso multiplataforma que hacen los usuarios de la aplicación, ya sea para ver ciertos datos de forma rápida con dispositivos móviles o consultas más precisas y extensas con el navegador web. Este dato nos informa sobre la necesidad de un sistema disponible en dispositivos varios.
 
 \subsubsection*{Aspectos cualitativos}
 
@@ -38,49 +38,59 @@ Esta gráfica nos confirma el uso multiplataforma que hacen los usuarios de la a
 
 \begin{figure}[H]
     
-        \begin{tikzpicture}
-            \begin{axis}[
-                title={\textbf{Nota final}},
-                width=\textwidth,
-                ybar,
-                bar width=12pt,
-                height=6cm,
-                ymin=0, ymax=29,
-                xlabel={Puntuación},
-                ylabel={Votos (\%)},
-                xtick={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-                symbolic x coords={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-                nodes near coords, 
-                nodes near coords align={vertical},
-                every node near coord/.append style={
-                    font=\small,
-                    rotate=90,
-                    anchor=west,
-                    /pgf/number format/.cd, fixed, fixed zerofill, precision=1
-                }
-            ]
-            \addplot[fill=blue!50] coordinates {
-                (1, 15.38) (2, 7.69) (3, 3.85) (4, 19.23) (5, 19.23) (6, 7.69) (7, 19.23) (8, 0.0) (9, 3.85) (10, 3.85)
-            };
-            \end{axis}
-        \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[
+            title={\textbf{Nota final}},
+            width=\textwidth,
+            ybar,
+            bar width=12pt,
+            height=6cm,
+            ymin=0, ymax=29,
+            xlabel={Puntuación},
+            ylabel={Votos (\%)},
+            xtick={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+            symbolic x coords={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
+            nodes near coords, 
+            nodes near coords align={vertical},
+            every node near coord/.append style={
+                font=\small,
+                rotate=90,
+                anchor=west,
+                /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+            }
+        ]
+        \addplot[fill=blue!50] coordinates {
+            (1, 15.38) (2, 7.69) (3, 3.85) (4, 19.23) (5, 19.23) (6, 7.69) (7, 19.23) (8, 0.0) (9, 3.85) (10, 3.85)
+        };
+        \end{axis}
+    \end{tikzpicture}
     
     \label{fig:col_final_result}
     \caption{Nota final}
 \end{figure}
-    
-    \begin{figure}[H]
-        \centering
-        \begin{tikzpicture}
-            \pie[text=legend]{
-                96.15/Si, 3.85/No
-            }
-        \end{tikzpicture}
-        \caption{¿Te gustaría una nueva aplicación que incluya nuevas y mejores funcionalidades?}
-        \label{fig:col_new_app}
-    \end{figure}
-    \subsubsection*{Aspectos específicos}
-\input{forms/forms_latex/roles_new_functionalities.tex}\subsubsection*{Preguntas abiertas}
+
+En las puntuaciones finales, observamos un patrón en el que destacan los valores bajos y donde los valores altos son insignificantes en comparación. Esto nos da el veredicto final y nos describe el descontento generalizado que hay con la aplicación.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \pie[text=legend]{
+            96.15/Si, 3.85/No
+        }
+    \end{tikzpicture}
+    \caption{¿Te gustaría una nueva aplicación que incluya nuevas y mejores funcionalidades?}
+    \label{fig:col_new_app}
+\end{figure}
+
+Esta última gráfica es la clave y el principal motivo del desarrollo de un nuevo sistema. Nos confirma que la gran mayoría de los usuarios buscan nuevas opciones que mejoren la experiencia que han tenido hasta ahora con el sistema actual.
+
+\subsubsection*{Aspectos específicos}
+
+Ahora que sabemos que es necesario un nuevo sistema de gestión, con las siguientes cuestiones sabremos qué funcionalidades son necesarias para poder cumplir con las exigencias y carencias de los usuarios. Y, a partir de los resultados, seremos capaces de definir los requisitos funcionales del nuevo sistema.
+
+\input{forms/forms_latex/roles_new_functionalities.tex}
+
+\subsubsection*{Preguntas abiertas}
 
 \textbf{Otros aspectos}
 \begin{itemize}
@@ -101,4 +111,7 @@ Esta gráfica nos confirma el uso multiplataforma que hacen los usuarios de la a
     \item El sistema de puntos suele ir mal, a veces diversos equipos han aparecido con otra cantidad de puntos que les corresponde a otros equipos.
     \item Hay errores en el tema de los partidos, por ejemplo hay partidos que no me salen de mi equipo o que aparecen como si no hubiesen pasado, pero ya han pasado varias semanas. No sé si es parte de la app o de quien mantiene la puntuación de cada partido, pero igual queda raro.
 \end{itemize}
-    
+
+Finalmente, con la sección de respuestas abiertas los usuarios comentan problemas que no han podido destacar con las secciones anteriores.
+
+Resumiendo, buscan un sistema multiplataforma, interactivo, abierto a participación y fácil de utilizar. Un sistema que refleje de forma mucho más clara el tipo de deporte que se está jugando y ofrezca funcionalidades que faciliten dicha gestión. Un sistema a prueba de fallos, eficiente, consistente y visualmente atractivo, 
