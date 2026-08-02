@@ -4,27 +4,364 @@
 
 \section{Contexto}
 
-Como participante activo que he sido en \ac{LVUIB} durante los años que se ha celebrado me he dado cuenta de lo costoso que es encontrar un sistema a nivel de aplicación que permita organizar y gestionar una liga deportiva. Suelen ser necesarias muchas funcionalidades avanzadas y personalizadas que llevan a optar por soluciones que acaban necesitando una inversión monetaria, pero que aun así no acaban de convencer a los participantes y usuarios de dicho sistema. 
+La gestión de ligas deportivas universitarias puede resultar complicado si no se anticipan varios puntos como lo pueden ser: qué deportes ofrece la universidad interesada para poder celebrar ligas, qué formato seguirán dichas ligas (todos contra todos con grupos, fase eliminatoria, etc.), qué tipo de personas pueden participar (¿cualquier persona o solo gente relacionada con la universidad?), qué restricciones deben tener los equipos y jugadores que participan dentro de la liga, qué sistema de puntuación se debe utilizar, y muchos otros aspectos. Una planificación incorrecta en cualquiera de los puntos mencionados puede acarrear problemas de organización que lleven a un desarrollo de la liga que no acabe siendo satisfactorio para ningún interesado ya sea para los integrantes universitarios que participen o la misma universidad gestora.
 
-Esta situación es una descripción de lo ocurrido con la \ac{LVUIB} del año 2025-2026. La experiencia de los alumnos participantes con dicha aplicación resultó en un descontento general debido a: el uso de múltiples aplicaciones para los árbitros, la incorrecta persistencia y tardía sincronización de los resultados de los partidos y la falta de funcionalidades que obligaba a mantener un flujo de gestión híbrido entre la aplicación y la propia \ac{UIB} entre otras razones.
+Esto mismo es lo que ha ocurrido con la \ac{LVUIB}. A lo largo de los años que se ha celebrado, los participantes y gestores se han dado cuenta de lo costoso que es encontrar un sistema a nivel de aplicación que permita organizar y gestionar una liga deportiva. Suelen ser necesarias muchas funcionalidades avanzadas y personalizadas que llevan a optar por soluciones que acaban necesitando una inversión monetaria, pero que aun así no acaban de convencer a los participantes y usuarios de dicho sistema.
 
-Cabe remarcar que la \ac{OUSIS} es el organismo encargado de fomentar y gestionar los eventos deportivos y relacionados con la salud que se celebran dentro del entorno de la \ac{UIB}, como pueden ser las ligas universitarias de fútbol y pádel. Esta gestión no estuvo tan presente durante el primer año que se celebró la \ac{LVUIB}, ya que fue un evento fomentado y gestionado por una asociación de alumnos creada al uso para dicho evento. En años posteriores, a medida que la \ac{LVUIB} fue creciendo en popularidad y participantes, la \ac{OUSIS} decidió involucrarse de lleno.
+Debido a esta situación se llegó a la conclusión de que era posible y necesario desarrollar un sistema que permitiera una gestión centralizada evitando los problemas comentados y que, además, permitiera utilizar la aplicación como el único punto necesario de gestión.
 
-Debido a esta situación llegué a la conclusión de que era posible desarrollar un sistema que permitiera una gestión centralizada evitando los problemas comentados y que, además, permitiera utilizar la aplicación como el único punto necesario de gestión.
+Cabe remarcar que la \ac{OUSIS} es el organismo encargado de fomentar y gestionar los eventos deportivos y relacionados con la salud que se celebran dentro del entorno de la \ac{UIB}, como pueden ser las ligas universitarias de fútbol, voleibol y pádel. Esta gestión no estuvo tan presente durante el primer año que se celebró la \ac{LVUIB}, ya que fue un evento fomentado y gestionado por una asociación de alumnos creada al uso para dicho evento. En años posteriores, a medida que la \ac{LVUIB} fue creciendo en popularidad y participantes, la \ac{OUSIS} decidió involucrarse de lleno.
 
 \section{Alternativas actuales}
 
-Aunque actualmente podemos encontrar miles de alternativas que aportan las funcionalidades básicas y genéricas necesarias para una correcta gestión de ligas deportivas, prefiero centrarme en las aplicaciones utilizadas en las temporadas anteriores de la \ac{LVUIB}. Dichas aplicaciones son: Winner y Clupik
-
+Aunque actualmente podemos encontrar miles de alternativas que aportan las funcionalidades básicas y genéricas necesarias para una correcta gestión de ligas deportivas, nos centraremos en las aplicaciones utilizadas en las temporadas anteriores de la \ac{LVUIB}. Dichas aplicaciones son: Winner y Clupik
 % TODO: add references to Winner and Clupik
 
 \subsection{Winner}
 
-Winner se utilizó en el primer y segundo año que se celebró la \ac{LVUIB}. Es una aplicación que se puede encontrar en cualquier tienda de aplicaciones móviles. Dado que la responsabilidad de gestión cayó principalmente en la asociación de alumnos anteriormente comentada, se optó por una herramienta gratuita que permitía funcionalidades básicas: gestión de equipos, gestión de partidos y visualización de tablas clasificación. En caso de querer más funcionalidades, se debía hacer una pequeña inversión no superior a 10 €: una opción asequible y por la que se optó en el segundo año.
+Winner se utilizó en los primeros dos años de celebración de la \ac{LVUIB}. Es una aplicación que se puede encontrar en cualquier tienda de aplicaciones móviles. De base, su uso es gratuito ofreciendo funcionalidades básicas, pero suficientes para organizar ligas deportivas amateurs. Las funcionalidades que nos ofrece son las siguientes:
+
+\subsubsection*{Registro e inicio de sesión}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/winner/login.jpeg}
+    \caption{Registro e inicio de sesión}
+    \label{fig:winner_login}
+\end{figure}
+
+El registro de sesión es sencillo. Permite crear una cuenta e iniciar sesión de forma básica utilizando un email y contraseña. También es posible iniciar sesión a través de una cuenta de Google.
+
+\subsubsection*{Creación y gestión de ligas}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/sport_and_participant_type.jpeg}
+        \caption{Selección de deporte y formato de participación}
+        \label{fig:winner_league_format}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/sports.png}
+        \caption{Deportes disponibles}
+        \label{fig:winner_sports}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/custom_league.jpeg}
+        \caption{Personalización de fases}
+        \label{fig:winner_phases}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/custom_points.jpeg}
+        \caption{Sistema de puntuación}
+        \label{fig:winner_points}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/share.png}
+        \caption{Visualización}
+        \label{fig:winner_share}
+    \end{subfigure}
+    \hfill
+    \label{fig:winner_league_management}
+\end{figure}
+
+Permite la creación de ligas ofreciendo una gran variedad de deportes y distintos tipos de participantes(individual, equipos, dobles, etc.). Es posible crear ligas dadas plantillas predeterminadas o como consecución de fases de distintos formatos: árbol de eliminatoria y liga con o sin grupos. También es posible personalizar el sistema de puntuación y generar los partidos a partir de un calendario en el que se deciden las veces que se enfrentan cada equipo.
+
+\textbf{Contras:} es una aplicación de gestión completamente local, es decir, la gestión recae sobre una sola persona que es la que posee el dispositivo donde se ha creado dicha liga. Para que otras personas puedan hacer un seguimiento de la liga es necesario compartir con ellos, de forma directa, el enlace que se genera al crear la liga y, a su vez, los interesados en visualizar la liga necesitan iniciar sesión. El sistema de puntuación es útil, pero básico; por ejemplo, en voleibol, no se podría puntuar de forma similar a como se hace de forma oficial.
+
+\subsubsection*{Gestión de equipos y jugadores}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/teams.png}
+        \caption{Equipos}
+        \label{fig:winner_teams}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/players.png}
+        \caption{Jugadores}
+        \label{fig:winner_players}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/player_color.jpeg}
+        \caption{Personalización imagen}
+        \label{fig:winner_icon}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/custom_icon.jpeg}
+        \caption{Personalización color}
+        \label{fig:winner_color}
+    \end{subfigure}
+    \label{fig:winner_participants_management}
+\end{figure}
+
+Ofrece la posibilidad de registrar equipos y jugadores con sus respectivos nombres. También es posible asignarle logotipos a cada equipo y jugador a partir de imágenes básicas con colores genéricos y banderas de países que ofrece la aplicación
+
+\textbf{Contras:} el registro de los equipos y jugadores es local y genérico, lo que puede ocasionar confusión si se están gestionando varias ligas al mismo tiempo. La personalización es limitada dado que no es posible asignar imagines propias como escudos o fotos de perfil.
+
+\subsubsection*{Visualización de Resultados y Clasificación}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.33\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/results.png}
+        \caption{Resultado de partidos}
+        \label{fig:winner_results}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.33\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/leagues.png}
+        \caption{Clasificación}
+        \label{fig:winner_classification}
+    \end{subfigure}
+\end{figure}
+
+Es posible registrar los resultados de los partidos de forma manual: ubicación, ganador y el minutaje de anotación de cada punto. Lo cual hace que se actualice la tabla de clasificación del grupo pertinente. En cada tabla clasificatoria es posible visualizar las estadísticas generales de los equipos, además, Winner permite ver la evolución de las estadísticas de los equipos durante el desarrollo de la liga mediante diferentes gráficos.
+
+\textbf{Contras:} ninguno, es posible aprender de los puntos fuertes de esta sección para poder aplicarlos a un nuevo sistema.
+
+\subsubsection*{Opcionalidad de pago}
+
+Adicionalmente, contamos con la opción de invertir una pequeña cantidad monetaria en caso de querer ampliar las funcionalidades. Las ventajas que proporciona la aplicación con su versión de pago y las ofertas existentes las podemos ver en la figura \ref{fig:winner_pro}.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.40\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/pro_functions.jpeg}
+        \caption{Resultado de partidos}
+        \label{fig:winner_pro_functions}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.30\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/prices.jpeg}
+        \caption{Clasificación}
+        \label{fig:winner_prices}
+    \end{subfigure}
+    \caption{}
+    \label{fig:winner_pro}
+\end{figure}
+
+\textbf{Contras:} la versión de pago se basa en un servicio de suscripción que, aunque sea asequible, hace necesario un pago recurrente para mantener las funcionalidades extra.
+
+\subsubsection*{Uso en la LVUIB}
+
+El primer año que se celebró la \ac{LVUIB} los organizadores decidieron utilizar las funcionalidades básicas, mientras que el segundo año se optó por la versión de pago debido a la necesidad de mayor personalización, mejora de la organización y eliminación de los frecuentes anuncios que resultaban una molestia para el principal administrador. La opción de compra que se adquirió fue una que ya no está disponible: una compra única con un precio no mayor a 15 €.
+
+En resumen, Winner, es una aplicación de gestión que cubre con creces las necesidades de ligas de nivel amateur, pero no es suficiente para ligas deportivas que quieran profesionalizarse. La responsabilidad recae únicamente en la persona que posee la aplicación y dispositivo sobre el que se va a efectuar la creación, registro y gestión de la liga, no es posible compartir la carga de trabajo entre varios administradores. Esto hace que no sea posible escalar su uso en la \ac{LVUIB} debido a la necesidad de cumplir con los estándares derivados de ligas profesionales, como las gestionadas por la \ac{FVIB}
 
 \subsection{Clupik}
 
-En cambio, Clupik se ha estado utilizando durante el tercer año (coincidiendo con el año académico 2025-2026) y ha representado un cambio importante respecto a la primera alternativa, ya que la propia \ac{OUSIS} fue la responsable de adquirir la herramienta. Esta herramienta se presenta como un \ac{SaaS} por el que la \ac{OUSIS} ha tenido que hacer una inversión en torno a los 600 €. Este coste se debe a que Clupik es una solución profesional, personalizada y enfocada a organismos que necesitan sistemas gestores de ligas deportivas. Podría parecer que Clupik es la herramienta ideal para el caso de la \ac{LVUIB}, pero todo lo contrario. Esta alternativa ha presentado muchos problemas tanto por parte de los jugadores como de los árbitros y administradores de la liga.
+Clupik, en cambio, se ha utilizado durante el tercer año (coincidiendo con el año académico 2025-2026) y ha representado un cambio importante respecto a la primera alternativa. Se presenta como un cambio importante porque ha sido la propia \ac{OUSIS} la que ha decidido implicarse más en la organización y ha sido la principal gestora de la \ac{LVUIB}. El punto más destacado ha sido la adquisición de esta segunda herramienta: Clupik.
+
+Esta aplicación se presenta como un \ac{SaaS} que ofrece la posibilidad de gestionar tanto clubes como ligas deportivas, pero en este caso, nos centraremos en la parte de más nos concierne, las ligas. La principal función de esta herramienta es la de permitir a cualquier persona crear y administrar una liga deportiva. Para poder hacerlo, pone a disposición de los usuarios las siguientes funcionalidades:
+
+
+\subsubsection*{Registro e inicio de sesión}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/clupik/login.jpeg}
+    \caption{Registro e inicio de sesión}
+    \label{fig:clupik_login}
+\end{figure}
+
+Es muy similar, por no decir casi idéntico, al sistema de Winner: creación de cuenta e inicio de sesión a partir de un email y una contraseña. Aunque en este caso no tenemos la posibilidad de enlazar una cuenta de Google. La parte positiva es que el inicio de sesión no es un requisito para poder consultar ligas públicas.
+
+\subsubsection*{Creación y gestión de ligas}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/create_league.jpeg}
+        \caption{Selección de deporte}
+        \label{fig:clupik_league_format}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/create_phase.jpeg}
+        \caption{Creación de fase}
+        \label{fig:clupik_phase}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/punctuation.jpeg}
+        \caption{Sistema de puntuación}
+        \label{fig:clupik_punctuation}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/classificaion_phase.jpeg}
+        \caption{Fase de clasificación}
+        \label{fig:clupik_classification}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/tournament_phase.jpeg}
+        \caption{Fase de torneo}
+        \label{fig:clupik_tournament}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/update_matches.jpeg}
+        \caption{Actualizar enfrentamientos}
+        \label{fig:clupik_update_match}
+    \end{subfigure}
+    \label{fig:clupik_league_management}
+\end{figure}
+
+Se puede ver que la creación de una liga es similar a Winner aunque con algunas diferencias. Al crear la liga puedes elegir entre deportes y juegos de competición, cosa que Winner no contempla; aunque Clupik no permite elegir el formato de participación, solo se puede jugar dentro de un equipo. Clupik, al igual que Winner, permite la creación de ligas como sucesiones de fases, pero Clupik no tiene plantillas predefinidas como lo hace Winner. Es posible definir los partidos en los dos tipos de fases como podemos observar en las figuras \ref{fig:clupik_classification} y \ref{fig:clupik_tournament}. Por último, es posible editar manualmente los equipos que se enfrentan en cualquier partido generado.
+
+\textbf{Contras:} la mayor contraprestación que se puede apreciar es que para gestionar una liga, desde el papel de administrador, es necesaria una aplicación adicional, que se sincroniza con la aplicación principal, a la que existe para poder visualizar la liga desde el papel de espectador o participante. Y también existe otra aplicación para los árbitros que se centra únicamente en la gestión de los partidos. En resumen: existen 2 aplicaciones diferentes para asegurar una correcta gestión de la liga.
+
+\subsubsection*{Gestión de equipos y jugadores}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/clupik/new_team.jpeg}
+    \caption{Creación de equipos y jugadores}
+    \label{fig:clupik_teams_and_players}
+\end{figure}
+
+La creación tanto de equipos como jugadores es muy básica: nombre en caso de los equipos y nombre y apellido en caso de jugadores.
+
+\textbf{Contras:} no es posible personalizar una foto de perfil de jugador o escudo del equipo con las funcionalidades gratuitas de Clupik.
+
+\subsubsection*{Visualización de ligas}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/matches.jpeg}
+        \caption{Partidos disponibles}
+        \label{fig:clupik_matches}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/groups.jpeg}
+        \caption{Grupos}
+        \label{fig:clupik_groups}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/teams.jpeg}
+        \caption{Equipos}
+        \label{fig:clupik_teams}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/rounds.jpeg}
+        \caption{Jornadas}
+        \label{fig:clupik_rounds}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/round_matches.jpeg}
+        \caption{Partidos de la jornada}
+        \label{fig:clupik_round_matches}
+    \end{subfigure}
+    \hfill
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/group_classification.jpeg}
+        \caption{Clasificación por grupo}
+        \label{fig:clupik_group_classification}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/statistics.jpeg}
+        \caption{Estadísticas}
+        \label{fig:clupik_statistics}
+    \end{subfigure}
+    \hfill
+    \label{fig:clupik_league_visualization}
+\end{figure}
+
+Para poder ver una liga, primero es necesario buscarla por su nombre o el nombre del organizador. Una vez que seleccionas una liga puedes consultar: los próximos partidos y los resultados de los partidos ya jugados, los diferentes grupos que hay, los equipos existentes, los jugadores por equipo, la tabla clasificatoria para cada grupo y las estadísticas de la liga. También es posible visualizar las jornadas que constituyen la liga y qué partidos se celebran en cada jornada.
+
+Cabe destacar que existe una aplicación adicional para poder visualizar el desarrollo de la liga, aunque es su única funcionalidad. La visualización incluye todas las ligas activas de la \ac{UIB}, aunque es posible aplicar una serie de filtros para centrarnos únicamente en el contenido que nos interesa. También tiene la opción de iniciar sesión con unas credenciales válidas de la \ac{UIB} para ver el contenido relacionado con la participación como usuario, por ejemplo: el equipo donde juega el usuario o los partidos en los que participa el equipo del usuario.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/view_matches.jpeg}
+        \caption{Partidos disponibles}
+        \label{fig:clupik_uib_matches}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/apply_filters.jpeg}
+        \caption{Filtros}
+        \label{fig:clupik_filters}
+    \end{subfigure}
+    \label{fig:clupik_uib_app}
+\end{figure}
+
+Esto hace que existan un total de dos aplicaciones que sirven para consultar los datos de la liga. Pero la segunda solo muestra datos relacionados con los próximos partidos y la tabla de clasificación. Es decir, la segunda aplicación es una versión reducida de la primera añadiendo un sistema completo de filtros además de mostrar otro contenido referente a la \ac{OUSIS} y presentar un diseño similar al de aplicaciones de la \ac{UIB}
+
+\textbf{Contras:} el principal punto negativo de esta sección es la existencia de dos aplicaciones diferentes. Esto puede hacerle creer al usuario que la segunda aplicación es una versión incompleta de la primera o que incluso crea que la primera es algo completamente agnóstico a la \ac{UIB} al carecer el diseño propio de esta. Además, acarrea una carga cognitiva a los usuarios porque, al existir dos opciones no es intuitivo saber cuál de las dos ofrece toda la información de forma correcta.
+
+\subsubsection*{Opcionalidad de pago}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/clupik/price_planes.png}
+    \caption{Planes de pago}
+    \label{fig:clupik_price_planes}
+\end{figure}
+
+Se puede ver como Clupik ofrece dos tipos de planes de pago para extender las funcionalidades del sistema en caso de que las funcionalidades que vienen por defecto no sean suficientes para cumplir con las necesidades de gestión. Observamos como la oferta del plan \emph{TOP} ofrece un conjunto de funcionalidades que permiten una completa gestión de ligas a todos los niveles. Obviamente, esta fue la opción por la que la \ac{OUSIS} optó. Cabe destacar que el plan obliga a hacer el pago de forma anual. Esto hace que, como la \ac{LVUIB} se celebra durante los dos semestres de un año académico, el coste total del sistema haya sido de 599.04 €.
+
+\textbf{Contras:} el único contra y el más claro de esta sección es el elevado coste que ha supuesto el uso de este sistema durante la última temporada.
+
+\subsubsection*{Aspectos negativos generales}
+
+Para esta aplicación no se ha hecho mucho hincapié en los aspectos negativos, ya que todos ellos han sido remarcados y explicados por los propios usuarios en la sección \ref{sec:requirements}.
 
 \section{Motivación y objetivos}
 
@@ -42,14 +379,15 @@ Los objetivos principales que han buscado cumplir a través del desarrollo de Sp
 
 Este documento sirve para entender el proceso de trabajo aplicado para el desarrollo de Sports League. Por ello cada capítulo explica una parte en concreto del proyecto.
 
-El primer capítulo explica el contexto y las motivaciones del proyecto: desde la necesidad que tiene la \ac{OUSIS} de gestionar la \ac{LVUIB}, qué soluciona  y que aporta con respecto a las soluciones existentes que se utilizaron y que no convencieron
+El primer capítulo explica el contexto y las motivaciones del proyecto: la necesidad que tiene la \ac{OUSIS} de gestionar la \ac{LVUIB}, qué soluciona y qué aporta con respecto a las soluciones existentes que se utilizaron y que no llegaron a convencer a los interesados.
 
-En el segundo capítulo se explican la gran variedad de tecnologías que existen hoy en día para implementar el sistema que queremos: desde la \ac{BD} hasta la interfaz con la cual interactuarán los usuarios.
+El segundo capítulo describe las especificaciones del sistema tanto a nivel funcional como arquitectónico. Explica el proceso de recogida de requisitos a partir del uso de formularios de satisfacción y el diseño del sistema necesarios para cumplir con estos.
 
-% \begin{itemize}
-%     \item La información referente al contexto del proyecto, motivaciones, objetivos y alternativas se encuentran en el capítulo 1.
-%     \item Todo lo referente a las tecnologías disponibles para la implementación del sistema se encuentran en el capítulo 2.
-%     \item El proceso de desarrollo al completo queda explicado en el capítulo 3.
-%     \item Los resultados obtenidos se explican en el capítulo 4.
-%     \item Conclusiones, aprendizajes, aportaciones y trabajo futuro están explicados en el capítulo 5.
-% \end{itemize}
+En el tercer capítulo se explican la gran variedad de tecnologías que existen hoy en día para implementar el sistema requerido: desde la \ac{BD} hasta la interfaz con la cual interactuarán los usuarios.
+
+El cuarto capítulo detalla la planificación del proyecto seguida para completarlo, que incluye: el ciclo de vida, entregables, estimación de tiempo, gestión de calidad, gestión de cambios e interesados.
+
+El quinto capítulo muestra cómo ha sido la implementación del sistema: si se ha cumplido con lo establecido en la planificación, además de la arquitectura de software, patrones de diseño y principios SOLID que se han utilizado.
+% TODO: add reference to SOLID
+
+El sexto y último capítulo cuenta las conclusiones resultado de todo el trabajo completado: qué aprendizaje ha habido, qué se ha aportado con respecto a las tecnologías existentes y qué trabajo se realizará en el futuro utilizando este proyecto como base.
