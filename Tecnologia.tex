@@ -1,0 +1,78 @@
+\chapter{Estado del arte en el ámbito tecnológico}
+
+Para implementar este tipo de sistemas requerimos de tecnologías que nos permitan cumplir con todos los requisitos especificados y el diseño mostrado.
+
+\section{Servidor back-end}
+
+Para el servidor central que gestiona todo el sistema necesitamos un sistema mantenible, escalable y que permita una carga leve de usuarios concurrentes. También debe poder implementar el contrato API definido en el capítulo anterior. Ante estas necesidades hemos optado por Kotlin con Spring Boot frente a alternativas como: Node.js (Express/NestJS) y Ktor (Kotlin)
+
+\subsection*{Pro}
+
+Spring Boot ofrece un ecosistema empresarial extremadamente maduro, con soluciones robustas para seguridad (Spring Security) e inyección de dependencias. El uso de Kotlin aporta un tipado estático moderno, reduce el código repetitivo (boilerplate) y elimina de forma nativa las excepciones de referencias nulas (NullPointerExceptions).
+
+\subsection*{Contra}
+
+Mayor consumo de memoria y tiempos de arranque más lentos en comparación con frameworks ligeros de Node.js o Go.
+
+\subsection*{Justificación}
+
+Contar con experiencia previa trabajando en Spring Boot reduce drásticamente los riesgos del proyecto, garantizando una implementación estable y segura. La adopción de Kotlin moderniza la pila tecnológica, ofreciendo un código más limpio y conciso, ideal para implementar una arquitectura hexagonal con interfaces claras.
+
+\section{Base de datos}
+
+Necesitamos una \ac{BD} relacional para respetar la relación e integridad de datos necesaria para implementar el modelo de datos. Se ha elegido PostgreSQL frente a alternativas vistas en el \ac{GEIN} como son: MySQL y MariaDB.
+
+\subsection*{Pros}
+
+Es el motor relacional de código abierto más avanzado y un estándar en la industria. Cumple estrictamente con los principios ACID. Destaca por su enorme extensibilidad y su capacidad para manejar consultas complejas y grandes volúmenes de datos.
+
+\subsection*{Contras}
+
+Su configuración inicial y consumo de recursos pueden ser ligeramente superiores a los de MySQL o MariaDB para proyectos extremadamente pequeños.
+
+\subsection*{Justificación}
+
+Las entidades de una liga deportiva (usuarios, equipos, ligas, partidos, resultados) tienen un modelo de datos altamente estructurado y con relaciones muy fuertes, lo que descarta opciones \emph{No SQL} como \emph{MongoDB}. PostgreSQL garantiza la integridad referencial de estos datos críticos y ofrece la escalabilidad necesaria por si el proyecto requiere almacenar estructuras más complejas en el futuro.
+
+\section{Almacenamiento de objetos}
+
+Para el \ac{OS} se ha optado por una tecnología de despliegue local como lo es MinIO frente a alternativas con alojamiento en la nube: Cloudflare R2, Amazon S3, Google Cloud Storage o Firebase Storage.
+
+\subsection*{Pro}
+
+Despliegue 100\% local o autoalojado mediante contenedores Docker. Es totalmente compatible con la API de Amazon S3. Alta velocidad de lectura/escritura y diseño minimalista.
+
+\subsection*{Contra}
+
+Delega la responsabilidad de mantener la infraestructura física, la disponibilidad y las copias de seguridad (backups) en el propio desarrollador, a diferencia de los servicios gestionados en la nube.
+
+\subsection*{Justificación}
+
+El uso de MinIO garantiza la soberanía total sobre la información almacenada (imágenes, firmas de actas). Evita ceder los datos del sistema a empresas de terceros cuyos términos y condiciones de servicio o políticas de precios puedan cambiar de forma unilateral. Además, al ser compatible con la API de S3, permite que, si el sistema escala y se decide migrar a la nube en el futuro, no sea necesario reescribir ni una sola línea del código del back-end.
+
+\section{Aplicación front-end}
+
+Para la aplicación que hace el papel de interfaz visual necesitamos una tecnología que nos permita generar entornos multiplataforma de forma sencilla. Esto se debe a que si se opta por separar en página web y aplicación móvil, estaríamos multiplicando la carga de trabajo y la mantenibilidad para las distintas plataformas y dispositivos. Por esta razón se ha elegido React Native con Expo frente a distintas alternativas como son: Flutter (Dart), Ionic / Capacitor (Web-based), Kotlin Multiplatform / Compose Multiplatform (KMP).
+
+\subsection*{Pros}
+
+\begin{itemize}
+    \item Rendimiento cercano al nativo mediante la renderización de componentes nativos reales de iOS y Android (a diferencia de las soluciones basadas en WebView).
+    \item Ecosistema masivo apoyado por la comunidad y Meta, con un flujo de desarrollo ágil gracias a Expo (compilación, pruebas inmediatas en dispositivos reales mediante código QR y despliegue rápido).
+    \item Aprovechamiento de la arquitectura basada en componentes y el paradigma declarativo de React.
+\end{itemize}
+
+\subsection*{Contras}
+
+\begin{itemize}
+    \item Dependencia de un puente (bridge / JSI) para comunicar el hilo de JavaScript con los módulos nativos, lo que puede requerir librerías de terceros para acceder a hardware muy específico.
+    \item Las actualizaciones mayores del entorno (como cambios de versión en React Native o Expo) pueden generar incompatibilidades puntuales entre dependencias.
+\end{itemize}
+
+\subsection*{Justificación}
+
+\textbf{Frente a Flutter:} Aunque Flutter ofrece una excelente velocidad de renderizado al dibujar su propia interfaz mediante Skia/Impeller, requiere aprender el lenguaje Dart y la gestión de estados de su propio ecosistema. Al contar con experiencia previa en React, la adopción de React Native elimina la curva de aprendizaje de un nuevo lenguaje y permite reutilizar los mismos conceptos de hooks, estados y ciclos de vida.
+
+\textbf{Frente a Ionic / Capacitor:} Ionic ejecuta la aplicación dentro de un navegador interno (WebView), lo que compromete la fluidez visual y la respuesta táctil en interfaces complejas. React Native se descartó en favor de Ionic precisamente para evitar esta capa web y ofrecer una experiencia de usuario genuinamente nativa.
+
+\textbf{Frente a Kotlin Multiplatform (KMP):} Aunque KMP permite compartir lógica de negocio escrita en Kotlin, requiere diseñar las interfaces de usuario de forma independiente para cada plataforma (o usar Compose Multiplatform, cuya madurez en iOS es inferior). React Native con Expo permite compartir tanto la lógica de negocio como la propia interfaz de usuario en una única base de código para iOS y Android.
