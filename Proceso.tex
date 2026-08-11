@@ -1,12 +1,6 @@
 \chapter{Análisis y diseño del sistema}
 
-En este capítulo veremos todos los pasos que han sido necesarios abarcar para completar el \ac{TFG}, desde la recogida de requisitos hasta la verificación del correcto funcionamiento del sistema.
-
-Para completar el proyecto se ha optado por un desarrollo en cascada. Este enfoque nos permite asegurar que un paso está completo antes de pasar al siguiente. No se ha optado por metodologías ágiles, ya que incurren en procesos no tan necesarios cuando no tenemos un equipo de trabajo y la organización del proyecto recae en una sola persona.
-
-El primer paso ha sido la recogida y análisis de requisitos. Seguidamente, se ha hecho el diseño tanto gráfico como arquitectónico de todos los servicios. Se ha continuado con la implementación en el siguiente orden: implementación completa del back-end junto con la \ac{BD} y el \ac{OS} seguida de la implementación del front-end. Por último, se han creado los test sobre el back-end para verificar el correcto funcionamiento del sistema.
-
-% TODO: talk about stakeholders
+En este capítulo veremos todos los pasos que se han tomado para completar la especificación y diseño del sistema. Abarca desde el análisis de stakeholders y recogida de requisitos a partir de formularios de opinión hasta el diseño completo del sistema.
 
 \section{Especificación}
 
@@ -19,7 +13,6 @@ Todos los formularios tenían en común estas cuestiones:
 
 \subsubsection*{Aspectos cuantitativos}
 
-% TODO: add img_forms_general_aspects
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{img/img_forms_general_aspects.png}
@@ -31,7 +24,6 @@ Esta sección busca medir la importancia de uso de la aplicación a la vez que e
 
 \subsubsection*{Aspectos cualitativos}
 
-% TODO: add img_forms_acpects
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{img/img_forms_aspects.png}
@@ -43,7 +35,6 @@ Esta sección nos permite saber la opinión de los usuarios sobre los diferentes
 
 \subsubsection*{Nota final y necesidad de un nuevo sistema}
 
-% TODO: add img_forms_final_grade_new_app
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{img/img_forms_final_grade_new_app.png}
@@ -143,8 +134,7 @@ En la segunda reunión, Antonio Crespí presente, se estableció un contacto pro
 
 A partir de los resultados de las encuestas y las reuniones con la \ac{OUSIS} se han sintetizado los siguientes requisitos funcionales y no funcionales:
 
-{
-\renewcommand{\arraystretch}{1.8}
+{\renewcommand{\arraystretch}{1.8}
 \begin{longtable}{|l|l|p{0.6\textwidth}|}
 \caption{Requisitos funcionales del sistema}\label{tab:reqs}\\
 \hline
@@ -223,6 +213,8 @@ RF-EVE-2 & Evento de Partido & El sistema debe permitir que cada evento pueda se
 \end{longtable}
 }
 
+Podemos apreciar mejor los requisitos funcionales mediante el diagrama de casos de uso presente en el apéndice \href{https://drive.google.com/file/d/1S-nP_uzW5Z5XFGLOPDLM0Ln91ALcyA5O/view?usp=drive_link}{Diagrama de casos de uso}
+
 {\renewcommand{\arraystretch}{1.8}
 \begin{longtable}{|l|l|p{0.6\textwidth}|}
 \caption{Requisitos no funcionales del sistema}\label{tab:rnfs}\\
@@ -253,7 +245,7 @@ RNF-OPE-1 & Operacional & Las constantes del sistema de competición (como punto
 RNF-OPE-2 & Pila Tecnológica & Para garantizar la homogeneidad y mantenibilidad del sistema, el back-end debe desarrollarse estrictamente en Kotlin con Spring Boot (exponiendo API REST) y el front-end móvil en React Native con Expo. La persistencia de datos relacionales recaerá exclusivamente en PostgreSQL, mientras que la persistencia de datos no relacionales recaerá en un servicio Object Storage - S3 implementado con MinIO. \\ \hline
 RNF-OPE-3 & Contenerización & El entorno del servidor debe estar empaquetado mediante contenedores de Docker para asegurar que la aplicación funcione de manera idéntica tanto en la máquina local de desarrollo como en el servidor de producción. \\ \hline
 RNF-DES-1 & Desarrollo & Control de Versiones: Todo el código fuente del proyecto (front-end, back-end y scripts de base de datos) debe estar centralizado y versionado utilizando Git, alojado en un repositorio en la nube como GitHub. \\ \hline
-RNF-DES-2 & Desarrollo & Estrategia de Ramas (Branching): El equipo de desarrollo debe seguir un flujo de trabajo estructurado. Existirá una rama "main" que contendrá todo el código desarrollado. \\ \hline
+RNF-DES-2 & Desarrollo & Trunk-Based Development (Etiquetas): El equipo de desarrollo debe seguir un flujo de trabajo estructurado. Existirá una rama `main' que contendrá todo el código desarrollado. Sobre esta rama `main' se irán creando etiquetas para marcar versiones funcionales y desplegables del sistema. \\ \hline
 RNF-DES-3 & Desarrollo & Pruebas Automatizadas (Pruebas Unitarias): La lógica de negocio crítica en Kotlin (por ejemplo, el cálculo de los puntos de la liga o la máquina de estados de los partidos) debe estar cubierta por pruebas unitarias independientes de la base de datos. \\ \hline
 RNF-DES-4 & Desarrollo & Pruebas Automatizadas (Pruebas de Integración): Se deben incluir pruebas que verifiquen el correcto funcionamiento de los endpoints principales y sus consultas contra una base de datos de prueba (por ejemplo, usando "Testcontainers" o una base de datos en memoria). \\ \hline
 RNF-DES-5 & Desarrollo & Gestión de variables de entorno: Ninguna credencial, token secreto o contraseña de base de datos debe subirse al repositorio de código. Todas las configuraciones sensibles deben inyectarse mediante variables de entorno (archivos .env en React Native y application.yml parametrizado en Spring Boot). \\ \hline
@@ -264,7 +256,23 @@ RNF-DES-7 & Desarrollo & El código fuente del back-end debe seguir los principi
 
 \section{Diseño}
 
-En esta sección nos centraremos en el diseño de: la \ac{BD}, la interfaz de usuario y el contrato API.
+Definiremos el diseño en dos niveles distintos: la interacción de los distintos componentes y 
+
+\subsection{Arquitectura del sistema}
+
+Las siguientes imágenes que representan los tres primeros niveles de un modelo C4 explican en detalle la arquitectura establecida para Sports League:
+
+El nivel 1 muestra la relación de la aplicación con los usuarios y servicios externos.
+
+% TODO: C4 model image, level 1
+
+El nivel 2 indica cómo interactúan los diferentes sistemas entre ellos.
+
+% TODO: C4 model image, level 2
+
+El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema.
+
+% TODO: C4 model image, level 3
 
 \subsection{Diseño del sistema}
 
@@ -272,7 +280,7 @@ En esta sección nos centraremos en el diseño de: la \ac{BD}, la interfaz de us
 
 \subsection{Diseño de la BD}
 
-El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el enlace \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama de mucho más detallado.
+El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el apéndice \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama más detalladamente.
 
 En el diagrama se pueden apreciar: las clases definidas con sus atributos correspondientes y las relaciones que relacionan dichas clases. Cabe aclarar que se pueden ver algunos de los nombres de clases repetidos junto a un asterisco `*'. Dicho formato indica que la clase ya ha sido definida y que simplemente se usa como una `referencia'. Se ha decidido aplicar este formato por claridad visual. De esta forma evitamos que las relaciones que conectan dos clases muy separadas no estorben en la lectura del diagrama.
 
@@ -302,45 +310,3 @@ El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quier
 Además, el contrato se ha separado por entidades para poder separar todo y mejorar el entendimiento para los desarrolladores. El versionado del contrato se ha llevado a cabo mediante Git y se ha subido a su propio repositorio. De esta forma, tanto el back-end como el front-end pueden utilizar el repositorio del contrato como un submódulo y operar siempre con la última versión.
 
 El contenido en detalle del contrato API se puede encontrar en el repositorio correspondiente.
-
-\section{Arquitectura del sistema}
-
-Las siguientes imágenes que representan los tres primeros niveles de un modelo C4 explican en detalle la arquitectura establecida para Sports League:
-
-El nivel 1 muestra la relación de la aplicación con los usuarios y servicios externos.
-
-% TODO: C4 model image, level 1
-
-El nivel 2 indica cómo interactúan los diferentes sistemas entre ellos.
-
-% TODO: C4 model image, level 2
-
-El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema.
-
-% TODO: C4 model image, level 3
-
-\section{Planificación}
-
-La planificación del proyecto puede apreciarse mediante el siguiente cronograma:
-
-% TODO: write cronogram
-
-\section{Implementación}
-% TODO?: don't know if the selected technologies should be here or in chapter two
-% TODO: talk about leaderboard view table
-
-La \ac{BD} se ha implementado mediante los siguientes archivos .sql que dividen la creación de la \ac{BD} en cuatro pasos:
-
-\begin{enumerate}
-    \item \textbf{V1\_\_init\_schema}: crea todas las tablas necesarias para representar de forma correcta el diagrama UML.
-    \item \textbf{V2\_\_add\_soft\_delete\_triggers}: crea los disparadores necesarios para poder aplicar un sistema de borrado lógico sobre los recursos cuya eliminación física acarrearía estados no deseados dentro del sistema.
-    \item \textbf{V3\_\_create\_leaderboard\_view}: crea la vista encargada de calcular las puntuaciones de los equipos para cada liga, grupo y jornada.
-    \item \textbf{V99\_\_insert\_initial\_data}: inserta los datos necesarios para que el sistema pueda funcionar de forma correcta: los deportes disponibles, roles de usuario y una configuración y sistema de puntuación por defecto para ligas de voleibol.
-\end{enumerate}
-
-Para la generación de los \ac{DTO} en todos los servicios se han utilizado herramientas específicas cuya función principal es la generación de clases a partir de un contrato API. En el back-end, se ha utilizado la librería \emph{org.openapi.generator}; y en el front-end, el paquete \emph{swagger-typescript-api}.
-
-
-% Links to libraries:
-% back: https://plugins.gradle.org/plugin/org.openapi.generator
-% front: https://www.npmjs.com/package/swagger-typescript-api?activeTab=dependencies
