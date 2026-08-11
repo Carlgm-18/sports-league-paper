@@ -1,9 +1,422 @@
 %!TeX root=MemoriaTFG.tex
 
-\chapter{Apéndice}
+\chapter{Formularios de opinión}
 
-\section{Formularios de opinión}
+\chapter{Resultados de los formularios}
 
-\section{Diseño base de datos}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \pie[text=legend]{
+            30.77/Menos de 2 veces al mes, 26.92/No sabía que había una aplicación o\dots, 19.23/Un día a la semana, 19.23/Menos de 4 días a la semana, 3.85/Más de 4 días a la semana
+        }
+    \end{tikzpicture}
+    \caption{¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella?}
+    \label{fig:col_use}
+\end{figure}
 
-\section{Contrato API}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            title={\textbf{¿Cómo puntuarías la administración de la liga a través de la aplicación?}},
+            width=\textwidth,
+            ybar,
+            bar width=12pt,
+            height=6cm,
+            ymin=0, ymax=130,
+            xlabel={Puntuación},
+            ylabel={Votos (\%)},
+            xtick={1, 2, 3},
+            symbolic x coords={1, 2, 3},
+            nodes near coords, 
+            nodes near coords align={vertical},
+            every node near coord/.append style={
+                font=\small,
+                rotate=90,
+                anchor=west,
+                /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+            }
+        ]
+        \addplot[fill=blue!50] coordinates {
+            (1, 0.0) (2, 0.0) (3, 100.0)
+        };
+        \end{axis}
+    \end{tikzpicture}
+    
+    \label{fig:admin_col}
+    \caption{¿Cómo puntuarías la administración de la liga a través de la aplicación?}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            title={\textbf{¿Cómo puntuarías la gestión de los partidos a través de la aplicación?}},
+            width=\textwidth,
+            ybar,
+            bar width=12pt,
+            height=6cm,
+            ymin=0, ymax=70,
+            xlabel={Puntuación},
+            ylabel={Votos (\%)},
+            xtick={1, 2, 3, 4, 5},
+            symbolic x coords={1, 2, 3, 4, 5},
+            nodes near coords, 
+            nodes near coords align={vertical},
+            every node near coord/.append style={
+                font=\small,
+                rotate=90,
+                anchor=west,
+                /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+            }
+        ]
+        \addplot[fill=blue!50] coordinates {
+            (1, 0.0) (2, 0.0) (3, 0.0) (4, 50.0) (5, 50.0)
+        };
+        \end{axis}
+    \end{tikzpicture}
+    
+    \label{fig:referee_col_0}
+    \caption{¿Cómo puntuarías la gestión de los partidos a través de la aplicación?}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \pie[text=legend]{
+            100.0/Tablet
+        }
+    \end{tikzpicture}
+    \caption{¿Usas algún dispositivo para rellenar el acta de los partidos?}
+    \label{fig:referee_col_1}
+\end{figure}
+
+\begin{figure}[H]
+    
+    \begin{tikzpicture}
+        \begin{axis}[
+            title={\textbf{Gestión equipos}},
+            width=\textwidth,
+            ybar,
+            bar width=12pt,
+            height=6cm,
+            ymin=0, ymax=70,
+            xlabel={Puntuación},
+            ylabel={Votos (\%)},
+            xtick={1, 2},
+            symbolic x coords={1, 2},
+            nodes near coords, 
+            nodes near coords align={vertical},
+            every node near coord/.append style={
+                font=\small,
+                rotate=90,
+                anchor=west,
+                /pgf/number format/.cd, fixed, fixed zerofill, precision=1
+            }
+        ]
+        \addplot[fill=blue!50] coordinates {
+            (1, 50.0) (2, 50.0)
+        };
+        \end{axis}
+    \end{tikzpicture}
+    
+    \label{fig:captain_col}
+    \caption{Gestión equipos}
+\end{figure}
+
+\textbf{Otros aspectos}
+\begin{itemize}
+    \item Me gustaría que hubiera estado más adaptada al voleibol. Se nota que no está hecha para este deporte por el tema de la complicación de asignar una distinta puntuación a diferentes finales de partido o la falta de aparición de los puntos a favor y él contra en la clasificación. Además la asignación de los árbitros a los partidos es muy tediosa por tener que seleccionarlos uno a uno. Me gustaría también que se creará un calendario donde se viera más claramente cuando es cada partido y árbitro asignado. \label{list:other_aspects}
+    \item Yo solo querría que cada equipo gestionase su plantilla y que los resultados y la clasificación se actualice.
+    \item Que se puedan visualizar los puntos de cada equipo una vez finalizado el partido. Que tenga la opción de notificaciones para los próximos partidos.
+    \item Quiero, que los puntos se repartan eficientemente, porque la aplicación está programada para una liga de fútbol y no para puntualizar marcadores de vóley.
+    \item Quiero que se puedan personalizar los propios equipos porque me parece una buena forma de participación.
+\end{itemize}
+
+\textbf{Problemas encontrados}
+\begin{itemize}
+    \item Me lío a veces al poner los resultados de los sets en cada apartado de los partidos. \label{list:problems}
+    \item La aplicación que hay ahora solo se podía descargar en iPhone o era muy complicada de descargar.
+    \item El desplegable de los grupos puede crear confusión, ya que no se modifica cuando has seleccionado otro deporte. Está predeterminado para el de fútbol. También en el apartado para ver los resultados deporte cada jornada (por fechas) solo está disponible los resultados de la primera jornada.
+    \item Hay funciones que no terminan de cargar como la bandeja de entrada o las notificaciones, va bastante lenta también.
+    \item Me cuesta entrar porque no la veo nada práctica ni estética.
+    \item El sistema de puntos suele ir mal, a veces diversos equipos han aparecido con otra cantidad de puntos que les corresponde a otros equipos.
+    \item Hay errores en el tema de los partidos, por ejemplo hay partidos que no me salen de mi equipo o que aparecen como si no hubiesen pasado, pero ya han pasado varias semanas. No sé si es parte de la app o de quien mantiene la puntuación de cada partido, pero igual queda raro.
+\end{itemize}
+
+\chapter{Interfaz Winner}
+\label{append:winner_images}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/winner/login.jpeg}
+    \caption{Registro e inicio de sesión}
+    \label{fig:winner_login}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/sport_and_participant_type.jpeg}
+        \caption{Selección de deporte y formato de participación}
+        \label{fig:winner_league_format}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/sports.png}
+        \caption{Deportes disponibles}
+        \label{fig:winner_sports}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/custom_league.jpeg}
+        \caption{Personalización de fases}
+        \label{fig:winner_phases}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/custom_points.jpeg}
+        \caption{Sistema de puntuación}
+        \label{fig:winner_points}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/share.png}
+        \caption{Visualización}
+        \label{fig:winner_share}
+    \end{subfigure}
+    \hfill
+    \label{fig:winner_league_management}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/teams.png}
+        \caption{Equipos}
+        \label{fig:winner_teams}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/players.png}
+        \caption{Jugadores}
+        \label{fig:winner_players}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/player_color.jpeg}
+        \caption{Personalización imagen}
+        \label{fig:winner_icon}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.22\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/custom_icon.jpeg}
+        \caption{Personalización color}
+        \label{fig:winner_color}
+    \end{subfigure}
+    \label{fig:winner_participants_management}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.33\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/results.png}
+        \caption{Resultado de partidos}
+        \label{fig:winner_results}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.33\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/leagues.png}
+        \caption{Clasificación}
+        \label{fig:winner_classification}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.40\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/pro_functions.jpeg}
+        \caption{Resultado de partidos}
+        \label{fig:winner_pro_functions}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.30\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/winner/prices.jpeg}
+        \caption{Clasificación}
+        \label{fig:winner_prices}
+    \end{subfigure}
+    \caption{}
+    \label{fig:winner_pro}
+\end{figure}
+
+\chapter{Interfaz Clupik}
+\label{append:clupik_images}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/clupik/login.jpeg}
+    \caption{Registro e inicio de sesión}
+    \label{fig:clupik_login}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/create_league.jpeg}
+        \caption{Selección de deporte}
+        \label{fig:clupik_league_format}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/create_phase.jpeg}
+        \caption{Creación de fase}
+        \label{fig:clupik_phase}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/punctuation.jpeg}
+        \caption{Sistema de puntuación}
+        \label{fig:clupik_punctuation}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/classificaion_phase.jpeg}
+        \caption{Fase de clasificación}
+        \label{fig:clupik_classification}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/tournament_phase.jpeg}
+        \caption{Fase de torneo}
+        \label{fig:clupik_tournament}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/update_matches.jpeg}
+        \caption{Actualizar enfrentamientos}
+        \label{fig:clupik_update_match}
+    \end{subfigure}
+    \label{fig:clupik_league_management}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/clupik/new_team.jpeg}
+    \caption{Creación de equipos y jugadores}
+    \label{fig:clupik_teams_and_players}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/matches.jpeg}
+        \caption{Partidos disponibles}
+        \label{fig:clupik_matches}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/groups.jpeg}
+        \caption{Grupos}
+        \label{fig:clupik_groups}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/teams.jpeg}
+        \caption{Equipos}
+        \label{fig:clupik_teams}
+    \end{subfigure}
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/rounds.jpeg}
+        \caption{Jornadas}
+        \label{fig:clupik_rounds}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/round_matches.jpeg}
+        \caption{Partidos de la jornada}
+        \label{fig:clupik_round_matches}
+    \end{subfigure}
+    \hfill
+
+    \vspace{0.5cm}
+
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/group_classification.jpeg}
+        \caption{Clasificación por grupo}
+        \label{fig:clupik_group_classification}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/statistics.jpeg}
+        \caption{Estadísticas}
+        \label{fig:clupik_statistics}
+    \end{subfigure}
+    \hfill
+    \label{fig:clupik_league_visualization}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/clupik/price_planes.png}
+    \caption{Planes de pago}
+    \label{fig:clupik_price_planes}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/view_matches.jpeg}
+        \caption{Partidos disponibles}
+        \label{fig:clupik_uib_matches}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/apply_filters.jpeg}
+        \caption{Filtros}
+        \label{fig:clupik_filters}
+    \end{subfigure}
+    \label{fig:clupik_uib_app}
+\end{figure}
+
+\chapter{Diseño de la base de datos}
+
+\chapter{Contrato API}
