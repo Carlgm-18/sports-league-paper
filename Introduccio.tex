@@ -87,7 +87,9 @@ Se puede ver como Clupik ofrece dos tipos de planes de pago para extender las fu
 
 \textbf{Contras:} el único contra y el más claro de esta sección es el elevado coste que ha supuesto el uso de este sistema durante la última temporada.
 
-\subsubsection*{Uso en la LVUIB}
+\subsection*{Uso en la LVUIB}
+
+Winner fue la aplicación que se utilizó durante los dos primeros años de celebración de la \ac{LVUIB}. El primer año que se celebró los organizadores decidieron utilizar las funcionalidades básicas, mientras que el segundo año se optó por la versión de pago debido a la necesidad de mayor personalización, mejora de la organización y eliminación de los frecuentes anuncios que resultaban una molestia para el principal administrador. La opción de compra que se adquirió fue una que ya no está disponible: una compra única con un precio no mayor a 15 €.
 
 Clupik se ha utilizado durante el tercer año (coincidiendo con el año académico 2025-2026) y ha representado un cambio importante respecto a la primera alternativa. Se presenta como un `cambio importante' porque ha sido la propia \ac{OUSIS} la que ha decidido implicarse más en la organización y ha sido la principal gestora de la \ac{LVUIB} esta última temporada.
 
@@ -95,9 +97,24 @@ La \ac{OUSIS} optó por el plan de pago más completo y funcional: el plan \emph
 
 Para esta aplicación no se ha hecho mucho hincapié en los aspectos negativos, ya que todos ellos han sido remarcados y explicados por los propios usuarios en la sección \ref{sec:requirements}.
 
+Para acabar de entender esta sección podemos apreciar en la siguiente tabla una comparación entre las aplicaciones y sus funcionalidades y cuáles de ellas se pretende mejorar con el nuevo sistema:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| l | c | c |}
+        \hline
+        \diagbox{\textbf{Funcionalidades}}{\textbf{Aplicaciones}} & \textbf{Winner} & \textbf{Clupik} \\ \hline
+        Registro e inicio de sesión & No & No \\ \hline
+        Creación y gestión de ligas & Parcial & Parcial \\ \hline
+        Gestión de equipos y jugadores & Sí & Sí \\ \hline
+        Visualización & Parcial & Sí \\ \hline
+        Opcionalidad de pago & Sí & Sí \\ \hline
+    \end{tabular}
+\end{table}
+
 \section{Motivación y objetivos}
 
-La motivación principal de este \ac{TFG} ha sido la de crear un sistema gestor de ligas deportivas que aporte una propuesta de valor diferenciadora con respecto a las soluciones que existen en el mercado.
+La motivación principal de este \ac{TFG} es crear un sistema gestor de ligas deportivas que aporte una mejora con respecto a las alternativas que se han estado utilizando hasta ahora.
 
 Los objetivos principales que han buscado cumplir a través del desarrollo de Sports League es:
 
@@ -107,12 +124,11 @@ Desarrollar un sistema de gestión integral cliente-servidor para digitalizar y 
 
 \subsection*{Objetivos Específicos}
 
-\begin{enumerate}
-    \item \textbf{Analizar} las necesidades operativas de los distintos perfiles de usuario mediante la recopilación y estudio empírico de formularios.
-    \item \textbf{Diseñar} una arquitectura de software back-end garantizando el desacoplamiento de la lógica de negocio y asegurando la mantenibilidad.
-    \item \textbf{Implementar} una API REST en el servidor para centralizar la lógica de creación y acceso a los recursos relacionados con las ligas.
-    \item \textbf{Desarrollar} una aplicación móvil multiplataforma intuitiva que actúe como cliente principal para la visualización y gestión de la información deportiva.
-    \item \textbf{Configurar} una infraestructura de despliegue mediante contenedores para asegurar la reproducibilidad del entorno de base de datos e integraciones externas.
+\begin{enumerate}[label=\textbf{OE\arabic*},leftmargin=*]
+    \item Recopilar las necesidades de los distintos perfiles dentro de la \ac{LVUIB}.
+    \item Diseñar un sistema que permita cumplir con las necesidades.
+    \item Implementar y desarrollar este sistema enfado al uso multiplataforma
+    \item Crear una estrategia de despliegue escalable y robusta.
 \end{enumerate}
 
 \section{Estructura del documento}
