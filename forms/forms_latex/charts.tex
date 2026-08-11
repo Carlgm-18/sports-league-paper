@@ -1,17 +1,6 @@
 \subsubsection*{Aspectos cuantitativos}
 
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \pie[text=legend]{
-            30.77/Menos de 2 veces al mes, 26.92/No sabía que había una aplicación o\dots, 19.23/Un día a la semana, 19.23/Menos de 4 días a la semana, 3.85/Más de 4 días a la semana
-        }
-    \end{tikzpicture}
-    \caption{¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella?}
-    \label{fig:col_use}
-\end{figure}
-
-Esta gráfica nos permite ver que la mayoría de los usuarios casi no usan la aplicación o que incluso no la usan para nada. Esto puede ser debido a la poca utilidad o facilidad de uso de la aplicación que encuentran en su uso cotidiano.
+La gráfica \ref{fig:col_use} nos permite ver que la mayoría de los usuarios casi no usan la aplicación o que incluso no la usan para nada. Esto puede ser debido a la poca utilidad o facilidad de uso de la aplicación que encuentran en su uso cotidiano.
 
 Esto nos puede indicar que la aplicación tan solo la usan los usuarios que estrictamente tienen que utilizarla: como los árbitros, para guardar los resultados de los partidos; o los administradores, para hacer un seguimiento continuo del correcto desarrollo de la liga.
 
@@ -26,7 +15,7 @@ Esto nos puede indicar que la aplicación tan solo la usan los usuarios que estr
     \label{fig:col_device}
 \end{figure}
 
-Esta gráfica nos confirma el uso multiplataforma que hacen los usuarios de la aplicación, ya sea para ver ciertos datos de forma rápida con dispositivos móviles o consultas más precisas y extensas con el navegador web. Este dato nos informa sobre la necesidad de un sistema disponible en dispositivos varios.
+La gráfica \ref{fig:col_device} nos confirma el uso multiplataforma que hacen los usuarios de la aplicación, ya sea para ver ciertos datos de forma rápida con dispositivos móviles o consultas más precisas y extensas con el navegador web. Este dato nos informa sobre la necesidad de un sistema disponible en dispositivos varios.
 
 \subsubsection*{Aspectos cualitativos}
 
@@ -64,12 +53,11 @@ Esta gráfica nos confirma el uso multiplataforma que hacen los usuarios de la a
         };
         \end{axis}
     \end{tikzpicture}
-    
-    \label{fig:col_final_result}
     \caption{Nota final}
+    \label{fig:col_final_result}
 \end{figure}
 
-En las puntuaciones finales, observamos un patrón en el que destacan los valores bajos y donde los valores altos son insignificantes en comparación. Esto nos da el veredicto final y nos describe el descontento generalizado que hay con la aplicación.
+En las puntuaciones finales (Ver \ref{fig:col_final_result}), observamos un patrón en el que destacan los valores bajos y donde los valores altos son insignificantes en comparación. Esto nos da el veredicto final y nos describe el descontento generalizado que hay con la aplicación.
 
 \begin{figure}[H]
     \centering
@@ -82,7 +70,7 @@ En las puntuaciones finales, observamos un patrón en el que destacan los valore
     \label{fig:col_new_app}
 \end{figure}
 
-Esta última gráfica es la clave y el principal motivo del desarrollo de un nuevo sistema. Nos confirma que la gran mayoría de los usuarios buscan nuevas opciones que mejoren la experiencia que han tenido hasta ahora con el sistema actual.
+La gráfica \ref{fig:col_new_app} es la clave y el principal motivo del desarrollo de un nuevo sistema. Nos confirma que la gran mayoría de los usuarios buscan nuevas opciones que mejoren la experiencia que han tenido hasta ahora con el sistema actual.
 
 \subsubsection*{Aspectos específicos}
 
@@ -94,24 +82,14 @@ Ahora que sabemos que es necesario un nuevo sistema de gestión, con las siguien
 
 Finalmente, con la sección de respuestas abiertas los usuarios comentan problemas que no han podido destacar con las secciones anteriores.
 
-\textbf{Otros aspectos}
-\begin{itemize}
-    \item Me gustaría que hubiera estado más adaptada al voleibol. Se nota que no está hecha para este deporte por el tema de la complicación de asignar una distinta puntuación a diferentes finales de partido o la falta de aparición de los puntos a favor y él contra en la clasificación. Además la asignación de los árbitros a los partidos es muy tediosa por tener que seleccionarlos uno a uno. Me gustaría también que se creará un calendario donde se viera más claramente cuando es cada partido y árbitro asignado.
-    \item Yo solo querría que cada equipo gestionase su plantilla y que los resultados y la clasificación se actualice.
-    \item Que se puedan visualizar los puntos de cada equipo una vez finalizado el partido. Que tenga la opción de notificaciones para los próximos partidos.
-    \item Quiero, que los puntos se repartan eficientemente, porque la aplicación está programada para una liga de fútbol y no para puntualizar marcadores de vóley.
-    \item Quiero que se puedan personalizar los propios equipos porque me parece una buena forma de participación.
-\end{itemize}
+El análisis de las respuestas abiertas revela tres áreas principales de mejora que justifican el desarrollo de la nueva plataforma.
 
-\textbf{Problemas encontrados}
-\begin{itemize}
-    \item Me lío a veces al poner los resultados de los sets en cada apartado de los partidos.
-    \item La aplicación que hay ahora solo se podía descargar en iPhone o era muy complicada de descargar.
-    \item El desplegable de los grupos puede crear confusión, ya que no se modifica cuando has seleccionado otro deporte. Está predeterminado para el de fútbol. También en el apartado para ver los resultados deporte cada jornada (por fechas) solo está disponible los resultados de la primera jornada.
-    \item Hay funciones que no terminan de cargar como la bandeja de entrada o las notificaciones, va bastante lenta también.
-    \item Me cuesta entrar porque no la veo nada práctica ni estética.
-    \item El sistema de puntos suele ir mal, a veces diversos equipos han aparecido con otra cantidad de puntos que les corresponde a otros equipos.
-    \item Hay errores en el tema de los partidos, por ejemplo hay partidos que no me salen de mi equipo o que aparecen como si no hubiesen pasado, pero ya han pasado varias semanas. No sé si es parte de la app o de quien mantiene la puntuación de cada partido, pero igual queda raro.
-\end{itemize}
+En primer lugar, destaca la falta de adaptación al voleibol. Los usuarios señalan de forma recurrente que el sistema actual está enfocado al fútbol, lo que provoca errores y confusión a la hora de registrar los resultados por sets, repartir los puntos y visualizar las clasificaciones.
+
+En segundo lugar, se reportan notables deficiencias de rendimiento y usabilidad. Los encuestados mencionan lentitud general, fallos de carga en apartados como las notificaciones, errores en la actualización del estado de los partidos y dificultades técnicas para acceder a la aplicación en ciertos dispositivos móviles.
+
+Por último, existe una clara demanda de mejores herramientas de gestión y comunicación. Las respuestas subrayan la necesidad de que los equipos puedan gestionar sus propias plantillas, recibir avisos de los próximos encuentros y contar con un sistema mucho más ágil para visualizar el calendario y asignar a los árbitros.
+
+Para consultar el listado íntegro de las respuestas y los problemas específicos reportados por los usuarios, véase el \ref{list:other_aspects} y \ref{list:problems}
 
 Resumiendo, buscan un sistema multiplataforma, interactivo, abierto a participación y fácil de utilizar. Un sistema que refleje de forma mucho más clara el tipo de deporte que se está jugando y ofrezca funcionalidades que faciliten dicha gestión. Un sistema a prueba de fallos, eficiente, consistente y visualmente atractivo.
