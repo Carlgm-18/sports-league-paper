@@ -1,0 +1,32 @@
+\chapter{Implementación}
+
+En este capítulo veremos todo el proceso aplicado para implementar los diseños mostrados anteriormente. Veremos qué ha sido necesario hacer para poder construir todos los componentes que forman el sistema: el servidor back-end que hace de API, la \ac{BD}, el \ac{OS} y la interfaz de usuario.
+
+\section{Servidor back-end}
+
+
+\section{Base de datos}
+
+Como ya hemos explicado, la \ac{BD} ha sido implementada con el motor PostgreSQL. Toda 
+
+La \ac{BD} se ha implementado mediante los siguientes archivos .sql que dividen la creación de la \ac{BD} en cuatro pasos:
+
+\begin{enumerate}
+    \item \textbf{V1\_\_init\_schema}: crea todas las tablas necesarias para representar de forma correcta el modelo de datos.
+    \item \textbf{V2\_\_add\_soft\_delete\_triggers}: crea los disparadores necesarios para poder aplicar un sistema de borrado lógico sobre los recursos cuya eliminación física acarrearía estados no deseados dentro del sistema.
+    \item \textbf{V3\_\_create\_leaderboard\_view}: crea la vista encargada de calcular las puntuaciones de los equipos para cada liga, grupo y jornada.
+    \item \textbf{V99\_\_insert\_initial\_data}: inserta los datos necesarios para que el sistema pueda funcionar de forma correcta: los deportes disponibles, roles de usuario y una configuración y sistema de puntuación por defecto para ligas de voleibol.
+\end{enumerate}
+
+% TODO: talk about leaderboard view table
+
+Para la generación de los \ac{DTO} en todos los servicios se han utilizado herramientas específicas cuya función principal es la generación de clases a partir de un contrato API. En el back-end, se ha utilizado la librería \emph{org.openapi.generator}; y en el front-end, el paquete \emph{swagger-typescript-api}.
+
+\section{Almacenamiento de objetos}
+
+
+\section{Interfaz multiplataforma}
+
+% Links to libraries:
+% back: https://plugins.gradle.org/plugin/org.openapi.generator
+% front: https://www.npmjs.com/package/swagger-typescript-api?activeTab=dependencies
