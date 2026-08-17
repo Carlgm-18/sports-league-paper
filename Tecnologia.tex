@@ -34,6 +34,8 @@ Su configuración inicial y consumo de recursos pueden ser ligeramente superiore
 
 Las entidades de una liga deportiva (usuarios, equipos, ligas, partidos, resultados) tienen un modelo de datos altamente estructurado y con relaciones muy fuertes, lo que descarta opciones \emph{No SQL} como \emph{MongoDB}. PostgreSQL garantiza la integridad referencial de estos datos críticos y ofrece la escalabilidad necesaria por si el proyecto requiere almacenar estructuras más complejas en el futuro.
 
+Además, para mantener la estabilidad a largo plazo de la \ac{BD} y gestionar las migraciones a futuro, en caso de ser necesarias, se ha utilizado Flyway: un software dedicado a la migración de bases de datos a partir de archivos \emph{.sql}
+
 \section{Almacenamiento de objetos}
 
 Para el \ac{OS} se ha optado por una tecnología de despliegue local como lo es MinIO frente a alternativas con alojamiento en la nube: Cloudflare R2, Amazon S3, Google Cloud Storage o Firebase Storage.
@@ -52,7 +54,7 @@ El uso de MinIO garantiza la soberanía total sobre la información almacenada (
 
 \section{Aplicación front-end}
 
-Para la aplicación que hace el papel de interfaz visual necesitamos una tecnología que nos permita generar entornos multiplataforma de forma sencilla. Esto se debe a que si se opta por separar en página web y aplicación móvil, estaríamos multiplicando la carga de trabajo y la mantenibilidad para las distintas plataformas y dispositivos. Por esta razón se ha elegido React Native con Expo frente a distintas alternativas como son: Flutter (Dart), Ionic / Capacitor (Web-based), Kotlin Multiplatform / Compose Multiplatform (KMP).
+Para la aplicación que hace el papel de interfaz visual necesitamos una tecnología que nos permita generar entornos multiplataforma de forma sencilla. Esto se debe a que si se opta por separar en página web y aplicación móvil, estaríamos multiplicando la carga de trabajo y la mantenibilidad para las distintas plataformas y dispositivos. Por esta razón se ha elegido React Native como framework de Java Script frente a distintas alternativas como son: Flutter (Dart), Ionic / Capacitor (Web-based), Kotlin Multiplatform / Compose Multiplatform (KMP).
 
 \subsection*{Pros}
 
@@ -61,6 +63,8 @@ Para la aplicación que hace el papel de interfaz visual necesitamos una tecnolo
     \item Ecosistema masivo apoyado por la comunidad y Meta, con un flujo de desarrollo ágil gracias a Expo (compilación, pruebas inmediatas en dispositivos reales mediante código QR y despliegue rápido).
     \item Aprovechamiento de la arquitectura basada en componentes y el paradigma declarativo de React.
 \end{itemize}
+
+Además, se ha decidido utilizar el empaquetador de Expo tal y como se recomienda en la documentación de React Native. El uso de este empaquetador facilita enormemente el desarrollo de aplicaciones con este framework ofreciendo funcionalidades para agilizar el proceso tanto de pruebas durante el desarrollo como de despliegue.
 
 \subsection*{Contras}
 
