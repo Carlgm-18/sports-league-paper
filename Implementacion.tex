@@ -2,12 +2,35 @@
 
 En este capítulo veremos todo el proceso aplicado para implementar los diseños mostrados anteriormente. Veremos qué ha sido necesario hacer para poder construir todos los componentes que forman el sistema: el servidor back-end que hace de API, la \ac{BD}, el \ac{OS} y la interfaz de usuario.
 
+\section{Entorno de desarrollo}
+
+\subsection{Editor de código}
+
+Para poder desarrollar el sistema se han utilizado dos editores de código distintos: uno para el front-end y otro para el back-end.
+
+Para el front-end se ha decidido utilizar Visual Studio Code, ya que es uno de los editores más utilizados dentro de la industria. Además, este editor funciona de forma excelente para desarrollar aplicaciones basadas en entornos Java Script gracias a sus numerosas extensiones.
+
+Mientras que para el back-end se ha optado por IntelliJ IDEA, un IDE de nicho cuando se trata de desarrollar sistemas implementados mediante tecnologías basadas en la JDK, como lo es en este caso Kotlin. Además, ofrece bastantes herramientas para trabajar de forma sencilla con lenguajes orientados a objetos, desarrollo de pruebas de código y ejecución y depuración de los programas desarrollados.
+
+\subsection{Ejecución y despliegue}
+
+El archivo \emph{docker-compose.yaml} (ver en apéndice) se ha utilizado para configurar un entorno de desarrollo aislado y reproducible. Todo ello mediante el despliegue de contenedores para la comunicación con las distintas bases de persistencia de datos.
+
+\subsection{Migración}
+
+Para mantener una correcta gestión de migraciones para la base de datos relacional
+
 \section{Servidor back-end}
 
+Como se puede observar en la figura [...] se ha decidido aplicar una separación vertical por entidad. De esta forma la arquitectura del back-end se basa en un monolito modular. Como ya se ha explicado, se ha decidido aplicar una arquitectura de tres capas simple para los módulos que engloban entidades con ciclos de vida simple (creación, visualización y actualización); mientras que para módulos de entidades con ciclos de vida más complejos, (seguridad, autenticación, mantenimiento de sub recursos, cambios y actualizaciones complejas de varios pasos transaccionales, etc.) se aplica arquitectura hexagonal.
+
+% Image of folders structure
 
 \section{Base de datos}
 
-Como ya hemos explicado, la \ac{BD} ha sido implementada con el motor PostgreSQL. Toda 
+Como ya hemos explicado, la \ac{BD} ha sido implementada con el motor PostgreSQL. Se ha buscado cumplir la tercera forma normal para asegurar la mantenibilidad, unicidad e integridad de los datos en todo momento.
+
+Para implementar el modelo de datos
 
 La \ac{BD} se ha implementado mediante los siguientes archivos .sql que dividen la creación de la \ac{BD} en cuatro pasos:
 
