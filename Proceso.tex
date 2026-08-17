@@ -7,112 +7,203 @@ En este capítulo veremos todos los pasos que se han tomado para completar la es
 \subsection{Recogida de requisitos}
 \label{sec:requirements}
 
-Los requisitos funcionales han sido generados basándonos en las opiniones que tenían los participantes de la \ac{LVUIB} acerca del sistema que se ha estado utilizando: Clupik. Las respuestas hacen referencia tanto a las aplicaciones de Clupik como a la aplicación adicional de visualización de la liga. Para completar la recogida de dichos requisitos se optó por la distribución de formularios de opinión y sugerencias. Las preguntas formuladas (que se pueden encontrar en los anexos) se agrupan en 4 formularios distintos según el rol que tuviera el participante dentro de la liga: jugador, capitán, árbitro y administrador.
+Los requisitos funcionales han sido generados basándonos en las opiniones que tenían los participantes de la \ac{LVUIB} acerca del sistema que se ha estado utilizando: Clupik. Las respuestas hacen referencia tanto a las aplicaciones de Clupik como a la aplicación adicional de visualización de la \ac{UIB}. Para completar la recogida de dichos requisitos se optó por la distribución de formularios de opinión y sugerencias. Las preguntas formuladas (que se pueden encontrar en los anexos) se agrupan en 4 formularios distintos según el rol que tuviera el participante dentro de la liga: jugador, capitán, árbitro y administrador.
 
-Todos los formularios tenían en común estas cuestiones:
+Todos los formularios tienen en común estas cuestiones:
 
 \subsubsection*{Aspectos cuantitativos}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_general_aspects.png}
-    \caption{Aspectos cuantitativos}
-    \label{fig:img_forms_general_aspects}
-\end{figure}
+\textbf{¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella?}
 
-Esta sección busca medir la importancia de uso de la aplicación a la vez que el dispositivo o formato objetivo para desarrollar la interfaz de usuario.
+Pregunta de elección única cuyas opciones son:
+
+\begin{itemize}
+    \item Más de 4 días a la semana.
+    \item Menos de 4 días a la semana.
+    \item Un día a la semana.
+    \item Menos de 2 veces al mes.
+    \item No sabía que había una aplicación o me informo a través de otras personas.
+\end{itemize}
+
+Con esta pregunta es posible hacerse una idea sobre lo importante que es el uso de la aplicación. Un uso bajo indica que la aplicación tiene una utilidad mínima o que incluso no la tiene, mientras que un uso alto indica que la aplicación es indispensable para la gestión de la liga.
+
+\textbf{¿A través de qué medio accedes principalmente a la aplicación?}
+
+Pregunta de elección única cuyas opciones son:
+
+\begin{itemize}
+    \item Navegador web.
+    \item Aplicación móvil.
+    \item No accedo.
+\end{itemize}
+
+Nos aporta información con respecto al formato que usan los usuarios para acceder al sistema. Sirve para saber sobre qué dispositivos y plataformas enfocar el desarrollo del sistema. 
 
 \subsubsection*{Aspectos cualitativos}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_aspects.png}
-    \caption{Aspectos cualitativos}
-    \label{fig:img_forms_aspects}
-\end{figure}
+\textbf{Usabilidad}
+\emph{Define del 1 al 10 lo cómodo que es utilizar la aplicación y navegar por ella.}
+Pregunta con escala de Likert (1-10) que va de \emph{Pésima} a \emph{Excelente}.
 
-Esta sección nos permite saber la opinión de los usuarios sobre los diferentes aspectos estéticos y funcionales como pueden ser la usabilidad o el manejo.
+\textbf{Accesibilidad}
+\emph{Define del 1 al 10 cuan fácil ha sido aprender a usarla.}
+
+Pregunta con escala de Likert (1-10) que va de \emph{He aprendido rápido} a \emph{Todavía me cuesta saber cómo funciona}.
+
+\textbf{Manejo}
+\emph{Define del 1 al 5 cómo de rápido accedes al contenido/información que deseas ver.}
+
+Pregunta con escala de Likert (1-5) que va de \emph{Necesito menos de 3 clics} a \emph{Me lío y tardo mucho}.
+
+\textbf{Diseño}
+\emph{¿Te gusta el diseño de la aplicación?}
+
+Pregunta con escala de Likert (1-5) que va de \emph{No es agradable de ver} a \emph{Tiene un diseño atractivo}.
+
+Estas cuatro preguntas aportan información en cuanto a la opinión que tiene los usuarios respecto a distintos aspectos funcionales de la aplicación.
 
 \subsubsection*{Nota final y necesidad de un nuevo sistema}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_final_grade_new_app.png}
-    \caption{Nota final y necesidad de un nuevo sistema}
-    \label{fig:img_forms_final_grade_new_app}
-\end{figure}
+\textbf{Nota final}
+\emph{¿Cómo puntuarías a nivel general la aplicación?}
+
+Pregunta con escala de Likert (1-10) que va de \emph{No me gusta mucho} a \emph{No cambiaría nada}.
+
+Tal y como indica la pregunta, muestra de forma directa la opinión que tienen los usuarios a nivel general.
+
+\textbf{¿Te gustaría una nueva aplicación que incluya nuevas y mejores funcionalidades?}
+
+Pregunta de elección única cuyas opciones son:
+
+\begin{itemize}
+    \item Sí.
+    \item No.
+\end{itemize}
 
 Esta sección permite saber la opinión general de los usuarios de la aplicación y si realmente necesitan un nuevo sistema que sustituya al actual.
 
 \subsubsection*{Aspectos específicos}
-Por otra parte, cada formulario contiene una pequeña sección de cuestiones concretas relacionadas con el rol al cual se enfoca el formulario, además de un listado de funciones deseables.
 
-El formulario de jugadores muestra funcionalidades enfocadas en aumentar la interacción del usuario con la aplicación.
+Cada formulario contiene una pequeña sección de cuestiones concretas relacionadas con el rol al cual se enfoca el formulario. Hay distintas preguntas según el rol.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_player_new_functionalities.png}
-    \caption{Nuevas funcionalidades (Jugador)}
-    \label{fig:img_forms_player_new_functionalities}
-\end{figure}
+\textbf{Gestión equipos (Capitán)}
+\emph{¿Cómo puntuarías la gestión de tu equipo a través de la aplicación?}
 
-El formulario de capitanes se centra en el manejo de la aplicación a nivel de capitán: gestión de su propio equipo y sus miembros, contacto con otros capitanes para el acuerdo de las fechas de los partidos
+Pregunta con escala de Likert (1-5) que va de \emph{No la uso para nada} a \emph{Excelente}.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_captain_aspects.png}
-    \caption{Aspectos específicos (Capitán)}
-    \label{fig:img_forms_captain_aspects}
-\end{figure}
+Esta pregunta nos da información sobre el uso que hacen los capitanes de la aplicación.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_captain_new_functionalities.png}
-    \caption{Nuevas funcionalidades (Capitán)}
-    \label{fig:img_forms_captain_new_functionalities}
-\end{figure}
+\textbf{¿Cómo puntuarías la gestión de los partidos a través de la aplicación? (Árbitro)}
+Pregunta con escala de Likert (1-5) que va de \emph{Pésima} a \emph{Excelente}.
 
-El formulario de árbitros se centra en el uso del sistema a nivel de árbitro: arbitraje de partidos, sanciones a los jugadores durante un partido, registro de los resultados y firma de actas.
+Esta pregunta nos aporta información respecto a la facilidad que tienen los árbitros para arbitrar los partidos mediante la aplicación.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_referee_aspects.png}
-    \caption{Aspectos específicos (Árbitro)}
-    \label{fig:img_forms_referee_aspects}
-\end{figure}
+\textbf{¿Usas algún dispositivo para rellenar el acta de los partidos? (Árbitro)}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_referee_new_functionalities.png}
-    \caption{Nuevas funcionalidades (Árbitro)}
-    \label{fig:img_forms_referee_new_functionalities}
-\end{figure}
+Pregunta de elección única cuyas opciones son:
 
-Y el formulario de administradores se centra en el uso del sistema a nivel de administrador: gestión de la información de equipos, jugadores, partidos, árbitros, incidencias y sanciones, todo ello disponible dentro de la propia aplicación.
+\begin{itemize}
+    \item Tablet
+    \item Móvil
+    \item Solo uso acta en papel.
+\end{itemize}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_admin_aspects.png}
-    \caption{Aspectos específicos (Administrador)}
-    \label{fig:img_forms_admin_aspects}
-\end{figure}
+Con esta pregunta podemos saber si los árbitros utilizan algún dispositivo para rellenar el acta de los partidos o simplemente la rellenan a papel. Así podemos ver si es necesario incluir funcionalidades para la generación de actas digitales o incluso adaptar el diseño de la interfaz para otros tipos de dispositivos.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_admin_new_functionalities.png}
-    \caption{Nuevas funcionalidades (Administrador)}
-    \label{fig:img_forms_admin_new_functionalities}
-\end{figure}
+\textbf{¿Cómo puntuarías la administración de la liga a través de la aplicación? (Administrador)}
+
+Pregunta con escala de Likert (1-5) que va de \emph{Pésima} a \emph{Excelente}.
+
+Esta pregunta nos aporta información respecto a la facilidad que tiene los administradores para gestionar la liga a través de la aplicación.
+
+\textbf{¿Qué aspectos te gustaría que hubiera?}
+Preguntas de elección múltiple cuyas opciones son:
+
+Para jugadores:
+\begin{itemize}
+    \item Aplicación móvil.
+    \item Página web.
+    \item Gestión del equipo en la propia aplicación.
+    \item Solicitud para unirse a equipos dentro de una liga.
+    \item Ninguna de las anteriores.
+\end{itemize}
+
+Para capitanes:
+\begin{itemize}
+    \item Aplicación móvil.
+    \item Página web.
+    \item Gestión del equipo en la propia aplicación.
+    \item Enviar solicitud para crear un equipo dentro de una liga.
+    \item Enviar solicitud a jugadores  para que se unan a mi equipo.
+    \item Acuerdo de fecha del partido mediante propuestas.
+    \item Crear incidencias: comportamiento árbitros, no imparcialidad, errores en el resultado, etc.
+    \item Ninguna de las anteriores.
+\end{itemize}
+
+Para árbitros:
+\begin{itemize}
+    \item Aplicación móvil.
+    \item Página web.
+    \item Crear incidencias: comportamiento de los jugadores de un equipo o del equipo en general.
+    \item Registrar todos los datos del partido: puntos, sets, cambios, tarjetas, incidencias, etc. a través de la aplicación.
+    \item Generación de acta electrónica al acabar un partido.
+    \item Registrar mi disponibilidad para arbitrar.
+    \item Enviar solicitud para arbitrar un partido.
+    \item Rechazar el arbitraje concedido de un partido.
+    \item Guardar mi firma para poder firmar los partidos de una manera más fácil y rápida.
+    \item Ninguna de las anteriores.
+\end{itemize}
+
+Para administradores
+\begin{itemize}
+    \item Aplicación móvil.
+    \item Página web.
+    \item Creación de ligas personalizadas: separación por distintas fases. Por ejemplo: liga 1, liga 2 (oro y plata), final four.
+    \item Crear ligas a partir de formatos preestablecidos: Formato \ac{RFEVB}, Formato \ac{FIVB}, etc.
+    \item Personalización completa sobre las ligas: número de sets por partido, puntos por set, tiempos muertos.
+    \item Resolución de incidencias creadas sobre jugadores o equipos con su correspondiente penalización.
+    \item Asignar un árbitro a un partido de forma directa.
+    \item Asignaciones automáticas de árbitros a partidos.
+    \item Aceptar solicitudes de creación de equipos por parte de los jugadores.
+    \item Ninguna de las anteriores.
+\end{itemize}
+
+Estas preguntas nos permiten saber qué funcionalidades les gustaría que hubiera a los usuarios según su rol. De esta forma es posible enfocar el diseño del sistema para cumplir con dicha separación de roles.
 
 \subsubsection*{Preguntas abiertas}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{img/img_forms_open_questions.png}
-    \caption{Preguntas abiertas}
-    \label{fig:img_forms_open_questions}
-\end{figure}
 
-Con esta sección se puede acabar de aclarar problemas específicos dentro de la aplicación además de especificar otras funcionalidades deseadas que no se contemplan en otras preguntas.
+\textbf{Otros aspectos}
+\emph{Pon cada funcionalidad que te gustaría que hubiera y que no haya aparecido en la lista anterior separada por comas. Ej.: Quiero [insertar funcionalidad] para poder/porque [insertar razón/justificación]}
+
+\textbf{Problemas encontrados}
+\emph{¿Qué aspectos has encontrado engorrosos o que no te parezcan bien? Por ejemplo: "Me cuesta llegar a la sección de clasificación de los equipos", etc.}
+
+Preguntas de respuesta abierta que permiten a los encuestados detallar problemas específicos dentro de la aplicación además de especificar otras funcionalidades deseadas que no se contemplan en otras preguntas
+
+En la siguiente tabla se muestra un resumen con las preguntas formuladas en los formularios:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{| l | c | c |}
+        \hline
+        \textbf{Pregunta} & \textbf{Tipo} & \textbf{Rol} \\ \hline
+        ¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella? & Elección única & Todos \\ \hline
+        ¿A través de qué medio accedes principalmente a la aplicación? & Elección única & Todos \\ \hline
+        Usabilidad & Escala de Likert (1-10) & Todos \\ \hline
+        Accesibilidad & Escala de Likert (1-10) & Todos \\ \hline
+        Manejo & Escala de Likert (1-5) & Todos \\ \hline
+        Diseño & Escala de Likert (1-5) & Todos \\ \hline
+        Nota final & Escala de Likert (1-10) & Todos \\ \hline
+        ¿Te gustaría una nueva aplicación que incluya nuevas y mejores funcionalidades? & Elección única & Todos \\ \hline
+        Gestión equipos & Escala de Likert (1-5) & Capitán \\ \hline
+        ¿Cómo puntuarías la gestión de los partidos a través de la aplicación? & Escala de Likert (1-5) & Árbitro \\ \hline
+        ¿Usas algún dispositivo para rellenar el acta de los partidos? & Elección única & Árbitro \\ \hline
+        ¿Cómo puntuarías la administración de la liga a través de la aplicación? & Escala de Likert (1-5) & Administrador \\ \hline
+        ¿Qué aspectos te gustaría que hubiera? & Elección múltiple & Todos \\ \hline
+        Otros aspectos & Respuesta abierta & Todos \\ \hline
+        Problemas encontrados & Respuesta abierta & Todos \\ \hline
+    \end{tabular}
+\end{table}
 
 Los formularios fueron distribuidos a través de WhatsApp a los distintos grupos objetivos y se esperó a que hubiera una cantidad significativa de respuestas.
 
