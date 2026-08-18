@@ -3,14 +3,32 @@
 \chapter{Conclusiones}
 
 \section{Aprendizaje}
-
 % TODO: write about learned from React Native, Kotlin, Postgre and MinIO
+Gracias a haber desarrollado este \ac{TFG} se han aprendido y usado tecnologías que, aunque no se enseñe en el \ac{GEIN}, aportan conocimientos importantes sobre qué se utiliza hoy en día para crear aplicaciones mundialmente conocidas como lo es Instagram con React Native o Netflix con Spring Boot.
 
-\section{Aporte}
+Principalmente, se ha aprendido a desarrollar un sistema cliente-servidor multiplataforma aplicando los conocimientos adquiridos en el grado. Se ha aprendido una derivación de React (framework utilizado comúnmente para desarrollo web), para poder crear una interfaz capaz de utilizarse en cualquier dispositivo móvil y sus sistemas operativos correspondientes. Se ha aprendido un lenguaje de la misma familia de Java para poder evitar problemas sobre referencias nulas. Se ha utilizado un motor de base de datos ampliamente utilizado para poder adecuarse a las necesidades del mercado. Se ha aprendido a integrar un sistema de almacenamiento de objetos compatible con AWS para poder manejar tipos de datos no relacionales. Y, por último, se ha aprendido a crear un entorno de desarrollo mediante Docker para tener un sistema consistente y fácilmente reproducible.
 
+\section{Mejoras aportadas con respecto a las alternativas}
 % TODO: what I have improved with respect former solutions
+La principal mejora aportada es la implementación por defecto de las funcionalidades que las alternativas ofrecen después de hacer una inversión monetaria: imágenes de equipos y jugadores personalizadas, inclusión de roles árbitros y administradores \dots 
+
+Otra aportación presente es la no necesidad de utilizar varias aplicaciones según el rol tal y como lo hace Clupik. Todo lo necesario para gestionar las ligas se puede hacer desde una misma aplicación. Incluso los capitanes no necesitan una aplicación extra para acordar los partidos, ya que lo pueden hacer a través de la funcionalidad correspondiente que el propio sistema ofrece.
+
+Otra mejora es la posibilidad de autoalojar el sistema en un servidor propio, tan solo es necesaria la imagen de Docker que prepare el entorno de producción de forma correcta. Esto aporta privacidad y fiabilidad al no tener que depender de tecnologías o infraestructuras externas. Sin embargo, siempre es posible migrar el sistema para alojarlo en la nube y poder delegar y automatizar tareas repetitivas como podría ser el tema de las copias de seguridad.
 
 \section{Trabajo futuro}
+
+Si se quisiera continuar con el desarrollo de Sports League existen una gran cantidad de cosas que se podrían aplicar para mejorar la mantenibilidad y escalabilidad del sistema. En cualquier caso, nos centraremos en los aspectos críticos para conseguir un sistema que sea apto para ponerlo en producción dentro del ámbito de la \ac{UIB}.
+
+Lo primero de todo y más importante sería adquirir un certificado del \ac{ENS}: necesario para software enfocado a entidades públicas. Este tipo de certificación asegura que el sistema es confidencial, íntegro y disponible respecto a los datos, es seguro frente a amenazas y ciberataques y crea una confianza digital en el uso de medios públicos.
+
+Para poder conseguir dicho certificado se deberían implementar tecnologías de trazabilidad y auditoría para poder tener un registro claro de todo lo que pasa dentro del sistema. Se integrarían tecnologías como SLF4J y Graphana para facilitar este tipo de tareas.
+
+Otro punto importante sería aplicar la funcionalidad que no se ha podido aplicar por temas de seguridad: la verificación de credenciales de la \ac{UIB}. Una vez que el sistema esté en pleno funcionamiento será posible integrar la API necesaria para dicha verificación mediante \ac{OAuth}. La parte positiva es que si esta funcionalidad opera correctamente sería posible implementar un sistema de registro e inicio de sesión directamente con las credenciales de la \ac{UIB}.
+
+Por otra parte, dado que el sistema no es de uso único para la UIB, la necesidad de credenciales de la \ac{UIB} para participar en una liga sigue siendo una opción que se puede activar o desactivar según necesite el creador de la liga.
+
+
 
 % TODO: what will I do with OUSIS and what the system will have:
 %       - add access criteria to join a league.
@@ -18,4 +36,3 @@
 %       - add system telemetry with SLF4J
 %       - add log analysis with tools like Graphana
 
-%
