@@ -6,9 +6,15 @@
 
 % TODO: talk about what changed respect to initial requirements
 
+No se ha podido implementar la verificación de los 
+
 \section{Desviaciones respecto a la planificación inicial}
 
 % TODO: talk about what changed respect to initial planification
+
+Durante el desarrollo del sistema salieron a la luz diversos casos sobre ataques de cadena de suministro contra el gestor de paquetes de JavaScript \emph{npm}. Estos tipos de ciberataques funcionan de forma que, una vez que el atacante consigue las credenciales del principal gestor de una dependencia dentro del entorno de \emph{npm}, procede a subir una nueva versión de esta al gestor. Esta nueva versión incluye código malicioso en ciertas partes de la dependencia o paquete afectado. La finalidad es infectar repositorios de código y dependencias de JavaScript mundialmente conocidas y usadas como Axios o TanStack Query con malware que se autorreplica e infecta todos los proyectos que utilizan dichas dependencias.
+
+Debido a esta situación se decidió cambiar de gestor de paquetes, se dejó de usar \emph{npm} y se optó por \emph{pnpm}. Este cambio es crucial, ya que el nuevo gestor incluye configuraciones que permiten bloquear las partes del código infectadas por el malware, aunque se tenga la versión infectada. La principal razón del cambio es la naturaleza del proyecto. No se debe permitir que en un software producto del desarrollo de un \ac{TFG} quepa la posibilidad de encontrar alguna traza de malware autoreplicable.
 
 \section{Añadidos}
 
