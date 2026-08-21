@@ -3,10 +3,10 @@
 \chapter{Conclusiones}
 
 \section{Aprendizaje}
-% TODO: write about learned from React Native, Kotlin, Postgre and MinIO
+
 Gracias a haber desarrollado este \ac{TFG} se han aprendido y usado tecnologías que, aunque no se enseñe en el \ac{GEIN}, aportan conocimientos importantes sobre qué se utiliza hoy en día para crear aplicaciones mundialmente conocidas como lo es Instagram con React Native o Netflix con Spring Boot.
 
-Principalmente, se ha aprendido a desarrollar un sistema cliente-servidor multiplataforma aplicando los conocimientos adquiridos en el grado. Se ha aprendido una derivación de React (framework utilizado comúnmente para desarrollo web), para poder crear una interfaz capaz de utilizarse en cualquier dispositivo móvil y sus sistemas operativos correspondientes. Se ha aprendido un lenguaje de la misma familia de Java para poder evitar problemas sobre referencias nulas. Se ha utilizado un motor de base de datos ampliamente utilizado para poder adecuarse a las necesidades del mercado. Se ha aprendido a integrar un sistema de almacenamiento de objetos compatible con AWS para poder manejar tipos de datos no relacionales. Y, por último, se ha aprendido a crear un entorno de desarrollo mediante Docker para tener un sistema consistente y fácilmente reproducible.
+Principalmente, se ha aprendido a desarrollar un sistema cliente-servidor multiplataforma aplicando los conocimientos adquiridos en el grado. Se ha aprendido una derivación de React (framework utilizado comúnmente para desarrollo web), para poder crear una interfaz capaz de utilizarse en cualquier dispositivo móvil y sus sistemas operativos correspondientes. Se ha aprendido un lenguaje de la misma familia de Java para poder evitar problemas sobre referencias nulas. Se ha utilizado un motor de base de datos ampliamente utilizado para poder adecuarse a las necesidades del mercado. Se ha aprendido a integrar un sistema de almacenamiento de objetos compatible con AWS, de manera local, para poder manejar tipos de datos no relacionales y mantenerlos con un alto nivel de privacidad. Y, por último, se ha aprendido a crear un entorno de desarrollo mediante Docker para tener un sistema consistente y fácilmente reproducible.
 
 \section{Mejoras aportadas con respecto a las alternativas}
 % TODO: what I have improved with respect former solutions
@@ -14,7 +14,7 @@ La principal mejora aportada es la implementación por defecto de las funcionali
 
 Otra aportación presente es la no necesidad de utilizar varias aplicaciones según el rol tal y como lo hace Clupik. Todo lo necesario para gestionar las ligas se puede hacer desde una misma aplicación. Incluso los capitanes no necesitan una aplicación extra para acordar los partidos, ya que lo pueden hacer a través de la funcionalidad correspondiente que el propio sistema ofrece.
 
-Otra mejora es la posibilidad de autoalojar el sistema en un servidor propio, tan solo es necesaria la imagen de Docker que prepare el entorno de producción de forma correcta. Esto aporta privacidad y fiabilidad al no tener que depender de tecnologías o infraestructuras externas. Sin embargo, siempre es posible migrar el sistema para alojarlo en la nube y poder delegar y automatizar tareas repetitivas como podría ser el tema de las copias de seguridad.
+Una mejora es la posibilidad de autoalojar el sistema en un servidor propio, tan solo es necesaria la imagen de Docker que prepare el entorno de producción. Esto aporta privacidad y fiabilidad al no tener que depender de tecnologías o infraestructuras externas que pudieran fallar o cambiar sus condiciones de uso en cualquier momento. Sin embargo, siempre es posible migrar el sistema para alojarlo en la nube y poder delegar, automatizar y escalar tareas repetitivas como podrían ser el mantenimiento del sistema, la integridad de los datos a través de copias de seguridad o la autenticación mediante servicios externos.
 
 \section{Trabajo futuro}
 
