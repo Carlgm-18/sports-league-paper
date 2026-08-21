@@ -1,84 +1,173 @@
 \chapter{Estado del arte en el ámbito tecnológico}
 
-Para implementar este tipo de sistemas requerimos de tecnologías que nos permitan cumplir con todos los requisitos especificados y el diseño mostrado.
+Para implementar este tipo de sistemas requerimos de tecnologías que nos permitan cumplir con todos los requisitos especificados y el diseño mostrado en el capítulo anterior. Para cada componente veremos: una breve explicación de la necesidad de dicho componente, listado de las distintas alternativas ideales que existen para dicho componente, una tabla comparativa para distintos aspectos técnicos y la tecnología seleccionada con su correspondiente justificación. 
 
 \section{Servidor back-end}
 
-Para el servidor central que gestiona todo el sistema necesitamos un sistema mantenible, escalable y que permita una carga leve de usuarios concurrentes. También debe poder implementar el contrato API definido en el capítulo anterior. Ante estas necesidades hemos optado por Kotlin con Spring Boot frente a alternativas como: Node.js (Express/NestJS) y Ktor (Kotlin)
+Para el servidor central que gestiona la lógica de negocio y expone la API REST, se requiere un sistema fuertemente tipado, escalable y con un ecosistema maduro de dependencias.
 
-\subsection*{Pro}
+\subsection*{Evaluación de alternativas}
 
-Spring Boot ofrece un ecosistema empresarial extremadamente maduro, con soluciones robustas para seguridad (Spring Security) e inyección de dependencias. El uso de Kotlin aporta un tipado estático moderno, reduce el código repetitivo (boilerplate) y elimina de forma nativa las excepciones de referencias nulas (NullPointerExceptions).
+\subsubsection*{Spring Boot (Kotlin)}
+Framework empresarial maduro que destaca por su robusto sistema de inyección de dependencias y módulos integrados (Spring Security, Data JPA). El uso del lenguaje Kotlin aporta un tipado estático moderno, inmutabilidad y seguridad contra referencias nulas (\emph{Null-safety}) de forma nativa.
 
-\subsection*{Contra}
+\subsubsection*{Node.js (NestJS)}
+Entorno de ejecución asíncrono basado en TypeScript. Ofrece tiempos de arranque muy rápidos y un ecosistema masivo de paquetes. Su arquitectura basada en eventos es ideal para alta concurrencia de entrada/salida, aunque delega gran parte de la estructura empresarial a librerías de terceros.
 
-Mayor consumo de memoria y tiempos de arranque más lentos en comparación con frameworks ligeros de Node.js o Go.
+\subsubsection*{Ktor}
+Framework asíncrono ligero creado por JetBrains para Kotlin. Ofrece un alto rendimiento mediante el uso de corrutinas y un diseño altamente modular, pero carece de las soluciones empresariales completas que proporciona el ecosistema Spring.
 
-\subsection*{Justificación}
+\subsection*{Comparativa técnica}
 
-Contar con experiencia previa trabajando en Spring Boot reduce drásticamente los riesgos del proyecto, garantizando una implementación estable y segura. La adopción de Kotlin moderniza la pila tecnológica, ofreciendo un código más limpio y conciso, ideal para implementar una arquitectura hexagonal con interfaces claras.
+En la Tabla \ref{tab:comparativa-backend} se resumen las características fundamentales de cada entorno.
+
+\begin{table}[H]
+    \hspace*{-0.25cm}
+    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
+        \hline
+        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{Spring Boot (Kotlin)} & \textbf{NestJS (TypeScript)} & \textbf{Ktor (Kotlin)} \\ \hline
+        \textbf{Paradigma} & Multihilo / Síncrono & Basado en eventos & Asíncrono (Corrutinas) \\ \hline
+        \textbf{Seguridad de tipos} & Estricta (Nativa) & Alta (Transpilado) & Estricta (Nativa) \\ \hline
+        \textbf{Ecosistema} & Muy maduro & Masivo (NPM) & En crecimiento \\ \hline
+        \textbf{Arquitectura} & Altamente estructurada & Modular & Minimalista \\ \hline
+    \end{tabular}
+    \caption{Comparativa de frameworks para el desarrollo del back-end.}
+    \label{tab:comparativa-backend}
+\end{table}
+
+\subsection*{Justificación de la elección}
+
+Se ha seleccionado \textbf{Spring Boot con Kotlin} por los siguientes motivos técnicos:
+\begin{itemize}
+    \item \textbf{Diseño arquitectónico:} Su robusta inyección de dependencias facilita la implementación estricta de la Arquitectura Hexagonal, permitiendo un desacoplamiento real entre los puertos y sus adaptadores.
+    \item \textbf{Mitigación de riesgos:} Contar con experiencia previa en el ecosistema Spring reduce los tiempos de configuración y asegura una implementación estable del sistema de seguridad e interacciones con la base de datos.
+    \item \textbf{Modernización técnica:} La adopción de Kotlin representa un reto académico de alto valor, permitiendo escribir un código de dominio más conciso y expresivo frente a lenguajes tradicionales como Java.
+\end{itemize}
 
 \section{Base de datos}
 
-Necesitamos una \ac{BD} relacional para respetar la relación e integridad de datos necesaria para implementar el modelo de datos. Se ha elegido PostgreSQL frente a alternativas vistas en el \ac{GEIN} como son: MySQL y MariaDB.
+Para dar soporte a la persistencia del sistema se requiere un Sistema de Gestión de Bases de Datos Relacionales (SGBDR) que garantice el cumplimiento de las propiedades \ac{ACID}.
 
-\subsection*{Pros}
+\subsection*{Evaluación de alternativas}
 
-Es el motor relacional de código abierto más avanzado y un estándar en la industria. Cumple estrictamente con los principios ACID. Destaca por su enorme extensibilidad y su capacidad para manejar consultas complejas y grandes volúmenes de datos.
+\subsubsection*{PostgreSQL}
+Sistema objeto-relacional de código abierto con adherencia estricta a los estándares SQL. Destaca por su alta extensibilidad, soportando tipos de datos avanzados y manipulación nativa de estructuras semiestructuradas mediante \texttt{JSONB}. Su modelo de control de concurrencia multiversión (MVCC) optimiza el rendimiento en entornos de alta carga transaccional.
 
-\subsection*{Contras}
+\subsubsection*{MySQL}
+Uno de los motores relacionales más extendidos, basado en el motor de almacenamiento \emph{InnoDB} para garantizar soporte ACID. Sobresale por su facilidad de despliegue, curva de aprendizaje inicial baja y alto rendimiento en operaciones de lectura simples.
 
-Su configuración inicial y consumo de recursos pueden ser ligeramente superiores a los de MySQL o MariaDB para proyectos extremadamente pequeños.
+\subsubsection*{MariaDB}
+Bifurcación comunitaria de MySQL, compatible a nivel de binarios, pero con optimizadores de consultas más avanzados y un pool de hilos nativo para mejorar el manejo de la concurrencia.
 
-\subsection*{Justificación}
+\subsection*{Comparativa técnica}
 
-Las entidades de una liga deportiva (usuarios, equipos, ligas, partidos, resultados) tienen un modelo de datos altamente estructurado y con relaciones muy fuertes, lo que descarta opciones \emph{No SQL} como \emph{MongoDB}. PostgreSQL garantiza la integridad referencial de estos datos críticos y ofrece la escalabilidad necesaria por si el proyecto requiere almacenar estructuras más complejas en el futuro.
+En la Tabla \ref{tab:comparativa-bd} se resumen las principales características técnicas evaluadas.
 
-Además, para mantener la estabilidad a largo plazo de la \ac{BD} y gestionar las migraciones a futuro, en caso de ser necesarias, se ha utilizado Flyway: un software dedicado a la migración de bases de datos a partir de archivos \emph{.sql}
+\begin{table}[H]
+    \hspace*{-0.25cm}
+    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
+        \hline
+        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{PostgreSQL} & \textbf{MySQL (InnoDB)} & \textbf{MariaDB} \\ \hline
+        \textbf{Modelo} & Objeto-relacional & Relacional & Relacional \\ \hline
+        \textbf{Cumplimiento SQL} & Estricto & Medio-alto & Medio-alto \\ \hline
+        \textbf{Consultas complejas} & Excelente (CTE, sub consultas) & Adecuado & Bueno \\ \hline
+        \textbf{Tipos avanzados} & Arrays, \texttt{JSONB} indexable, UUID & JSON básico & JSON básico \\ \hline
+    \end{tabular}
+    \caption{Comparativa de motores de bases de datos relacionales.}
+    \label{tab:comparativa-bd}
+\end{table}
 
-\section{Almacenamiento de objetos}
+\subsection*{Justificación de la elección}
 
-Para el \ac{OS} se ha optado por una tecnología de despliegue local como lo es MinIO frente a alternativas con alojamiento en la nube: Cloudflare R2, Amazon S3, Google Cloud Storage o Firebase Storage.
+El modelo de datos del dominio deportivo presenta una fuerte necesidad de integridad referencial, lo que descarta arquitecturas no relacionales. Se ha seleccionado \textbf{PostgreSQL} por los siguientes motivos:
+\begin{itemize}
+    \item \textbf{Integridad de datos:} Permite aplicar restricciones complejas directamente en la base de datos, asegurando la consistencia del dominio.
+    \item \textbf{Flexibilidad estructural:} El uso de \texttt{JSONB} permite almacenar metadatos variables sin perder la rigidez relacional del resto del esquema.
+    \item \textbf{Robustez a largo plazo:} Garantiza un rendimiento superior en consultas analíticas complejas (como la generación de clasificaciones o estadísticas).
+\end{itemize}
 
-\subsection*{Pro}
+Para gestionar la evolución del esquema y asegurar la reproducibilidad del entorno, se ha integrado \textbf{Flyway}, herramienta que permite aplicar un control de versiones estricto sobre las migraciones \emph{.sql}.
 
-Despliegue 100\% local o autoalojado mediante contenedores Docker. Es totalmente compatible con la API de Amazon S3. Alta velocidad de lectura/escritura y diseño minimalista.
+\section{Almacenamiento de objetos (Object Storage)}
 
-\subsection*{Contra}
+Para la gestión de archivos no estructurados generados por el sistema, como imágenes de perfil o documentos PDF (actas deportivas), se requiere un servicio de almacenamiento de objetos independiente de la base de datos para no degradar el rendimiento transaccional.
 
-Delega la responsabilidad de mantener la infraestructura física, la disponibilidad y las copias de seguridad (backups) en el propio desarrollador, a diferencia de los servicios gestionados en la nube.
+\subsection*{Evaluación de alternativas}
 
-\subsection*{Justificación}
+\subsubsection*{MinIO}
+Servidor de almacenamiento de objetos de alto rendimiento, 100\% de código abierto, diseñado para infraestructuras locales o privadas. Es totalmente compatible con la API de Amazon S3, permitiendo una integración estandarizada.
 
-El uso de MinIO garantiza la soberanía total sobre la información almacenada (imágenes, firmas de actas). Evita ceder los datos del sistema a empresas de terceros cuyos términos y condiciones de servicio o políticas de precios puedan cambiar de forma unilateral. Además, al ser compatible con la API de S3, permite que, si el sistema escala y se decide migrar a la nube en el futuro, no sea necesario reescribir ni una sola línea del código del back-end.
+\subsubsection*{Amazon S3}
+El estándar de facto en la industria para el almacenamiento de objetos en la nube pública. Ofrece una disponibilidad hasta del 99.999999999\% y escalabilidad ilimitada, delegando la gestión de la infraestructura al proveedor.
+
+\subsubsection*{Firebase Storage}
+Servicio gestionado de Google orientado a integraciones rápidas en aplicaciones móviles y web, fuertemente acoplado al ecosistema de Firebase y a sus reglas de seguridad.
+
+\subsection*{Comparativa técnica}
+
+En la Tabla \ref{tab:comparativa-os} se analizan las soluciones basándonos en las necesidades del entorno de desarrollo y producción del proyecto.
+
+\begin{table}[H]
+    \hspace*{-0.25cm}
+    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
+        \hline
+        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{MinIO} & \textbf{Amazon S3} & \textbf{Firebase Storage} \\ \hline
+        \textbf{Despliegue} & Local / Autoalojado (Docker) & Nube gestionada (AWS) & Nube gestionada (GCP) \\ \hline
+        \textbf{Compatibilidad API} & Estándar S3 & Estándar S3 & Propietaria \\ \hline
+        \textbf{Soberanía de datos} & Total (Bajo control propio) & Cedida al proveedor & Cedida al proveedor \\ \hline
+        \textbf{Gestión de Infraestructura} & Responsabilidad del desarrollador & Automática & Automática \\ \hline
+    \end{tabular}
+    \caption{Comparativa de soluciones de almacenamiento de objetos.}
+    \label{tab:comparativa-os}
+\end{table}
+
+\subsection*{Justificación de la elección}
+
+Se ha seleccionado \textbf{MinIO} como motor de almacenamiento de objetos por las siguientes razones estratégicas:
+\begin{itemize}
+    \item \textbf{Soberanía y control:} Al desplegarse mediante contenedores de forma local, garantiza la privacidad total de los documentos y evita la dependencia (vendor lock-in) frente a los cambios de políticas de precios de terceros.
+    \item \textbf{Entorno de desarrollo aislado:} Permite a cualquier desarrollador levantar el ecosistema completo sin necesidad de configurar credenciales en la nube ni incurrir en costes operativos durante la fase de creación.
+    \item \textbf{Compatibilidad futura:} Al implementar exactamente la misma API que Amazon S3, el código desarrollado en el back-end es completamente agnóstico. Si en el futuro el proyecto requiere escalar a la nube pública, la migración a AWS S3 se podría realizar modificando únicamente variables de entorno, sin reescribir la lógica de la aplicación.
+\end{itemize}
 
 \section{Aplicación front-end}
 
-Para la aplicación que hace el papel de interfaz visual necesitamos una tecnología que nos permita generar entornos multiplataforma de forma sencilla. Esto se debe a que si se opta por separar en página web y aplicación móvil, estaríamos multiplicando la carga de trabajo y la mantenibilidad para las distintas plataformas y dispositivos. Por esta razón se ha elegido React Native como framework de Java Script frente a distintas alternativas como son: Flutter (Dart), Ionic / Capacitor (Web-based), Kotlin Multiplatform / Compose Multiplatform (KMP).
+Para la interfaz de usuario, se requiere una solución multiplataforma que evite la duplicidad de bases de código para web, iOS y Android, garantizando un rendimiento fluido y un acceso estandarizado a las funcionalidades nativas del dispositivo.
 
-\subsection*{Pros}
+\subsection*{Evaluación de alternativas}
 
+\subsubsection*{React Native con Expo}
+Framework que renderiza componentes nativos reales comunicándose a través de un puente con el hilo de JavaScript/TypeScript. Expo abstrae la configuración de los entornos nativos, ofreciendo empaquetado rápido, recarga en caliente y gestión simplificada de despliegues.
+
+\subsubsection*{Flutter}
+Framework de Google basado en el lenguaje Dart que dibuja su propia interfaz mediante el motor gráfico Skia/Impeller. Ofrece un rendimiento visual sobresaliente en animaciones complejas, pero requiere adoptar un ecosistema completamente distinto.
+
+\subsubsection*{Ionic / Capacitor}
+Solución híbrida que ejecuta una aplicación web estándar (HTML/CSS/JS) dentro de un navegador interno (\emph{WebView}) embebido en la aplicación nativa. Destaca por su facilidad de desarrollo web, pero sufre limitaciones de rendimiento en interfaces pesadas.
+
+\subsection*{Comparativa técnica}
+
+En la Tabla \ref{tab:comparativa-frontend} se detalla la comparativa técnica de las tecnologías evaluadas.
+
+\begin{table}[H]
+    \hspace*{-0.25cm}
+    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
+        \hline
+        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{React Native + Expo} & \textbf{Flutter} & \textbf{Ionic} \\ \hline
+        \textbf{Renderizado UI} & Componentes Nativos & Motor gráfico propio & WebView \\ \hline
+        \textbf{Lenguaje} & TypeScript / JavaScript & Dart & TypeScript / Web \\ \hline
+        \textbf{Acceso a Hardware} & Mediante puente (JSI) & Integración compilada & Plug-ins (Capacitor) \\ \hline
+        \textbf{Desarrollo ágil} & Muy alto (Expo) & Alto & Muy alto \\ \hline
+    \end{tabular}
+    \caption{Comparativa de frameworks para el desarrollo cliente.}
+    \label{tab:comparativa-frontend}
+\end{table}
+
+\subsection*{Justificación de la elección}
+
+Se ha seleccionado \textbf{React Native junto con Expo} frente a sus alternativas por las siguientes razones:
 \begin{itemize}
-    \item Rendimiento cercano al nativo mediante la renderización de componentes nativos reales de iOS y Android (a diferencia de las soluciones basadas en WebView).
-    \item Ecosistema masivo apoyado por la comunidad y Meta, con un flujo de desarrollo ágil gracias a Expo (compilación, pruebas inmediatas en dispositivos reales mediante código QR y despliegue rápido).
-    \item Aprovechamiento de la arquitectura basada en componentes y el paradigma declarativo de React.
+    \item \textbf{Experiencia Nativa:} Se descarta Ionic para evitar las limitaciones de rendimiento táctil y visual que imponen los \emph{WebViews}, buscando ofrecer una experiencia de usuario genuinamente nativa.
+    \item \textbf{Reutilización de paradigmas:} Al poseer experiencia previa en React, se elimina la curva de aprendizaje de un nuevo lenguaje como Dart. Esto permite invertir el tiempo del proyecto en resolver la lógica de negocio y optimizar las peticiones a la API.
+    \item \textbf{Aceleración del ciclo de vida:} Las herramientas de empaquetado de Expo facilitan las pruebas continuas en dispositivos físicos mediante códigos QR, sin necesidad de lidiar con las configuraciones locales de Xcode o Android Studio durante el desarrollo.
 \end{itemize}
-
-Además, se ha decidido utilizar el empaquetador de Expo tal y como se recomienda en la documentación de React Native. El uso de este empaquetador facilita enormemente el desarrollo de aplicaciones con este framework ofreciendo funcionalidades para agilizar el proceso tanto de pruebas durante el desarrollo como de despliegue.
-
-\subsection*{Contras}
-
-\begin{itemize}
-    \item Dependencia de un puente (bridge / JSI) para comunicar el hilo de JavaScript con los módulos nativos, lo que puede requerir librerías de terceros para acceder a hardware muy específico.
-    \item Las actualizaciones mayores del entorno (como cambios de versión en React Native o Expo) pueden generar incompatibilidades puntuales entre dependencias.
-\end{itemize}
-
-\subsection*{Justificación}
-
-\textbf{Frente a Flutter:} Aunque Flutter ofrece una excelente velocidad de renderizado al dibujar su propia interfaz mediante Skia/Impeller, requiere aprender el lenguaje Dart y la gestión de estados de su propio ecosistema. Al contar con experiencia previa en React, la adopción de React Native elimina la curva de aprendizaje de un nuevo lenguaje y permite reutilizar los mismos conceptos de hooks, estados y ciclos de vida.
-
-\textbf{Frente a Ionic / Capacitor:} Ionic ejecuta la aplicación dentro de un navegador interno (WebView), lo que compromete la fluidez visual y la respuesta táctil en interfaces complejas. React Native se descartó en favor de Ionic precisamente para evitar esta capa web y ofrecer una experiencia de usuario genuinamente nativa.
-
-\textbf{Frente a Kotlin Multiplatform (KMP):} Aunque KMP permite compartir lógica de negocio escrita en Kotlin, requiere diseñar las interfaces de usuario de forma independiente para cada plataforma (o usar Compose Multiplatform, cuya madurez en iOS es inferior). React Native con Expo permite compartir tanto la lógica de negocio como la propia interfaz de usuario en una única base de código para iOS y Android.
-
-Además, se utilizará el gestor de paquetes \emph{npm} que es el estándar para manejar dependencias dentro de entornos JavaScript como lo es el framework de React Native.
