@@ -240,6 +240,7 @@ Se puede apreciar que, para las preguntas de escala de Likert, la mayoría de la
 
 Los formularios fueron distribuidos a través de WhatsApp a los distintos grupos objetivos y se esperó a que hubiera una cantidad significativa de respuestas.
 
+
 \subsection{Análisis}
 
 Las encuestas fueron respondidas por un total de 26 participantes: 16 jugadores, 2 árbitros, 6 capitanes y 2 administradores. Las respuestas presentadas en los formularios concluyeron en los siguientes resultados:
@@ -402,7 +403,7 @@ El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema.
 
 % TODO: use-cases diagram, user-system diagram
 
-\subsection{Diseño de la BD}
+\subsection{Diseño de la base de datos}
 
 El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el apéndice \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama más detalladamente.
 
@@ -426,11 +427,13 @@ Es necesario pensar en cómo los usuarios pueden interactuar con el sistema para
 
 Para el diseño de la interfaz se ha optado por usar la herramienta de Figma al ser un estándar en el mundo del diseño sin coste. La versión preliminar de la interfaz se puede ver a través del siguiente enlace: \href{https://www.figma.com/design/ouBZiAQI174YMFyy2pn1M5/Sports-League---TFG?node-id=0-1&t=xi7WOzw16Cu7JgR3-1}{Mockup en Figma}
 
+Cabe tener en cuenta que este diseño tan solo muestra la forma en la que los usuarios interactuarán con la interfaz y cómo se les mostrará la información. Todo lo relacionado con el diseño visual, estilos, paletas de colores, logotipos y demás se delegará a un agente de generación de código que será el encargado de estilar la interfaz.
+
 
 \subsection{Diseño del contrato API}
 
-El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end, para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. Para redactar el contrato se ha hecho uso del estándar Open API ampliamente usado en la industria del desarrollo. 
+El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end, para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. Para redactar el contrato se ha hecho uso del estándar Open API ampliamente utilizado en la industria del desarrollo. 
 
-Además, el contrato se ha separado por entidades para poder separar todo y mejorar el entendimiento para los desarrolladores. El versionado del contrato se ha llevado a cabo mediante Git y se ha subido a su propio repositorio. De esta forma, tanto el back-end como el front-end pueden utilizar el repositorio del contrato como un submódulo y operar siempre con la última versión.
+Además, el contrato se ha separado por entidades para poder dividir todo y mejorar el entendimiento para los desarrolladores. El versionado del contrato se ha llevado a cabo mediante Git y se ha subido a su propio repositorio. De esta forma, tanto el back-end como el front-end pueden utilizar el repositorio del contrato como un submódulo y operar siempre con la última versión.
 
 El contenido en detalle del contrato API se puede encontrar en el repositorio correspondiente.
