@@ -434,6 +434,12 @@ Cabe tener en cuenta que este diseño tan solo muestra la forma en la que los us
 
 El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end, para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. Para redactar el contrato se ha hecho uso del estándar Open API ampliamente utilizado en la industria del desarrollo. 
 
-Además, el contrato se ha separado por entidades para poder dividir todo y mejorar el entendimiento para los desarrolladores. El versionado del contrato se ha llevado a cabo mediante Git y se ha subido a su propio repositorio. De esta forma, tanto el back-end como el front-end pueden utilizar el repositorio del contrato como un submódulo y operar siempre con la última versión.
+La definición del contrato se ha hecho de forma que sea una representación casi idéntica del modelo de datos (Ver \ref{sec:bd_design}). Se han separado los esquemas según las clases pero agrupándolas según sus relaciones. Además, se han creado esquemas enumerados para poder definir de forma concreta y consistente algunos atributos de las clases como lo puede ser los estados de una petición, una liga
 
-El contenido en detalle del contrato API se puede encontrar en el repositorio correspondiente.
+El contenido completo del contrato API se puede encontrar en el repositorio correspondiente.
+
+\subsection{Control de versiones}
+
+Para gestionar el control de versiones de los componentes del sistema se ha decidido utilizar Git. Es la herramienta que más se usa dentro de la industria y la más fácil de utilizar para un equipo de desarrollo de una sola persona, como es el caso de este proyecto.
+
+Se han creado tres repositorios, uno para cada componente principal del sistema: back-end, front-end y contrato API. Se ha optado por esta separación, ya que de esta manera separamos el sistema según el ámbito: definición, procesamiento y presentación de los datos. Un aspecto interesante es que el repositorio del contrato API existe como submódulo de los otros dos. Gracias a esto, ambos componentes tienen una vía directa para actualizar el contrato en caso de ser necesario y consultar los cambios que haya efectuado el otro componente. De esta forma, ambos componentes están al día 
