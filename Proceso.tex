@@ -404,22 +404,62 @@ El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema.
 % TODO: use-cases diagram, user-system diagram
 
 \subsection{Diseño de la base de datos}
+\label{sec:bd_design}
 
-El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el apéndice \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama más detalladamente.
+El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el enlace \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama más detalladamente.
 
 En el diagrama se pueden apreciar: las clases definidas con sus atributos correspondientes y las relaciones que relacionan dichas clases. Cabe aclarar que se pueden ver algunos de los nombres de clases repetidos junto a un asterisco `*'. Dicho formato indica que la clase ya ha sido definida y que simplemente se usa como una `referencia'. Se ha decidido aplicar este formato por claridad visual. De esta forma evitamos que las relaciones que conectan dos clases muy separadas no estorben en la lectura del diagrama.
 
-% TODO: Describe classes with a table for each class
+% {\renewcommand{\arraystretch}{1.8}
+% \begin{longtable}{|l|c|p{0.3\textwidth}|p{0.35\textwidth}|}
+% \caption{Stakeholders del sistema}\label{tab:stakeholders}\\
+% \hline
+% \textbf{Stakeholder} & \textbf{Usuario del sistema} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos Principales} \\
+% \hline
+% \endfirsthead
+% \multicolumn{4}{c}
+% {{\bfseries \tablename\ \thetable{} -- continuación de la página anterior}} \\
+% \hline
+% \textbf{Stakeholder} & \textbf{Usuario del sistema} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos Principales} \\
+% \hline
+% \endhead
+% \multicolumn{4}{r}{{Continúa en la página siguiente}} \\ \hline
+% \endfoot
+% \hline
+% \endlastfoot
+% OUSIS & No & Oficina de la UIB beneficiada por el desarrollo del proyecto & Obtener una herramienta de bajo coste y funcional que digitalice la gestión deportiva de la universidad, garantizando la viabilidad técnica y la mejora de los procesos actuales. \\ \hline
+% Tutor académico / Tribunal & No & Oficina de la UIB beneficiada por el desarrollo del proyecto & Garantizar que el proyecto cumple con los requisitos metodológicos, de arquitectura e ingeniería de software exigidos para la obtención del título. \\ \hline
+% Usuario / Espectador & Sí & Usuario común del sistema con o sin cuenta registrada & Consultar y ver los datos públicos de las ligas existentes. \\ \hline
+% Jugador & Sí & Participante inscrito en una o varias ligas. & Consultar las fechas de sus próximos encuentros, revisar la clasificación de su equipo y ver normativas. \\ \hline
+% Capitán & Sí & Representante del equipo, encargado de la gestión interna y la comunicación con otros equipos. & Inscribir a sus jugadores fácilmente y acordar fechas o modificaciones de partidos con otros capitanes de forma eficiente. \\ \hline
+% Árbitro & Sí & Responsable de la validez de los encuentros, la firma de actas y el reporte de resultados. & Disponer de una interfaz rápida para rellenar actas digitales y registrar el resultado de los partidos sin fricción. \\ \hline
+% Administrador & Sí & Gestor principal encargado de crear competiciones, calendarios y mantener el orden. & Automatizar la generación de calendarios, centralizar la resolución de incidencias y reducir el trabajo manual organizativo. \\ \hline
+% \end{longtable}
+% }
 
-% Descripció
-% Aquesta taula representa…
-% Atributs:
-% id        |      Tipus / Obligatori? / Descripció
-% nom       |      ...
+Aparte de la vista general del diagrama resultaría interesante destacar dos zonas en concreto: una por ser la pieza fundamental del sistema y la otra por resultar en un ejemplo de normalización muy claro.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/class_diagram/participant.jpg}
+    \caption{Clase participante}
+    \label{fig:participant_class}
+\end{figure}
 
+En la primera zona (Ver Figura \ref{fig:participant_class}), la pieza central del sistema, se aprecia la clase Participante: una clase asociativa que relaciona de manera única un usuario con una liga. Esta clase existe porque un usuario puede estar inscrito en varias ligas a la vez y una misma liga puede tener diversos usuarios simultáneos. Esta clase también se relaciona con otra clase asociativa que es la que permite establecer el sistema de roles dentro de una liga. Gracias a estas relaciones conseguimos que un mismo usuario tenga distintos roles dependiendo de la liga. Y, este punto, es el que convierte el sistema en uno que necesita manejar la multitenencia. Además, se puede ver la clase \emph{Availability} que es la que permite que los árbitros puedan registrar su disponibilidad para arbitrar y que el sistema asigne los partidos de forma automática.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.22\textwidth]{img/class_diagram/results.jpg}
+    \caption{Resultado y acta}
+    \label{fig:result}
+\end{figure}
 
+La segunda zona destacada (Ver Figura \ref{fig:result}) se relaciona con la parte encargada de gestionar los resultados de los partidos. También, se encarga de la gestión de todos los datos de un partido necesarios para poder generar el acta del partido. Esta zona ha resultado en un buen ejemplo de normalización, ya que, en un principio, se tenía pensado agrupar toda la información del partido en un atributo de la clase Resultado de tipo \texttt{JSONB}.
+
+Se consideró esta primera opción por la naturaleza cambiante y dinámica de la información presente en las actas oficiales de la \ac{FVIB} (Ver ejemplo en el enlace: \href{https://voleibolib.federatio.com/actas/84233/acta_8353.html}{Acta oficial}). El problema de esta opción era que des normalizaba en gran manera los datos de un partido, lo cual podría resultar en deuda técnica para manejar dichos datos a futuro. Debido a este problema, se optó por la segunda y opción final: analizar en profundidad todos los aspectos de una acta oficial y modelar estos aspectos manteniendo la tercera forma normal.
+
+Como se puede ver en la Figura [...] tenemos un conjunto de clases relacionadas que modelan todos los datos necesarios para generar un acta oficial. Se podría argumentar que la inclusión de algunos atributos introduce redundancia en el modelo, ya que las puntuaciones de los equipos almacenadas en la clase \emph{Resultado} pueden obtenerse sumando los puntos de los distintos periodos del partido. Sin embargo, se trata de una redundancia controlada y deliberada: los atributos se registran una única vez al cerrar el acta y permiten consultar directamente el resultado global del partido. Esta decisión ofrece dos ventajas. En primer lugar, evita recalcular las puntuaciones cada vez que se consulta el resultado. En segundo lugar, mejora el rendimiento al mostrar listados de partidos, ya que no es necesario sumar los puntos de los periodos de cada partido visible en pantalla.
 
 \subsection{Diseño de la interfaz}
 
