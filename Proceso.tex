@@ -381,21 +381,25 @@ RNF-DES-7 & Desarrollo & El código fuente del back-end debe seguir los principi
 
 \section{Diseño}
 
-Definiremos el diseño en dos niveles distintos: la interacción de los distintos componentes y 
+Definiremos el diseño en dos niveles distintos: la distribución e interacción de los distintos componentes y cómo se va a diseñar cada componente a nivel interno.
 
 \subsection{Arquitectura del sistema}
 
 Las siguientes imágenes que representan los tres primeros niveles de un modelo C4 explican en detalle la arquitectura establecida para Sports League:
 
-El nivel 1 muestra la relación de la aplicación con los usuarios y servicios externos.
+El nivel 1 muestra cómo interactúan los distintos tipos de usuarios con la aplicación. Además, muestra la relación del servicio de autenticación de la UIB con nuestro sistema.
 
 % TODO: C4 model image, level 1
 
-El nivel 2 indica cómo interactúan los diferentes sistemas entre ellos.
+En el nivel 2 podemos observar cómo los distintos componentes interactúan entre ellos: la interfaz gráfica se comunica con el servidor back-end para la consulta y envío de datos a través de peticiones HTTP, mientras que el servidor back-end se comunica con los distintos almacenamientos a través de sus API específicas. 
 
 % TODO: C4 model image, level 2
 
-El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema.
+El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema. Podemos observar dos versiones diferentes para este nivel. Para poder cumplir con el requisito no funcional [...] se ha decidido utilizar dos tipos de arquitectura de software diferentes: una arquitectura de tres capas simple para los módulos que engloban entidades con ciclos de vida simple (creación, visualización y actualización); mientras que para módulos de entidades con ciclos de vida más complejos, (seguridad, autenticación, mantenimiento de sub recursos, cambios y actualizaciones complejas de varios pasos transaccionales, etc.) se aplica la arquitectura hexagonal o arquitectura de puertos y adaptadores.
+
+En el caso de la arquitectura de tres capas, vemos como hay un flujo de datos desde los controladores que reciben las peticiones del front-end aceptadas por el filtro de seguridad y autenticación, pasando por los servicios sobre los que se delega la lógica de negocio y acabando en los repositorios, encargados de la persistencia y obtención de los datos.
+
+Por otro lado, en la arquitectura hexagonal, vemos como las peticiones llegan a la capa de infraestructura, pasando del filtro de seguridad al adaptador de entrada correspondiente, este procede a llamar al puerto necesario para delegar la lógica de negocio a la capa de aplicación y dicho caso de uso utiliza los repositorios implementados por los adaptadores de salida para comunicarse con las bases de persistencia de datos. 
 
 % TODO: C4 model image, level 3
 
