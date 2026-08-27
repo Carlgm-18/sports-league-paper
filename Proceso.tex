@@ -684,18 +684,18 @@ En el diagrama se pueden apreciar: las clases definidas con sus atributos corres
 
 Aparte de la vista general del diagrama resultaría interesante destacar dos zonas en concreto: una por ser la pieza fundamental del sistema y la otra por resultar en un ejemplo de normalización muy claro.
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
-    \includegraphics[width=0.22\textwidth]{img/class_diagram/participant.jpg}
+    \includegraphics[width=\textwidth]{img/class_diagram/participant.jpg}
     \caption{Clase participante}
     \label{fig:participant_class}
 \end{figure}
 
 En la primera zona (Ver Figura \ref{fig:participant_class}), la pieza central del sistema, se aprecia la clase Participante: una clase asociativa que relaciona de manera única un usuario con una liga. Esta clase existe porque un usuario puede estar inscrito en varias ligas a la vez y una misma liga puede tener diversos usuarios simultáneos. Esta clase también se relaciona con otra clase asociativa que es la que permite establecer el sistema de roles dentro de una liga. Gracias a estas relaciones conseguimos que un mismo usuario tenga distintos roles dependiendo de la liga. Y, este punto, es el que convierte el sistema en uno que necesita manejar la multitenencia. Además, se puede ver la clase \emph{Availability} que es la que permite que los árbitros puedan registrar su disponibilidad para arbitrar y que el sistema asigne los partidos de forma automática.
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
-    \includegraphics[width=0.22\textwidth]{img/class_diagram/results.jpg}
+    \includegraphics[width=\textwidth]{img/class_diagram/results.jpg}
     \caption{Resultado y acta}
     \label{fig:result}
 \end{figure}
