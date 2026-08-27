@@ -15,41 +15,45 @@ Entre los interesados del proyecto: todas aquellas partes que se ven, de una for
         >{\RaggedRight}X 
         >{\RaggedRight}X
     }    
-    \caption{Stakeholders del sistema}\label{tab:stakeholders}\\
-    \toprule
-    \textbf{Stakeholder} & \textbf{Usuario} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos} \\
-    \midrule
-    \endfirsthead
-    \multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continuación de la página anterior}} \\
-    \midrule
-    \textbf{Stakeholder} & \textbf{Usuario} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos} \\
-    \midrule
-    \endhead
-    \midrule
-    \multicolumn{4}{r}{\footnotesize\textit{Continúa en la página siguiente}} \\
-    \endfoot
-    \bottomrule
-    \endlastfoot
-    
-    OUSIS & No & Oficina de la UIB beneficiada por el desarrollo del proyecto. & Obtener una herramienta funcional y de bajo coste que digitalice la gestión deportiva de la universidad, asegurando viabilidad y optimización. \\
-    \lightrule
-    
-    Tutor / \newline Tribunal & No & Evaluación y seguimiento académico del proyecto. & Garantizar el cumplimiento de los requisitos metodológicos, arquitectónicos y de ingeniería de software para la obtención del título. \\
-    \lightrule
-    
-    Usuario / \newline Espectador & Sí & Usuario común del sistema con o sin cuenta registrada. & Consultar y seguir la información pública de las competiciones y ligas activas. \\
-    \lightrule
-    
-    Jugador & Sí & Participante inscrito en una o varias ligas. & Consultar calendarios, normativas y revisar clasificaciones o resultados de sus equipos. \\
-    \lightrule
-    
-    Capitán & Sí & Representante del equipo ante la organización y otros clubes. & Inscribir jugadores y gestionar acuerdos o cambios de partidos de forma centralizada. \\
-    \lightrule
-    
-    Árbitro & Sí & Responsable de la validez de encuentros y reporte de actas. & Disponer de una interfaz rápida para cumplimentar actas digitales y registrar resultados. \\
-    \lightrule
-    
-    Administrador & Sí & Gestor principal de ligas, calendarios e incidencias. & Automatizar calendarios, resolver incidencias y reducir la carga de gestión manual. \\
+        \caption{Stakeholders del sistema}\label{tab:stakeholders}\\
+        
+        \toprule
+        \textbf{Stakeholder} & \textbf{Usuario} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos} \\
+        \midrule
+        \endfirsthead
+        
+        \multicolumn{4}{c}{{\bfseries \tablename\ \thetable{} -- continuación de la página anterior}} \\
+        
+        \midrule
+        \textbf{Stakeholder} & \textbf{Usuario} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos} \\
+        \midrule
+        \endhead
+        
+        \midrule
+        \multicolumn{4}{r}{\footnotesize\textit{Continúa en la página siguiente}} \\
+        \endfoot
+        \bottomrule
+        \endlastfoot
+        
+        OUSIS & No & Oficina de la UIB beneficiada por el desarrollo del proyecto. & Obtener una herramienta funcional y de bajo coste que digitalice la gestión deportiva de la universidad, asegurando viabilidad y optimización. \\
+        \lightrule
+        
+        Tutor / \newline Tribunal & No & Evaluación y seguimiento académico del proyecto. & Garantizar el cumplimiento de los requisitos metodológicos, arquitectónicos y de ingeniería de software para la obtención del título. \\
+        \lightrule
+        
+        Usuario / \newline Espectador & Sí & Usuario común del sistema con o sin cuenta registrada. & Consultar y seguir la información pública de las competiciones y ligas activas. \\
+        \lightrule
+        
+        Jugador & Sí & Participante inscrito en una o varias ligas. & Consultar calendarios, normativas y revisar clasificaciones o resultados de sus equipos. \\
+        \lightrule
+        
+        Capitán & Sí & Representante del equipo ante la organización y otros clubes. & Inscribir jugadores y gestionar acuerdos o cambios de partidos de forma centralizada. \\
+        \lightrule
+        
+        Árbitro & Sí & Responsable de la validez de encuentros y reporte de actas. & Disponer de una interfaz rápida para cumplimentar actas digitales y registrar resultados. \\
+        \lightrule
+        
+        Administrador & Sí & Gestor principal de ligas, calendarios e incidencias. & Automatizar calendarios, resolver incidencias y reducir la carga de gestión manual. \\
     \end{xltabular}
 }
 
@@ -231,28 +235,77 @@ Preguntas de respuesta abierta que permiten a los encuestados detallar problemas
 
 En la siguiente tabla se muestra un resumen con las preguntas formuladas en los formularios:
 
-\begin{table}[H]
-    \centering
-    \begin{tabular}{| l | c | c |}
-        \hline
-        \textbf{Pregunta} & \textbf{Tipo} & \textbf{Rol} \\ \hline
-        ¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella? & Elección única & Todos \\ \hline
-        ¿A través de qué medio accedes principalmente a la aplicación? & Elección única & Todos \\ \hline
-        Usabilidad & Escala de Likert (1-10) & Todos \\ \hline
-        Accesibilidad & Escala de Likert (1-10) & Todos \\ \hline
-        Manejo & Escala de Likert (1-5) & Todos \\ \hline
-        Diseño & Escala de Likert (1-5) & Todos \\ \hline
-        Nota final & Escala de Likert (1-10) & Todos \\ \hline
-        ¿Te gustaría una nueva aplicación que incluya nuevas y mejores funcionalidades? & Elección única & Todos \\ \hline
-        Gestión equipos & Escala de Likert (1-5) & Capitán \\ \hline
-        ¿Cómo puntuarías la gestión de los partidos a través de la aplicación? & Escala de Likert (1-5) & Árbitro \\ \hline
-        ¿Usas algún dispositivo para rellenar el acta de los partidos? & Elección única & Árbitro \\ \hline
-        ¿Cómo puntuarías la administración de la liga a través de la aplicación? & Escala de Likert (1-5) & Administrador \\ \hline
-        ¿Qué aspectos te gustaría que hubiera? & Elección múltiple & Todos \\ \hline
-        Otros aspectos & Respuesta abierta & Todos \\ \hline
-        Problemas encontrados & Respuesta abierta & Todos \\ \hline
-    \end{tabular}
-\end{table}
+{
+    \begin{xltabular}{\textwidth}{
+        >{\RaggedRight}X 
+        >{\RaggedRight}p{4.2cm} 
+        c
+    }    
+        \caption{Preguntas del cuestionario del sistema}\label{tab:preguntas_cuestionario}\\
+        
+        \toprule
+        \textbf{Pregunta} & \textbf{Tipo} & \textbf{Rol} \\
+        \midrule
+        \endfirsthead
+        
+        \multicolumn{3}{c}{{\bfseries \tablename\ \thetable{} -- continuación de la página anterior}} \\
+        
+        \midrule
+        \textbf{Pregunta} & \textbf{Tipo} & \textbf{Rol} \\
+        \midrule
+        \endhead
+        
+        \midrule
+        \multicolumn{3}{r}{\footnotesize\textit{Continúa en la página siguiente}} \\
+        \endfoot
+        \bottomrule
+        \endlastfoot
+        
+        ¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella? & Elección única & Todos \\
+        \lightrule
+        
+        ¿A través de qué medio accedes principalmente a la aplicación? & Elección única & Todos \\
+        \lightrule
+        
+        Usabilidad & Escala de Likert (1-10) & Todos \\
+        \lightrule
+        
+        Accesibilidad & Escala de Likert (1-10) & Todos \\
+        \lightrule
+        
+        Manejo & Escala de Likert (1-5) & Todos \\
+        \lightrule
+        
+        Diseño & Escala de Likert (1-5) & Todos \\
+        \lightrule
+        
+        Nota final & Escala de Likert (1-10) & Todos \\
+        \lightrule
+        
+        ¿Te gustaría una nueva aplicación que incluya nuevas y mejores funcionalidades? & Elección única & Todos \\
+        \lightrule
+        
+        Gestión equipos & Escala de Likert (1-5) & Capitán \\
+        \lightrule
+        
+        ¿Cómo puntuarías la gestión de los partidos a través de la aplicación? & Escala de Likert (1-5) & Árbitro \\
+        \lightrule
+        
+        ¿Usas algún dispositivo para rellenar el acta de los partidos? & Elección única & Árbitro \\
+        \lightrule
+        
+        ¿Cómo puntuarías la administración de la liga a través de la aplicación? & Escala de Likert (1-5) & Administrador \\
+        \lightrule
+        
+        ¿Qué aspectos te gustaría que hubiera? & Elección múltiple & Todos \\
+        \lightrule
+        
+        Otros aspectos & Respuesta abierta & Todos \\
+        \lightrule
+        
+        Problemas encontrados & Respuesta abierta & Todos \\
+    \end{xltabular}
+}
 
 Se puede apreciar que, para las preguntas de escala de Likert, la mayoría de las veces se usan escalas del al 10 a excepción de dos casos, que se usan escalas del 1 al 5: el diseño y el manejo de la aplicación. Esta diferencia está directamente relacionada con la naturaleza del aspecto evaluado. La mayoría de aspectos de escalas funcionan como evaluaciones estándar para facilitar a los encuestados la evaluación; pero, en los aspectos mencionados la escala funciona como una asociación directa con la pregunta. Para el manejo vemos como la escala representa la cantidad de clics necesarios para acceder a la información deseada donde una nota más baja indica una cantidad inferior de clics. Mientras que para el diseño se hace de este modo por comodidad del encuestado. En aspectos subjetivos como este, al encuestado le es más cómodo evaluar del 1 al 5 que del 1 al 10, ya que de esa forma acarrea una menor carga cognitiva al necesitar menos argumentos internos para evaluar el aspecto.
 
