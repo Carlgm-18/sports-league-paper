@@ -1,38 +1,43 @@
 %!TeX root=MemoriaTFG.tex
 
 \chapter{Conclusiones}
+\label{ch:chapter_6}
+
+\section{Cumplimiento de objetivos}
+
+El proyecto cumple de forma sólida los objetivos principales planteados en la introducción. El primer objetivo, la recogida de necesidades de los distintos perfiles implicados, se ha abordado mediante análisis de usuarios, formularios y la definición de roles como jugador, capitán, árbitro y administrador. El segundo objetivo, diseñar un sistema que respondiese a esas necesidades, quedó plasmado en la arquitectura del sistema y en la definición de los procesos de liga, partidos, actas y clasificación. El tercero, implementar una solución multiplataforma, se materializó en la combinación de un back-end con Spring Boot, un front-end móvil con React Native y Expo, y un servicio de almacenamiento con MinIO. El cuarto objetivo, preparar un despliegue reproducible, se ha abordado con Docker y con un entorno de desarrollo basado en contenedores, aunque la fase de producción sigue siendo un punto de mejora y consolidación.
+
+\section{Resultados obtenidos}
+
+El sistema desarrollado ofrece una base funcional para la gestión de ligas universitarias, con capacidades de creación de ligas, gestión de equipos y jugadores, control de participantes, generación de calendarios, cálculo de clasificaciones y gestión de actas. La solución también permite separar claramente la experiencia de cada perfil de usuario, evitando que un único tipo de usuario sea responsable de toda la operación de la liga. En este sentido, la aplicación no solo automatiza tareas rutinarias, sino que también mejora la trazabilidad y la consistencia de los datos del sistema.
+
+Aunque el alcance del proyecto no alcanza aún un despliegue completo para producción, sí queda demostrada la viabilidad técnica del enfoque propuesto. La arquitectura cliente-servidor, la base de datos relacional, la integración con MinIO y la interfaz móvil configuran una solución útil y extensible para usos reales dentro del ámbito universitario.
+
+\section{Mejoras aportadas con respecto a las alternativas}
+
+La principal mejora aportada respecto a Winner y Clupik es la gestión centralizada dentro de una única aplicación, con varios perfiles coordinados dentro de la misma liga. Esto evita la fragmentación de herramientas y permite que administradores, capitanes, árbitros y jugadores utilicen un mismo ecosistema para cumplir tareas distintas pero relacionadas entre sí.
+
+Además, el sistema incorpora un mayor nivel de personalización tanto a nivel de equipos como de jugadores, y ofrece un modelo de gestión más cercano a la lógica real de una competición universitaria. La coordinación entre fechas de partido, actas, resultados y clasificaciones es más estructurada, y el uso de un contrato API entre front-end y back-end reduce la inconsistencia entre capas del sistema.
+
+Otra mejora relevante es la posibilidad de autoalojamiento, ya que el proyecto puede desplegarse en un entorno propio con Docker y servicios locales. Esto aporta un mayor nivel de control sobre los datos y reduce la dependencia de plataformas de terceros, algo especialmente valioso cuando se gestionan ligas académicas o instituciones públicas.
+
+\section{Limitaciones}
+
+El proyecto también presenta limitaciones claras. En primer lugar, la muestra de opinión recogida en los formularios es limitada y no permite validar completamente la utilidad del sistema sobre una temporada real completa. En segundo lugar, no se ha podido completar la integración con la autenticación institucional de la UIB ni la validación de credenciales oficiales, por restricciones de seguridad y alcance. Asimismo, la fase de despliegue en producción sigue siendo limitada y necesitaría ajustes adicionales en autenticación, copias de seguridad, observabilidad y gestión de secretos.
+
+También hay que reconocer que el proyecto no ha sido validado con una temporada completa de competición, por lo que la evidencia de uso real es menor que la que se tendría con una implantación prolongada. Esto limita la generalización de algunas conclusiones, aunque no resta valor a la base técnica y funcional que se ha construido.
 
 \section{Aprendizaje}
 
-Gracias a haber desarrollado este \ac{TFG} se han aprendido y usado tecnologías que, aunque no se enseñe en el \ac{GEIN}, aportan conocimientos importantes sobre qué se utiliza hoy en día para crear aplicaciones mundialmente conocidas como lo es Instagram con React Native o Netflix con Spring Boot.
+Gracias a este \ac{TFG} se han adquirido conocimientos en áreas fundamentales del desarrollo de software moderno. Se ha trabajado con Spring Boot y Kotlin para crear una API robusta, con React Native y Expo para construir una interfaz móvil multiplataforma, con PostgreSQL para modelar datos relacionales, con Flyway para gestionar evolución del esquema y con MinIO para manejar almacenamiento de objetos. También se ha aprendido a organizar un proyecto con contenedores mediante Docker y a diseñar soluciones de una forma que separa claramente la lógica de negocio de la infraestructura.
 
-Principalmente, se ha aprendido a desarrollar un sistema cliente-servidor multiplataforma aplicando los conocimientos adquiridos en el grado. Se ha aprendido una derivación de React (framework utilizado comúnmente para desarrollo web), para poder crear una interfaz capaz de utilizarse en cualquier dispositivo móvil y sus sistemas operativos correspondientes. Se ha aprendido un lenguaje de la misma familia de Java para poder evitar problemas sobre referencias nulas. Se ha utilizado un motor de base de datos ampliamente utilizado para poder adecuarse a las necesidades del mercado. Se ha aprendido a integrar un sistema de almacenamiento de objetos compatible con AWS, de manera local, para poder manejar tipos de datos no relacionales y mantenerlos con un alto nivel de privacidad. Y, por último, se ha aprendido a crear un entorno de desarrollo mediante Docker para tener un sistema consistente y fácilmente reproducible.
-
-\section{Mejoras aportadas con respecto a las alternativas}
-% TODO: what I have improved with respect former solutions
-La principal mejora aportada es la implementación por defecto de las funcionalidades que las alternativas ofrecen después de hacer una inversión monetaria: imágenes de equipos y jugadores personalizadas, inclusión de roles árbitros y administradores \dots 
-
-Otra aportación presente es la no necesidad de utilizar varias aplicaciones según el rol tal y como lo hace Clupik. Todo lo necesario para gestionar las ligas se puede hacer desde una misma aplicación. Incluso los capitanes no necesitan una aplicación extra para acordar los partidos, ya que lo pueden hacer a través de la funcionalidad correspondiente que el propio sistema ofrece.
-
-Una mejora es la posibilidad de autoalojar el sistema en un servidor propio, tan solo es necesaria la imagen de Docker que prepare el entorno de producción. Esto aporta privacidad y fiabilidad al no tener que depender de tecnologías o infraestructuras externas que pudieran fallar o cambiar sus condiciones de uso en cualquier momento. Sin embargo, siempre es posible migrar el sistema para alojarlo en la nube y poder delegar, automatizar y escalar tareas repetitivas como podrían ser el mantenimiento del sistema, la integridad de los datos a través de copias de seguridad o la autenticación mediante servicios externos.
+El trabajo también ha permitido comprender la importancia de la ingeniería de requisitos, la arquitectura y la validación de decisiones técnicas. En un proyecto de este tipo, una buena definición del problema y un diseño claro son tan importantes como la implementación concreta, ya que condicionan toda la evolución posterior del sistema.
 
 \section{Trabajo futuro}
 
-Si se quisiera continuar con el desarrollo de Sports League existen una gran cantidad de cosas que se podrían aplicar para mejorar la mantenibilidad y escalabilidad del sistema. En cualquier caso, nos centraremos en los aspectos críticos para conseguir un sistema que sea apto para ponerlo en producción dentro del ámbito de la \ac{UIB}.
+Como trabajo futuro, la primera prioridad sería la preparación del sistema para un entorno de producción real. Esto incluiría mejorar la seguridad, completar la autenticación institucional, añadir trazabilidad y observabilidad, y reforzar la gestión de copias de seguridad. También sería necesario ampliar la automatización de despliegue y preparar una estrategia clara de mantenimiento y actualización.
 
-Lo primero de todo y más importante sería adquirir un certificado del \ac{ENS}: necesario para software enfocado a entidades públicas. Este tipo de certificación asegura que el sistema es confidencial, íntegro y disponible respecto a los datos, es seguro frente a amenazas y ciberataques y crea una confianza digital en el uso de medios públicos.
+Además, se podrían incorporar nuevas funcionalidades como notificaciones push, paneles de administración, integración con más deportes y soporte para otras configuraciones competitivas. Una mejora interesante sería ampliar la lógica de acceso a la liga con criterios configurables por organizador, así como añadir una capa de auditoría más completa para cumplir requisitos de sistemas públicos y de entidades académicas.
 
-Para poder conseguir dicho certificado se deberían implementar tecnologías de trazabilidad y auditoría para poder tener un registro claro de todo lo que pasa dentro del sistema. Se integrarían tecnologías como SLF4J y Graphana para facilitar este tipo de tareas.
-
-Otro punto importante sería aplicar la funcionalidad que no se ha podido aplicar por temas de seguridad: la verificación de credenciales de la \ac{UIB}. Una vez que el sistema esté en pleno funcionamiento será posible integrar la API necesaria para dicha verificación mediante \ac{OAuth}. La parte positiva es que si esta funcionalidad opera correctamente sería posible implementar un sistema de registro e inicio de sesión directamente con las credenciales de la \ac{UIB}.
-
-Por otra parte, dado que el sistema no es de uso único para la UIB, la necesidad de credenciales de la \ac{UIB} para participar en una liga sigue siendo una opción que se puede activar o desactivar según necesite el creador de la liga.
-
-
-
-% TODO: what will I do with OUSIS and what the system will have:
-%       - add access criteria to join a league.
-%       - add uib identification as access criteria
-%       - add system telemetry with SLF4J
-%       - add log analysis with tools like Graphana
+En última instancia, el objetivo del proyecto no es solo crear una herramienta específica para una liga concreta, sino dejar una base extensible, reutilizable y sostenible que pueda adaptarse a nuevas necesidades y escenarios deportivos.
 
