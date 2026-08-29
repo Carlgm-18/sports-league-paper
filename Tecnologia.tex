@@ -87,7 +87,9 @@ El modelo de datos del dominio deportivo presenta una fuerte necesidad de integr
     \item \textbf{Robustez a largo plazo:} Garantiza un rendimiento superior en consultas analíticas complejas (como la generación de clasificaciones o estadísticas).
 \end{itemize}
 
-Para gestionar la evolución del esquema y asegurar la reproducibilidad del entorno, se ha integrado \textbf{Flyway}, herramienta que permite aplicar un control de versiones estricto sobre las migraciones \emph{.sql}.
+Para gestionar la evolución del esquema y asegurar la reproducibilidad del entorno, se ha integrado \emph{Flyway}, herramienta que permite aplicar un control de versiones estricto sobre las migraciones \emph{.sql}.
+
+Cabe comentar que para proyectos desarrollados con Spring Boot las alternativas principales son \emph{Flyway} y \emph{Liquibase}. Se ha optado por la primera y no por la segunda, ya que \emph{Liquibase} utiliza formatos como \texttt{XML}, \texttt{YAML} o \texttt{JSON} para definir los cambios, abstrayendo el motor de la base de datos y añadiendo una curva de aprendizaje. Esto sería positivo si se planease cambiar el motor de la base de datos en un futuro, pero para una implementación relativamente sencilla \emph{Flyway} es la alternativa óptima.
 
 \section{Almacenamiento de objetos (Object Storage)}
 
