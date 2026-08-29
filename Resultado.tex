@@ -1,27 +1,33 @@
 \chapter{Resultado}
 \label{ch:chapter_resultado}
 
-% TODO: talk about what the system can and can`t do
+En este capítulo se presentan los cambios reales que han surgido durante el desarrollo del proyecto, comparando el alcance inicial del sistema con la solución final implementada. La idea no es limitarse a describir las funcionalidades ya desarrolladas, sino también reconocer qué aspectos quedaron pendientes y qué decisiones técnicas fueron necesarias para que el sistema siguiese siendo viable.
 
 \section{Cambios aplicados}
 
-% TODO: talk about what changed respect to initial requirements
+Respecto a los requisitos iniciales, el sistema mantiene la mayor parte de los objetivos de gestión deportiva definidos en la fase de análisis. Se han implementado las funciones principales relacionadas con la creación de ligas, formación de equipos, registro de usuarios, gestión de partidos y cálculo de clasificación. También se han incluido diferentes perfiles dentro de la misma aplicación, lo que representa una mejora importante frente a las alternativas utilizadas en la \\ac{LVUIB}.
 
-No se ha podido implementar la verificación de los 
+Sin embargo, algunos aspectos no han podido desarrollarse de la misma forma que se planteó en una primera etapa. La autenticación institucional de la UIB, por ejemplo, queda pendiente para un despliegue real en producción, así como una validación más profunda en entornos con mayores requisitos de seguridad. Las soluciones técnicas para estos casos están previstas, pero no forman parte del alcance completo del presente trabajo.
 
 \section{Desviaciones respecto a la planificación inicial}
 
-% TODO: talk about what changed respect to initial planification
+Durante el desarrollo del sistema surgieron varios cambios que afectaron al proceso de implementación y a la forma de gestionar la infraestructura. Uno de los más relevantes fue la necesidad de cambiar el gestor de dependencias de JavaScript por motivos de seguridad. La aparición de ataques de cadena de suministro contra paquetes populares de \emph{npm} hizo necesario migrar el proyecto a \emph{pnpm}, un gestor que ofrece mejor control sobre las versiones y una mayor estabilidad ante este tipo de incidentes.
 
-Durante el desarrollo del sistema salieron a la luz diversos casos sobre ataques de cadena de suministro contra el gestor de paquetes de JavaScript \emph{npm}. Estos tipos de ciberataques funcionan de forma que, una vez que el atacante consigue las credenciales del principal gestor de una dependencia dentro del entorno de \emph{npm}, procede a subir una nueva versión de esta al gestor. Esta nueva versión incluye código malicioso en ciertas partes de la dependencia o paquete afectado. La finalidad es infectar repositorios de código y dependencias de JavaScript mundialmente conocidas y usadas como Axios o TanStack Query con malware que se autorreplica e infecta todos los proyectos que utilizan dichas dependencias.
+Otra desviación significativa estuvo relacionada con la simplificación del alcance de la implementación. Mientras que el diseño inicial contemplaba una solución muy completa, el desarrollo real priorizó los elementos clave del flujo de liga y la verificación funcional de los requisitos críticos. Esto permitió poner en marcha una base sólida y reutilizable, aunque dejó algunos aspectos de refinamiento para fases posteriores.
 
-Debido a esta situación se decidió cambiar de gestor de paquetes, se dejó de usar \emph{npm} y se optó por \emph{pnpm}. Este cambio es crucial, ya que el nuevo gestor incluye configuraciones que permiten bloquear las partes del código infectadas por el malware, aunque se tenga la versión infectada. La principal razón del cambio es la naturaleza del proyecto. No se debe permitir que en un software producto del desarrollo de un \ac{TFG} quepa la posibilidad de encontrar alguna traza de malware autoreplicable.
+\section{Funcionalidades implementadas}
 
-\section{Añadidos}
+Dentro del sistema ya desarrollado se pueden distinguir tres grupos de funcionalidades: aquellas totalmente implementadas, las implementadas parcialmente y las pendientes. Entre las primeras destacan la gestión de ligas, la configuración de equipos y participantes, la generación de calendarios y la evaluación de clasificaciones. También se han implementado los flujos de actas y resultados, así como la lógica de roles para distinguir un administrador, un capitán, un árbitro y un jugador.
 
-% TODO: talk about what has been added respect to initial requirements
+En un segundo nivel, algunas funcionalidades se han desarrollado parcialmente, como la experiencia de la firma digital de actas o la gestión completa de permisos de acceso según liga y rol. Estos procesos han quedado bien definidos en la arquitectura, pero requieren aún una validación más profunda y una depuración más exigente para pasar a producción.
 
-\section{Ejemplos de código interesantes}
+\section{Funcionalidades no implementadas}
 
-% TODO: show pseudocode of the round robin algorithm to create classification matches.
+Quedan pendientes, dentro del alcance actual del proyecto, ciertos componentes de despliegue y operación. En particular, la autenticación con credenciales de la UIB, la integración de servicios de auditoría y el despliegue final en un servidor productivo no se consideran cerrados. Tampoco se ha validado de forma prolongada el sistema con una temporada completa de competición, algo que sería necesario para una verificación real de rendimiento y estabilidad.
+
+\section{Ejemplos de código relevantes}
+
+Entre los flujos más relevantes del sistema destacan la generación de partidos y la actualización de la clasificación. El algoritmo de calendario permite crear rondas de forma automática en función del conjunto de equipos, evitando la generación manual y reforzando la consistencia del sistema. Del mismo modo, la lógica de clasificación calcula resultados acumulados de forma determinista a partir de los datos del partido, los sets y las victorias o derrotas.
+
+Estos ejemplos muestran cómo la parte de negocio del sistema no es solo una capa operativa, sino una pieza central que afecta directamente a la competencia y a la experiencia del usuario. La correcta coordinación entre estos flujos es lo que convierte a la aplicación en una herramienta útil para la gestión real de ligas deportivas.
 
