@@ -4,51 +4,112 @@ En este capítulo veremos todo el proceso aplicado para implementar los diseños
 
 \section{Entorno de desarrollo}
 
-\subsection{Editor de código}
+\subsection{Herramientas y versiones}
 
+\subsubsection{Editores de código}
 Para poder desarrollar el sistema se han utilizado dos editores de código distintos: uno para el front-end y otro para el back-end.
 
 Para el front-end se ha decidido utilizar Visual Studio Code, ya que es uno de los editores más utilizados dentro de la industria. Además, este editor funciona de forma excelente para desarrollar aplicaciones basadas en entornos Java Script gracias a sus numerosas extensiones.
 
-Mientras que para el back-end se ha optado por IntelliJ IDEA, un IDE de nicho cuando se trata de desarrollar sistemas implementados mediante tecnologías basadas en la JDK, como lo es en este caso Kotlin. Además, ofrece bastantes herramientas para trabajar de forma sencilla con lenguajes orientados a objetos, desarrollo de pruebas de código y ejecución y depuración de los programas desarrollados.
+Mientras que para el back-end se ha optado por IntelliJ IDEA, un IDE de nicho cuando se trata de desarrollar sistemas implementados mediante tecnologías basadas en la JDK, como lo es, en este caso, Kotlin. Además, ofrece bastantes herramientas para trabajar de forma sencilla con lenguajes orientados a objetos, desarrollo de pruebas de código y ejecución y depuración de los programas desarrollados.
 
-\subsection{Ejecución y despliegue}
+\subsubsection{Back-end}
+La parte del servidor se ha implementado con Kotlin y Spring Boot, usando una arquitectura modular y una organización por dominios. La capa de dominio encapsula la lógica de negocio, mientras que los controladores, servicios y repositorios gestionan la entrada de datos, la validación y la persistencia. Spring Boot ha permitido integrar de forma natural Spring Security, transacciones, validación de datos y configuración por variables de entorno.
 
-El archivo \emph{docker-compose.yaml} (ver en apéndice) se ha utilizado para configurar un entorno de desarrollo aislado y reproducible. Todo ello mediante el despliegue de contenedores para la comunicación con las distintas bases de persistencia de datos.
+\subsubsection{Front-end}
+La interfaz multiplataforma se ha desarrollado con React Native y Expo, de manera que el mismo proyecto pueda ejecutarse en dispositivos Android e iOS. La estructura se ha organizado por pantallas, componentes reutilizables y servicios para la comunicación con la API, con una navegación orientada a los distintos perfiles del sistema: jugador, capitán, árbitro y administrador.
 
-\subsection{Migración}
+\subsubsection{Base de datos}
+La base de datos relacional se ha implementado sobre PostgreSQL. Este motor ha sido elegido por su fiabilidad, soporte para transacciones y capacidades para modelar relaciones complejas con integridad referencial, claves foráneas, unicidad y restricciones de comprobación.
 
-Para mantener una correcta gestión de migraciones para la base de datos relacional
+\subsubsection{Almacenamiento de objetos}
+Para almacenar imágenes, documentos y archivos asociados a equipos, jugadores y actas se ha usado MinIO, un servicio compatible con la API S3 que permite un despliegue local equivalente a un entorno de almacenamiento de objetos en producción. Esto evita cargar la base de datos con archivos binarios y permite mantener una separación clara entre datos transaccionales y contenido multimedia.
+
+\subsection{Ejecución local}
+
+El archivo \emph{docker-compose.yaml} se ha utilizado para configurar un entorno de desarrollo aislado y reproducible. Gracias a los contenedores, el sistema puede levantarse con una única orden y sin depender de una configuración manual compleja de cada servicio. El comando principal es:\newline
+\texttt{docker-compose up -d}
+
+Con esta orden se levantan los servicios de PostgreSQL, MinIO y la API del sistema, así como los recursos necesarios para ejecutar la aplicación en local sin interferir con el entorno de producción.
+
+\subsection{Migraciones}
+
+Como ya se ha comentado en capítulos anteriores, para mantener una correcta gestión de migraciones para la base de datos relacional se ha hecho uso de \emph{Flyway}. Este sistema permite controlar la evolución del esquema mediante archivos \texttt{.sql} versionados y aplicados en un orden determinista. El principal beneficio es que la base de datos puede recrearse desde cero con el mismo historial de cambios y sin depender de modificaciones manuales sobre un entorno ya existente.
+
+Cada migración recibe un nombre con formato \texttt{VX\_\_descripcion}, donde el número indica el orden de ejecución. De este modo, cuando el sistema se inicia por primera vez, Flyway compara el esquema actual con la historia de migraciones y aplica únicamente las pendientes. Si se quiere modificar una estructura ya distribuida, la práctica correcta es crear una nueva migración acumulativa en lugar de alterar una que ya haya sido aplicada en un entorno compartido.
+
+Este enfoque también ayuda a diferenciar entre datos del esquema y datos iniciales del sistema. Los primeros definen la estructura de la Base de Datos; los segundos, como deportes, roles o sistemas de puntuación por defecto, se insertan como contenido de configuración necesaria para que la aplicación funcione con unos valores iniciales coherentes.
+
+\subsection{Contrato API y generación de DTO}
+Para la generación de los \ac{DTO} en todos los servicios se han utilizado herramientas específicas cuya función principal es la generación de clases y tipos a partir de un contrato API.
+
+En el back-end, se ha utilizado la librería \emph{org.openapi.generator}, que, para cada esquema del contrato, genera los \emph{data class} o enumerados correspondientes. En el front-end, el paquete \emph{swagger-typescript-api} genera un archivo con el mismo nombre que el contrato, pero con la extensión \texttt{.ts}. Gracias a este flujo, ambos lados de la aplicación utilizan las mismas estructuras de mensaje, reduciendo errores por desalineación y facilitando el mantenimiento del sistema.
 
 \section{Servidor back-end}
 
-Como se puede observar en la figura [...] se ha decidido aplicar una separación vertical por entidad. De esta forma la arquitectura del back-end se basa en un monolito modular. Como ya se ha explicado, se ha decidido aplicar una arquitectura de tres capas simple para los módulos de entidades con ciclos de vida simple; mientras que para módulos de entidades con ciclos de vida más complejos, se aplica arquitectura hexagonal.
+\subsection{Estructura modular}
 
-% TODO Image of folders structure
+La capa back-end se ha diseñado como un monolito modular, organizando las responsabilidades por dominio y funcionalidad, en lugar de mantener toda la lógica en un único bloque. Cada módulo contiene sus propios controladores, servicios, repositorios y modelos de dominio. La separación vertical por entidad permite que cada pieza del sistema tenga un alcance claro y que el código pueda crecer sin volverse inmanejable.
+
+En los módulos con lógica más compleja, como ligas, partidos y actas, se ha aplicado una arquitectura hexagonal: el núcleo de negocio queda separado de la infraestructura y de los adaptadores que acceden a la base de datos o a servicios externos. En entidades más simples se ha mantenido una estructura de tres capas, con un controlador, un servicio y un repositorio asociados.
+
+\subsection{Implementación de la seguridad}
+
+La seguridad del servidor se ha implementado mediante Spring Security y tokens JWT. Cada petición autenticada pasa por un filtro que valida el token, identifica al usuario y determina los permisos asociados. A partir de ese punto, la autorización se realiza por roles y, cuando es necesario, por pertenencia a una liga concreta, evitando que un usuario pueda consultar o modificar información ajena a su ámbito de trabajo.
+
+Además, se han incorporado validaciones de entrada para evitar que datos mal formados o inconsistentes lleguen al dominio. Esto incluye comprobaciones de campos obligatorios, rangos válidos, tipos esperados y comprobación de permisos antes de ejecutar una operación sensible.
+
+\subsection{Implementación de la lógica de ligas}
+
+La lógica de ligas es el eje central del sistema. En ella se gestionan la configuración de cada competición, los equipos, los grupos, las fases, el calendario y la clasificación. La creación de una liga no se limita a guardar un registro en base de datos: incluye validaciones del formato de competición, compatibilidad con el deporte seleccionado, creación de grupos o rondas y generación de los partidos iniciales.
+
+Este diseño permite que cambios en la configuración de una liga se reflejen de forma coherente en toda la estructura del sistema. Por ejemplo, si se modifica el sistema de puntuación o el número de grupos, el cálculo de clasificación y la lógica de competición se actualizan de acuerdo con la nueva configuración.
+
+\subsection{Generación de fases, rondas y partidos}
+
+La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula el calendario según el número de equipos, la fase seleccionada y el formato de competición; a partir de ahí crea las rondas, emparejamientos y referencias necesarias para cada partido. Este flujo es especialmente relevante en ligas con formato de todos contra todos o con grupos, donde la organización del calendario debe respetar la lógica competitiva del deporte.
+
+La ventaja de esta automatización es doble: por un lado, reduce el trabajo manual del administrador; por otro, garantiza que todos los equipos queden cubiertos por un calendario consistente y que las relaciones entre partidos, jornadas y fases se mantengan coherentes dentro de la base de datos.
+
+\subsection{Gestión de resultados y actas}
+
+La gestión de resultados y actas es una de las partes más importantes del sistema, ya que conecta la ejecución del partido con la información definitiva que se muestra a los usuarios. Cuando finaliza un encuentro, el árbitro puede registrar eventos, incidencias, sets, puntos y conclusiones del partido. Una vez cerrada el acta, la operación se ejecuta de forma transaccional para actualizar la clasificación y dejar el estado del encuentro en una situación consistente.
+
+Este flujo requiere coordinar varias capas: la validación del estado del partido, la actualización del resultado, la creación del historial de actas y la revisión de la información por parte de capitanes o administradores. El objetivo es que no haya estados intermedios ambiguos que puedan derivar en errores de la competición o en incoherencias en la tabla clasificatoria.
+
+\subsection{Gestión de errores y validaciones}
+
+La capa de dominio y la capa de controladores trabajan de forma coordinada para devolver errores claros y estructurados. Cuando ocurre un problema funcional, el sistema delega la respuesta a una lógica de errores específica y devuelve un código HTTP y un mensaje semántico que la aplicación cliente puede interpretar. Esto evita que el usuario reciba fallos genéricos e incomprensibles y permite tratar las situaciones de forma consistente.
 
 \section{Base de datos}
 
-Como ya hemos explicado, la \ac{BD} ha sido implementada con el motor PostgreSQL. Se ha buscado cumplir la tercera forma normal para asegurar la mantenibilidad, unicidad e integridad de los datos en todo momento.
+Como se ha explicado, la \ac{BD} ha sido implementada con el motor PostgreSQL. Se ha buscado cumplir la tercera forma normal para asegurar la mantenibilidad, unicidad e integridad de los datos en todo momento. La estructura almacena información de usuarios, ligas, equipos, jugadores, partidos, actas, roles y permisos, todos ellos relacionados mediante claves primarias y foráneas.
 
-Para implementar el modelo de datos
+La base de datos se ha implementado mediante una serie de migraciones \texttt{.sql} cuyo propósito es mantener un historial claro del desarrollo del esquema. En concreto, se ha utilizado un enfoque con cuatro pasos: creación del esquema inicial, instalación de disparadores para borrado lógico, creación de la vista de clasificación y carga de datos iniciales.
 
-La \ac{BD} se ha implementado mediante los siguientes archivos .sql que dividen la creación de la \ac{BD} en cuatro pasos:
-
-\begin{enumerate}
-    \item \textbf{V1\_\_init\_schema}: crea todas las tablas necesarias para representar de forma correcta el modelo de datos.
-    \item \textbf{V2\_\_add\_soft\_delete\_triggers}: crea los disparadores necesarios para poder aplicar un sistema de borrado lógico sobre los recursos cuya eliminación física acarrearía estados no deseados dentro del sistema.
-    \item \textbf{V3\_\_create\_leaderboard\_view}: crea la vista encargada de calcular las puntuaciones de los equipos para cada liga, grupo y jornada.
-    \item \textbf{V99\_\_insert\_initial\_data}: inserta los datos necesarios para que el sistema pueda funcionar de forma correcta: los deportes disponibles, roles de usuario y una configuración y sistema de puntuación por defecto para ligas de voleibol.
-\end{enumerate}
-
-% TODO: talk about leaderboard view table
-
-Para la generación de los \ac{DTO} en todos los servicios se han utilizado herramientas específicas cuya función principal es la generación de clases a partir de un contrato API. En el back-end, se ha utilizado la librería \emph{org.openapi.generator}; y en el front-end, el paquete \emph{swagger-typescript-api}.
+Además, se han aplicado restricciones de unicidad para evitar duplicados y relaciones asociativas para modelar relaciones muchos a muchos, como la pertenencia de jugadores a equipos o la participación de equipos en una liga. El uso del borrado lógico garantiza que la información no pueda perderse de forma irreversible si se elimina un recurso que tiene implicaciones históricas o administrativas.
 
 \section{Almacenamiento de objetos}
 
+% TODO Finish
+Como ya se ha comentado el almacenamiento de objetos se ha implementado mediante MinIO. En concreto, se ha utilizado el contenedor \dots
 
+% TODO Review 
+Los archivos se almacenan con claves únicas que combinan el identificador de la entidad y el tipo de recurso, evitando colisiones y facilitando la recuperación posterior. La validación se centra en el tipo de archivo y su tamaño, con límites razonables para no desbordar el almacenamiento ni comprometer la experiencia del usuario. Las credenciales se mantienen en variables de entorno y no se incorporan al código fuente, de manera que el despliegue local y el de producción no compartan secretos sensibles.
+% TODO Finish
 \section{Interfaz multiplataforma}
+
+\subsection{Navegación}
+La navegación dentro de la interfaz está basado en el componente \texttt{Stack} que permite definir las pantallas que la interfaz incluye. Este componente es el que permite la navegación mediante rutas parametrizadas mediante parámetros URL. Estos parámetros son útiles a la hora de obtener la información de una página en concreto. El principal uso que se hace es el de obtener el identificador de un recurso que se quiere consultar para poder hacer la petición al endpoint correspondiente del back-end.
+
+\subsection{Comunicación con la API}
+% La comunicación con la API se hace a través de un cliente API implementado de forma manual a partir de la función \texttt{fecth} que ofrece JavaScript para poder hacer peticiones de red. Se ha decidido utilizar una implementación propia debido al problema de seguridad que se explica en la sección \ref{}
+
+\subsection{Flujos por rol}
+
+Los flujos principales se han implementado de forma distinta según el rol. El administrador tiene una visión global de la liga y puede gestionar calendarios, fases y ajustes; el capitán se centra en la gestión de su equipo y la coordinación de partidos; el árbitro requiere una interfaz ágil para registrar eventos y cerrar actas con pocos clics; y el jugador consulta información relevante y accede al contenido asociado a su equipo. Esta separación por rol es una de las principales mejoras del sistema frente a las alternativas analizadas en la introducción.
+
+En resumen, la implementación demuestra que la arquitectura y el diseño planteados en los capítulos previos no son solo una propuesta teórica, sino un sistema funcional con lógica de negocio, persistencia, almacenamiento de archivos y una interfaz de usuario consistente. La combinación de diferentes tecnologías y patrones ha permitido construir una solución que cubre de forma integral la gestión de ligas universitarias, manteniendo una estructura escalable y modular.
 
 % Links to libraries:
 % back: https://plugins.gradle.org/plugin/org.openapi.generator
