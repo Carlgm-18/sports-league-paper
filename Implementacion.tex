@@ -55,32 +55,33 @@ La capa back-end se ha diseñado como un monolito modular, organizando las respo
 En los módulos con lógica más compleja, como ligas, partidos y actas, se ha aplicado una arquitectura hexagonal: el núcleo de negocio queda separado de la infraestructura y de los adaptadores que acceden a la base de datos o a servicios externos. En entidades más simples se ha mantenido una estructura de tres capas, con un controlador, un servicio y un repositorio asociados.
 
 \subsection{Implementación de la seguridad}
+La seguridad del servidor se ha implementado mediante Spring Security y tokens \ac{JWT}. Cada petición autenticada pasa por un filtro que valida el token e identifica al usuario. A partir de ese punto, la petición se delega a los servicios de preautorización, que aplican la lógica \ac{ABAC} necesaria para poder manetener la seguridad y privacidad en los recursos.
 
-La seguridad del servidor se ha implementado mediante Spring Security y tokens JWT. Cada petición autenticada pasa por un filtro que valida el token, identifica al usuario y determina los permisos asociados. A partir de ese punto, la autorización se realiza por roles y, cuando es necesario, por pertenencia a una liga concreta, evitando que un usuario pueda consultar o modificar información ajena a su ámbito de trabajo.
-
-Además, se han incorporado validaciones de entrada para evitar que datos mal formados o inconsistentes lleguen al dominio. Esto incluye comprobaciones de campos obligatorios, rangos válidos, tipos esperados y comprobación de permisos antes de ejecutar una operación sensible.
+Además, se han incorporado validaciones de entrada para evitar que datos mal formados o inconsistentes lleguen al dominio. Esto incluye comprobaciones de campos obligatorios, rangos válidos, tipos esperados y comprobación de permisos antes de ejecutar una operación sensible. Todas estas comprobaciones se hacen de forma automática a través de la anotación \texttt{@Valid} incluida en el argumento que representa el cuerpo de la petición para cada endpoint.
 
 \subsection{Implementación de la lógica de ligas}
 
-La lógica de ligas es el eje central del sistema. En ella se gestionan la configuración de cada competición, los equipos, los grupos, las fases, el calendario y la clasificación. La creación de una liga no se limita a guardar un registro en base de datos: incluye validaciones del formato de competición, compatibilidad con el deporte seleccionado, creación de grupos o rondas y generación de los partidos iniciales.
+La lógica de ligas es el eje central del sistema. En ella se gestionan la configuración de cada competición, los equipos, los grupos, las fases, las jornadas y la clasificación. La creación de una liga no se limita a guardar un registro en base de datos: incluye validaciones del formato de competición, compatibilidad con el deporte seleccionado, creación de grupos y generación de los partidos iniciales.
 
 Este diseño permite que cambios en la configuración de una liga se reflejen de forma coherente en toda la estructura del sistema. Por ejemplo, si se modifica el sistema de puntuación o el número de grupos, el cálculo de clasificación y la lógica de competición se actualizan de acuerdo con la nueva configuración.
 
 \subsection{Generación de fases, rondas y partidos}
 
-La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula el calendario según el número de equipos, la fase seleccionada y el formato de competición; a partir de ahí crea las rondas, emparejamientos y referencias necesarias para cada partido. Este flujo es especialmente relevante en ligas con formato de todos contra todos o con grupos, donde la organización del calendario debe respetar la lógica competitiva del deporte.
+La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula los partidos según: el número de equipos y el tipo de fase; a partir de ahí crea las jornadas, emparejamientos y referencias necesarias para cada partido. Este flujo es especialmente relevante en ligas con formato de clasificación con o sin grupos, donde la organización del calendario debe respetar la lógica competitiva del deporte.
 
 La ventaja de esta automatización es doble: por un lado, reduce el trabajo manual del administrador; por otro, garantiza que todos los equipos queden cubiertos por un calendario consistente y que las relaciones entre partidos, jornadas y fases se mantengan coherentes dentro de la base de datos.
 
 \subsection{Gestión de resultados y actas}
 
-La gestión de resultados y actas es una de las partes más importantes del sistema, ya que conecta la ejecución del partido con la información definitiva que se muestra a los usuarios. Cuando finaliza un encuentro, el árbitro puede registrar eventos, incidencias, sets, puntos y conclusiones del partido. Una vez cerrada el acta, la operación se ejecuta de forma transaccional para actualizar la clasificación y dejar el estado del encuentro en una situación consistente.
+La gestión de resultados y actas es una de las partes más importantes del sistema, ya que conecta la ejecución del partido con la información definitiva que se muestra a los usuarios. Mientras se realiza un encuentro, el árbitro puede registrar eventos, incidencias, sets, puntos y observaciones del partido. Una vez cerrada el acta, la operación se ejecuta de forma transaccional para actualizar la clasificación y dejar el estado del encuentro en una situación consistente.
 
 Este flujo requiere coordinar varias capas: la validación del estado del partido, la actualización del resultado, la creación del historial de actas y la revisión de la información por parte de capitanes o administradores. El objetivo es que no haya estados intermedios ambiguos que puedan derivar en errores de la competición o en incoherencias en la tabla clasificatoria.
 
-\subsection{Gestión de errores y validaciones}
+\subsection{Gestión de errores de validación}
 
-La capa de dominio y la capa de controladores trabajan de forma coordinada para devolver errores claros y estructurados. Cuando ocurre un problema funcional, el sistema delega la respuesta a una lógica de errores específica y devuelve un código HTTP y un mensaje semántico que la aplicación cliente puede interpretar. Esto evita que el usuario reciba fallos genéricos e incomprensibles y permite tratar las situaciones de forma consistente.
+Las capas de dominio y aplicación gestionan los errores a través del patrón \emph{Result}. Este patrón consiste en la encapsulación de los valores de retorno de las funciones mediante objetos que representan un retorno exitoso o fallido. El resultado, en caso de ser exitoso, contiene el valor retornado; mientras que, si es fallido, contiene el error ocurrido.
+
+El uso de este patrón es preferible frente a usar excepciones, ya que: uno, la generación de excepciones obliga al programa a pausar su ejecución momentáneamente mientras este genera el rastro de la pila para dicha excepción; y dos, a nivel semántico tiene más sentido utilizar errores simples de dominio para expresar fallos de validación esperados, mientras que relegamos el uso de excepciones para estados no esperados del sistema como fallos en la conexión a los diferentes servicios o controladores.
 
 \section{Base de datos}
 
@@ -104,7 +105,12 @@ Los archivos se almacenan con claves únicas que combinan el identificador de la
 La navegación dentro de la interfaz está basado en el componente \texttt{Stack} que permite definir las pantallas que la interfaz incluye. Este componente es el que permite la navegación mediante rutas parametrizadas mediante parámetros URL. Estos parámetros son útiles a la hora de obtener la información de una página en concreto. El principal uso que se hace es el de obtener el identificador de un recurso que se quiere consultar para poder hacer la petición al endpoint correspondiente del back-end.
 
 \subsection{Comunicación con la API}
-% La comunicación con la API se hace a través de un cliente API implementado de forma manual a partir de la función \texttt{fecth} que ofrece JavaScript para poder hacer peticiones de red. Se ha decidido utilizar una implementación propia debido al problema de seguridad que se explica en la sección \ref{}
+% La comunicación con la API se hace a través de un cliente API implementado de forma manual a partir de la función \texttt{fecth} que ofrece JavaScript para poder hacer peticiones de red. Se ha decidido utilizar una implementación propia debido a un problema de seguridad que se explicado en la sección \ref{}
+
+\subsection{Estilo de la interfaz}
+Tal y como se ha comentado en al sección \ref{sec:interface_design} todo el trabajo relacionado con el estilo de la interfaz se ha decidido delegar a una herramienta de IA generativa. El trabajo se ha basado en la generación de los estilos CSS para conseguir una interfaz atractiva y con un buen diseño.
+
+Para generar los estilos se ha utilizado el arnés de \emph{Antigravity} y el modelo de \emph{Gemini 3.5 Flash} con precisión \emph{Medium}. Para ayudar con la generación se añadieron imágenes de el mockup creado en Figma y los requisitos no funcionales como contexto. Se le pidió explícitamente que añadiera estilos para obtener una interfaz atractiva y que utilice una temática deportiva.
 
 \subsection{Flujos por rol}
 
