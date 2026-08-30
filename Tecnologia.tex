@@ -91,7 +91,7 @@ Para gestionar la evolución del esquema y asegurar la reproducibilidad del ento
 
 Cabe comentar que para proyectos desarrollados con Spring Boot las alternativas principales son \emph{Flyway} y \emph{Liquibase}. Se ha optado por la primera y no por la segunda, ya que \emph{Liquibase} utiliza formatos como \texttt{XML}, \texttt{YAML} o \texttt{JSON} para definir los cambios, abstrayendo el motor de la base de datos y añadiendo una curva de aprendizaje. Esto sería positivo si se planease cambiar el motor de la base de datos en un futuro, pero para una implementación relativamente sencilla \emph{Flyway} es la alternativa óptima.
 
-\section{Almacenamiento de objetos (Object Storage)}
+\section{Almacenamiento de objetos}
 
 Para la gestión de archivos no estructurados generados por el sistema, como imágenes de perfil o documentos PDF (actas deportivas), se requiere un servicio de almacenamiento de objetos independiente de la base de datos para no degradar el rendimiento transaccional.
 
@@ -174,3 +174,5 @@ Se ha seleccionado \textbf{React Native junto con Expo} frente a sus alternativa
     \item \textbf{Reutilización de paradigmas:} Al poseer experiencia previa en React, se elimina la curva de aprendizaje de un nuevo lenguaje como Dart. Esto permite invertir el tiempo del proyecto en resolver la lógica de negocio y optimizar las peticiones a la API.
     \item \textbf{Aceleración del ciclo de vida:} Las herramientas de empaquetado de Expo facilitan las pruebas continuas en dispositivos físicos mediante códigos QR, sin necesidad de lidiar con las configuraciones locales de Xcode o Android Studio durante el desarrollo.
 \end{itemize}
+
+Por otra parte, para la gestión de dependencias/librerías externas se utilizará el gestor de paquetes \emph{npm}: gestor por defecto para manejar las dependencias en proyectos de JavaScript.
