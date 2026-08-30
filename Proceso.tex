@@ -467,6 +467,7 @@ Se consideró esta primera opción por la naturaleza cambiante y dinámica de la
 Como se puede ver en la Figura [...] tenemos un conjunto de clases relacionadas que modelan todos los datos necesarios para generar un acta oficial. Se podría argumentar que la inclusión de algunos atributos introduce redundancia en el modelo, ya que las puntuaciones de los equipos almacenadas en la clase \emph{Resultado} pueden obtenerse sumando los puntos de los distintos periodos del partido. Sin embargo, se trata de una redundancia controlada y deliberada: los atributos se registran una única vez al cerrar el acta y permiten consultar directamente el resultado global del partido. Esta decisión ofrece dos ventajas. En primer lugar, evita recalcular las puntuaciones cada vez que se consulta el resultado. En segundo lugar, mejora el rendimiento al mostrar listados de partidos, ya que no es necesario sumar los puntos de los periodos de cada partido visible en pantalla.
 
 \subsection{Diseño de la interfaz}
+\label{sec:interface_design}
 
 Es necesario pensar en cómo los usuarios pueden interactuar con el sistema para cumplir con requisitos, es decir, necesitamos definir una \ac{UX} que sea, según las respuestas de los usuarios y requisitos funcionales: manejable y fácil de utilizar.
 
@@ -480,7 +481,9 @@ Cabe tener en cuenta que este diseño tan solo muestra la forma en la que los us
 
 El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end, para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. Para redactar el contrato se ha hecho uso del estándar Open API ampliamente utilizado en la industria del desarrollo. 
 
-La definición del contrato se ha hecho de forma que sea una representación casi idéntica del modelo de datos (Ver \ref{sec:bd_design}). Se han separado los esquemas según las clases pero agrupándolas según sus relaciones. Además, se han creado esquemas enumerados para poder definir de forma concreta y consistente algunos atributos de las clases como lo puede ser los estados de una petición, una liga
+La definición del contrato se ha hecho de forma que sea una representación casi idéntica del modelo de datos (Ver \ref{sec:bd_design}). Se han separado los esquemas según las clases pero agrupándolas según sus relaciones. Por otro lado, se han definido esquemas para representar las operaciones de escritura, lectura y actualización de recursos. Además, se han creado esquemas enumerados para poder definir de forma concreta y consistente algunos atributos de las clases como lo pueden ser los estados de: una petición, una liga, un partido o una solicitud.
+
+Para la definición de las rutas se ha optado por un sistema híbrido entre enrutamiento simple y profundo. Para las rutas que representan operaciones de creación de recursos se utiliza un enrutamiento profundo, de esta forma se especifica de forma concreta todos los superrecursos necesarios para indentificar de forma inequivoca el recurso creado. Mientras que, para la obtención, actualización y eliminación de recursos, se utiliza un enrutamiento simple, ya que para obtener, actualizar o eliminar la información de un recurso ya creado basta con utilizar el identificador único del recurso.
 
 El contenido completo del contrato API se puede encontrar en el repositorio correspondiente.
 
