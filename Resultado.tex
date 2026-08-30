@@ -1,25 +1,25 @@
 \chapter{Resultado}
-\label{ch:chapter_resultado}
+\label{ch:result}
 
 En este capítulo se presentan los cambios reales que han surgido durante el desarrollo del proyecto, comparando el alcance inicial del sistema con la solución final implementada. La idea no es limitarse a describir las funcionalidades ya desarrolladas, sino también reconocer qué aspectos quedaron pendientes y qué decisiones técnicas fueron necesarias para que el sistema siguiese siendo viable.
 
 \section{Cambios aplicados}
 
-Respecto a los requisitos iniciales, el sistema mantiene la mayor parte de los objetivos de gestión deportiva definidos en la fase de análisis. Se han implementado las funciones principales relacionadas con la creación de ligas, formación de equipos, registro de usuarios, gestión de partidos y cálculo de clasificación. También se han incluido diferentes perfiles dentro de la misma aplicación, lo que representa una mejora importante frente a las alternativas utilizadas en la \\ac{LVUIB}.
+Respecto a los requisitos iniciales, el sistema mantiene la mayor parte de los objetivos de gestión deportiva definidos en la fase de análisis. Se han implementado las funciones principales relacionadas con la creación de ligas, formación de equipos, registro de usuarios, gestión de partidos y cálculo de clasificación. También se han incluido diferentes perfiles dentro de la misma aplicación, lo que representa una mejora importante frente a las alternativas utilizadas en la \ac{LVUIB}.
 
 Sin embargo, algunos aspectos no han podido desarrollarse de la misma forma que se planteó en una primera etapa. La autenticación institucional de la UIB, por ejemplo, queda pendiente para un despliegue real en producción, así como una validación más profunda en entornos con mayores requisitos de seguridad. Las soluciones técnicas para estos casos están previstas, pero no forman parte del alcance completo del presente trabajo.
 
 \section{Desviaciones respecto a la planificación inicial}
 
-Durante el desarrollo del sistema surgieron varios cambios que afectaron al proceso de implementación y a la forma de gestionar la infraestructura. Uno de los más relevantes fue la necesidad de cambiar el gestor de dependencias de JavaScript por motivos de seguridad. La aparición de ataques de cadena de suministro contra paquetes populares de \emph{npm} hizo necesario migrar el proyecto a \emph{pnpm}, un gestor que ofrece mejor control sobre las versiones y una mayor estabilidad ante este tipo de incidentes.
+\subsection{Tecnología}
+Durante el desarrollo del sistema surgieron varios cambios que afectaron al proceso de implementación y a la forma de gestionar la infraestructura.
 
-Otra desviación significativa estuvo relacionada con la simplificación del alcance de la implementación. Mientras que el diseño inicial contemplaba una solución muy completa, el desarrollo real priorizó los elementos clave del flujo de liga y la verificación funcional de los requisitos críticos. Esto permitió poner en marcha una base sólida y reutilizable, aunque dejó algunos aspectos de refinamiento para fases posteriores.
+El principal cambio que afectó al front-end fue la necesidad de cambiar el gestor de dependencias de JavaScript por motivos de seguridad. La aparición de ataques de cadena de suministro contra paquetes populares de \emph{npm} hizo necesario migrar el proyecto a \emph{pnpm}, un gestor que ofrece mejor control sobre las versiones y y configuraciones de las dependecias. Lo que acarrea una capa robusta de seguridad ante este tipo de ataques.
+
+Otra desviación en el front-end ha sido el cambio de sistema para gestionar los estilos de la interfaz. En primera instancia se utilizaba el componente nativo \texttt{StyleSheet}. Este componente permite escribir los estilos de una forma similar a \emph{CSS} puro, pero mediante objetos dentro del mismo archivo \texttt{.ts}. En ocasiones, esto resultaba engorroso al querer aplicar estilos relativamente complicados ya que las funciones nativas de \emph{CSS} no estaban disponibles al ser solo parte de la API de estilos enfocada a web y no a multiplataforma. POr este motivo se decidio cambiar a \emph{Nativewind}: una librería de estilos que permite utilizar el sistema de estilos de \href{https://www.nativewind.dev/docs/getting-started/installation}{Tailwind CSS} en aplicaciones de React Native.
 
 \section{Funcionalidades implementadas}
-
 Dentro del sistema ya desarrollado se pueden distinguir tres grupos de funcionalidades: aquellas totalmente implementadas, las implementadas parcialmente y las pendientes. Entre las primeras destacan la gestión de ligas, la configuración de equipos y participantes, la generación de calendarios y la evaluación de clasificaciones. También se han implementado los flujos de actas y resultados, así como la lógica de roles para distinguir un administrador, un capitán, un árbitro y un jugador.
-
-En un segundo nivel, algunas funcionalidades se han desarrollado parcialmente, como la experiencia de la firma digital de actas o la gestión completa de permisos de acceso según liga y rol. Estos procesos han quedado bien definidos en la arquitectura, pero requieren aún una validación más profunda y una depuración más exigente para pasar a producción.
 
 \section{Funcionalidades no implementadas}
 
