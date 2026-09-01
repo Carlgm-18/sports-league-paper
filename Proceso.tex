@@ -216,7 +216,7 @@ En la siguiente tabla se muestra un resumen con las preguntas formuladas en los 
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{| l | c | c |}
+    \begin{tabular}{| p{0.47\textwidth} | c | c |}
         \hline
         \textbf{Pregunta} & \textbf{Tipo} & \textbf{Rol} \\ \hline
         ¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella? & Elección única & Todos \\ \hline
@@ -390,11 +390,7 @@ Las siguientes imágenes que representan los tres primeros niveles de un modelo 
 
 El nivel 1 muestra cómo interactúan los distintos tipos de usuarios con la aplicación. Además, muestra la relación del servicio de autenticación de la UIB con nuestro sistema.
 
-% TODO: C4 model image, level 1
-
 En el nivel 2 podemos observar cómo los distintos componentes interactúan entre ellos: la interfaz gráfica se comunica con el servidor back-end para la consulta y envío de datos a través de peticiones HTTP, mientras que el servidor back-end se comunica con los distintos almacenamientos a través de sus API específicas. 
-
-% TODO: C4 model image, level 2
 
 El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema. Podemos observar dos versiones diferentes para este nivel. Para poder cumplir con el requisito no funcional [...] se ha decidido utilizar dos tipos de arquitectura de software diferentes: una arquitectura de tres capas simple para los módulos que engloban entidades con ciclos de vida simple (creación, visualización y actualización); mientras que para módulos de entidades con ciclos de vida más complejos, (seguridad, autenticación, mantenimiento de sub recursos, cambios y actualizaciones complejas de varios pasos transaccionales, etc.) se aplica la arquitectura hexagonal o arquitectura de puertos y adaptadores.
 
@@ -402,7 +398,7 @@ En el caso de la arquitectura de tres capas, vemos como hay un flujo de datos de
 
 Por otro lado, en la arquitectura hexagonal, vemos como las peticiones llegan a la capa de infraestructura, pasando del filtro de seguridad al adaptador de entrada correspondiente, este procede a llamar al puerto necesario para delegar la lógica de negocio a la capa de aplicación y dicho caso de uso utiliza los repositorios implementados por los adaptadores de salida para comunicarse con las bases de persistencia de datos. 
 
-% TODO: C4 model image, level 3
+% TODO Añadir las imagenes del modelo C4 en el anexo
 
 \subsection{Diseño del sistema}
 
@@ -414,33 +410,6 @@ Por otro lado, en la arquitectura hexagonal, vemos como las peticiones llegan a 
 El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el enlace \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama más detalladamente.
 
 En el diagrama se pueden apreciar: las clases definidas con sus atributos correspondientes y las relaciones que relacionan dichas clases. Cabe aclarar que se pueden ver algunos de los nombres de clases repetidos junto a un asterisco `*'. Dicho formato indica que la clase ya ha sido definida y que simplemente se usa como una `referencia'. Se ha decidido aplicar este formato por claridad visual. De esta forma evitamos que las relaciones que conectan dos clases muy separadas no estorben en la lectura del diagrama.
-
-% {\renewcommand{\arraystretch}{1.8}
-% \begin{longtable}{|l|c|p{0.3\textwidth}|p{0.35\textwidth}|}
-% \caption{Stakeholders del sistema}\label{tab:stakeholders}\\
-% \hline
-% \textbf{Stakeholder} & \textbf{Usuario del sistema} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos Principales} \\
-% \hline
-% \endfirsthead
-% \multicolumn{4}{c}
-% {{\bfseries \tablename\ \thetable{} -- continuación de la página anterior}} \\
-% \hline
-% \textbf{Stakeholder} & \textbf{Usuario del sistema} & \textbf{Descripción del Rol} & \textbf{Intereses y Objetivos Principales} \\
-% \hline
-% \endhead
-% \multicolumn{4}{r}{{Continúa en la página siguiente}} \\ \hline
-% \endfoot
-% \hline
-% \endlastfoot
-% OUSIS & No & Oficina de la UIB beneficiada por el desarrollo del proyecto & Obtener una herramienta de bajo coste y funcional que digitalice la gestión deportiva de la universidad, garantizando la viabilidad técnica y la mejora de los procesos actuales. \\ \hline
-% Tutor académico / Tribunal & No & Oficina de la UIB beneficiada por el desarrollo del proyecto & Garantizar que el proyecto cumple con los requisitos metodológicos, de arquitectura e ingeniería de software exigidos para la obtención del título. \\ \hline
-% Usuario / Espectador & Sí & Usuario común del sistema con o sin cuenta registrada & Consultar y ver los datos públicos de las ligas existentes. \\ \hline
-% Jugador & Sí & Participante inscrito en una o varias ligas. & Consultar las fechas de sus próximos encuentros, revisar la clasificación de su equipo y ver normativas. \\ \hline
-% Capitán & Sí & Representante del equipo, encargado de la gestión interna y la comunicación con otros equipos. & Inscribir a sus jugadores fácilmente y acordar fechas o modificaciones de partidos con otros capitanes de forma eficiente. \\ \hline
-% Árbitro & Sí & Responsable de la validez de los encuentros, la firma de actas y el reporte de resultados. & Disponer de una interfaz rápida para rellenar actas digitales y registrar el resultado de los partidos sin fricción. \\ \hline
-% Administrador & Sí & Gestor principal encargado de crear competiciones, calendarios y mantener el orden. & Automatizar la generación de calendarios, centralizar la resolución de incidencias y reducir el trabajo manual organizativo. \\ \hline
-% \end{longtable}
-% }
 
 Aparte de la vista general del diagrama resultaría interesante destacar dos zonas en concreto: una por ser la pieza fundamental del sistema y la otra por resultar en un ejemplo de normalización muy claro.
 
