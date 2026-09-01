@@ -92,11 +92,9 @@ La base de datos se ha implementado mediante una serie de migraciones \texttt{.s
 Además, se han aplicado restricciones de unicidad para evitar duplicados y relaciones asociativas para modelar relaciones muchos a muchos, como la pertenencia de jugadores a equipos o la participación de equipos en una liga. El uso del borrado lógico garantiza que la información no pueda perderse de forma irreversible si se elimina un recurso que tiene implicaciones históricas o administrativas.
 
 \section{Almacenamiento de objetos}
-
-% TODO Finish
+% TODO Comentar la imagen de minio
 Como ya se ha comentado el almacenamiento de objetos se ha implementado mediante MinIO. En concreto, se ha utilizado el contenedor \dots
 
-% TODO Review 
 Al levantar la aplicación el sistema comprueba si existe el \emph{bucket} de almacenamiento y, si no existe, lo crea. De esta forma tanto si el sistema se ejecuta por primera vez como si se vuelve a levantar tras una caída, se asegura de tener creado el principal punto de alamcenamiento.
 
 Los archivos se almacenan con claves únicas que combinan el identificador de la entidad y el tipo de recurso, similar a como funcionan las rutas de directorios. Así, se evitan colisiones y se facilita la recuperación posterior. La validación se centra en el tipo de archivo y su tamaño, con límites razonables para no desbordar el almacenamiento ni comprometer la experiencia del usuario. Las credenciales se mantienen en variables de entorno y no se incorporan al código fuente, de manera que el despliegue local y el de producción no compartan secretos sensibles.
