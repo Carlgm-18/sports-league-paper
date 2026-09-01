@@ -97,7 +97,12 @@ Además, se han aplicado restricciones de unicidad para evitar duplicados y rela
 Como ya se ha comentado el almacenamiento de objetos se ha implementado mediante MinIO. En concreto, se ha utilizado el contenedor \dots
 
 % TODO Review 
-Los archivos se almacenan con claves únicas que combinan el identificador de la entidad y el tipo de recurso, evitando colisiones y facilitando la recuperación posterior. La validación se centra en el tipo de archivo y su tamaño, con límites razonables para no desbordar el almacenamiento ni comprometer la experiencia del usuario. Las credenciales se mantienen en variables de entorno y no se incorporan al código fuente, de manera que el despliegue local y el de producción no compartan secretos sensibles.
+Al levantar la aplicación el sistema comprueba si existe el \emph{bucket} de almacenamiento y, si no existe, lo crea. De esta forma tanto si el sistema se ejecuta por primera vez como si se vuelve a levantar tras una caída, se asegura de tener creado el principal punto de alamcenamiento.
+
+Los archivos se almacenan con claves únicas que combinan el identificador de la entidad y el tipo de recurso, similar a como funcionan las rutas de directorios. Así, se evitan colisiones y se facilita la recuperación posterior. La validación se centra en el tipo de archivo y su tamaño, con límites razonables para no desbordar el almacenamiento ni comprometer la experiencia del usuario. Las credenciales se mantienen en variables de entorno y no se incorporan al código fuente, de manera que el despliegue local y el de producción no compartan secretos sensibles.
+
+La comunicación con el almacenamiento de objetos se establece: a través de la API de \emph{Amazon S3} ofrecida por la librería de \emph{MinIO} dentro de \emph{Kotlin} para las operaciones que requieren la creación de recursos; y a través de \emph{URL} para la obtención de los recursos almacenados.
+
 % TODO Finish
 \section{Interfaz multiplataforma}
 
