@@ -55,24 +55,21 @@ La capa back-end se ha diseñado como un monolito modular, organizando las respo
 En los módulos con lógica más compleja, como ligas, partidos y actas, se ha aplicado una arquitectura hexagonal: el núcleo de negocio queda separado de la infraestructura y de los adaptadores que acceden a la base de datos o a servicios externos. En entidades más simples se ha mantenido una estructura de tres capas, con un controlador, un servicio y un repositorio asociados.
 
 \subsection{Implementación de la seguridad}
-La seguridad del servidor se ha implementado mediante Spring Security y tokens \ac{JWT}. Cada petición autenticada pasa por un filtro que valida el token e identifica al usuario. A partir de ese punto, la petición se delega a los servicios de preautorización, que aplican la lógica \ac{ABAC} necesaria para poder manetener la seguridad y privacidad en los recursos.
+La seguridad del servidor se ha implementado mediante Spring Security y tokens \ac{JWT}. Cada petición autenticada pasa por un filtro que valida el token e identifica al usuario. A partir de ese punto, la petición se delega a los servicios de pre autorización, que aplican la lógica \ac{ABAC} necesaria para poder mantener la seguridad y privacidad en los recursos.
 
 Además, se han incorporado validaciones de entrada para evitar que datos mal formados o inconsistentes lleguen al dominio. Esto incluye comprobaciones de campos obligatorios, rangos válidos, tipos esperados y comprobación de permisos antes de ejecutar una operación sensible. Todas estas comprobaciones se hacen de forma automática a través de la anotación \texttt{@Valid} incluida en el argumento que representa el cuerpo de la petición para cada endpoint.
 
 \subsection{Implementación de la lógica de ligas}
-
 La lógica de ligas es el eje central del sistema. En ella se gestionan la configuración de cada competición, los equipos, los grupos, las fases, las jornadas y la clasificación. La creación de una liga no se limita a guardar un registro en base de datos: incluye validaciones del formato de competición, compatibilidad con el deporte seleccionado, creación de grupos y generación de los partidos iniciales.
 
 Este diseño permite que cambios en la configuración de una liga se reflejen de forma coherente en toda la estructura del sistema. Por ejemplo, si se modifica el sistema de puntuación o el número de grupos, el cálculo de clasificación y la lógica de competición se actualizan de acuerdo con la nueva configuración.
 
 \subsection{Generación de fases, rondas y partidos}
-
-La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula los partidos según: el número de equipos y el tipo de fase; a partir de ahí crea las jornadas, emparejamientos y referencias necesarias para cada partido. Este flujo es especialmente relevante en ligas con formato de clasificación con o sin grupos, donde la organización del calendario debe respetar la lógica competitiva del deporte.
+La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula los partidos según: el número de equipos y el tipo de fase; a partir de ahí crea las jornadas, emparejamientos y referencias necesarias para cada partido. Este flujo es especialmente relevante en ligas con formato de clasificación con o sin grupos, donde la organización del calendario debe respetar la lógica competitiva del deporte. Es interesante mencionar que para generar los partidos
 
 La ventaja de esta automatización es doble: por un lado, reduce el trabajo manual del administrador; por otro, garantiza que todos los equipos queden cubiertos por un calendario consistente y que las relaciones entre partidos, jornadas y fases se mantengan coherentes dentro de la base de datos.
 
 \subsection{Gestión de resultados y actas}
-
 La gestión de resultados y actas es una de las partes más importantes del sistema, ya que conecta la ejecución del partido con la información definitiva que se muestra a los usuarios. Mientras se realiza un encuentro, el árbitro puede registrar eventos, incidencias, sets, puntos y observaciones del partido. Una vez cerrada el acta, la operación se ejecuta de forma transaccional para actualizar la clasificación y dejar el estado del encuentro en una situación consistente.
 
 Este flujo requiere coordinar varias capas: la validación del estado del partido, la actualización del resultado, la creación del historial de actas y la revisión de la información por parte de capitanes o administradores. El objetivo es que no haya estados intermedios ambiguos que puedan derivar en errores de la competición o en incoherencias en la tabla clasificatoria.
