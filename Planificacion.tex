@@ -1,20 +1,20 @@
-\chapter{Gestión del proyecto}
+\chapter{Planificación del proyecto}
 \label{ch:pm}
 
 \section{Metodología}
 
-Para la gestión del proyecto se ha optado por una metodología de desarrollo en cascada, dado que permite establecer una secuencia lógica y ordenada de actividades, asegurando que cada fase debe completarse antes de pasar a la siguiente. Este enfoque resulta especialmente adecuado para un proyecto desarrollado por una única persona, en el que no existe un equipo multidisciplinar ni un cliente con requerimientos de actualización continua, sino un conjunto de objetivos definidos de antemano que deben alcanzarse de manera progresiva y controlada.
+Para el desarrollo del proyecto se ha usado una metodología de desarrollo en cascada. Este enfoque resulta especialmente adecuado para un proyecto desarrollado por una única persona, en el que no existe un equipo multidisciplinar ni un cliente con requerimientos de actualización continua, sino un conjunto de objetivos definidos de antemano que deben alcanzarse de manera progresiva y controlada.
 
 La estructura en fases facilita la planificación, la organización del trabajo y la evaluación del progreso, permitiendo detectar desviaciones en etapas tempranas y reducir así el riesgo de errores acumulados. Asimismo, la separación entre análisis, diseño, implementación, validación y documentación favorece una gestión más rigurosa del tiempo y de los recursos, y permite alinear cada hito del proyecto con los objetivos específicos establecidos al inicio de la investigación (Ver \ref{sec:oe}).
 
 Las principales fases con las que cuenta el proyecto son las siguientes:
 
 \begin{enumerate}
-    \item \textbf{Análisis de requisitos}: definir el alcance del proyecto y las funcionalidades y capacidades con las que debe contar el sistema.
-    \item \textbf{Diseño del sistema}: esbozozar la estructura y arquitectura del sistema y sus distintos componentes.
+    \item \textbf{Análisis}: definir el alcance del proyecto y las funcionalidades y capacidades con las que debe contar el sistema.
+    \item \textbf{Diseño del sistema}: esbozar la estructura y arquitectura del sistema y sus distintos componentes.
     \item \textbf{Implementación}: aplicar el análisis y diseño completado para desarrollar el sistema y convertirlo en una aplicación funcional.
     \item \textbf{Validación}: evaluar el sistema implementado para asegurar su correcto funcionamiento.
-    \item \textbf{Documentanción}: registrar el trabajo completado en documentación formal y entregar el sistema desarrollado.
+    \item \textbf{Documentación}: registrar el trabajo completado en documentación formal y entregar el sistema desarrollado.
 \end{enumerate}
 
 \section{Planificación temporal}
@@ -22,17 +22,17 @@ Las principales fases con las que cuenta el proyecto son las siguientes:
 En la Figura X se muestra el cronograma del proyecto, donde se representan las diferentes fases del desarrollo y la secuencia temporal en la que se han llevado a cabo. Este esquema permite visualizar de forma clara el orden de ejecución de cada etapa, así como los hitos principales que marcan el avance del trabajo y la transición entre una fase y la siguiente. La planificación se ha estructurado de manera que responda tanto a la evolución técnica del sistema como al calendario académico del TFG, garantizando que cada bloque de trabajo se desarrolle en un periodo realista y con una carga de esfuerzo adecuada. En este sentido, la duración de las fases de análisis y desarrollo ha tenido en cuenta la necesidad de dedicar tiempo al estudio para los exámenes y para el aprendizaje de tecnologías, lo que ha condicionado la progresión del proyecto y ha motivado una distribución temporal más equilibrada entre trabajo académico y desarrollo del sistema.
 
 \section{Hitos principales}
-Tal y como se muestra el la Figura X, los hitos son los encargados de marcar la finalización de cada fase. Los principales hitos que se pueden alcanzar son: al completar el análisis de requisitos, al diseñar por completo el sistema, al implementar todos los componentes, al evaluar el comportamiento del sistema, al desplegar el sistema y al elaborar la documentación del trabajo realizado. 
+Tal y como se muestra en la Figura X, los hitos son los encargados de marcar la finalización de cada fase. Los principales hitos que se pueden alcanzar son: al completar el análisis de requisitos, al diseñar por completo el sistema, al implementar todos los componentes, al evaluar el comportamiento del sistema, al desplegar el sistema y al elaborar la documentación del trabajo realizado.
+
+% TODO Describir todos los hitos en detalle
 
 \section{Gestión de riesgos}
-Los riesgos identificados durante la planificación del proyecto se han clasificado en función de su probabilidad de aparición y del impacto potencial sobre el alcance, la calidad y la ejecución temporal del trabajo. Los cambios en los requisitos se consideran un riesgo de baja prioridad, ya que el análisis inicial, basado en formularios y perfiles de usuario, ha permitido definir de forma estable los objetivos funcionales del sistema. En cambio, los riesgos tecnológicos presentan una prioridad alta, debido a la dependencia de librerías, frameworks y herramientas externas que pueden sufrir cambios de versión, introducir vulnerabilidades o requerir ajustes de compatibilidad. Asimismo, la carga académica del estudiante y la necesidad de compatibilizar el desarrollo con los exámenes representan un riesgo de cronograma de prioridad media-alta, ya que pueden afectar a la secuencia de trabajo si no se gestionan con márgenes temporales adecuados. Por último, los riesgos asociados a la integración de servicios, la seguridad de acceso y la deuda técnica requieren una supervisión continua, dado que su materialización podría afectar tanto a la estabilidad del sistema como a su mantenibilidad futura.
+Los riesgos identificados durante la planificación del proyecto se han clasificado en función de su probabilidad de aparición y del impacto potencial sobre el alcance, la calidad y la ejecución temporal del trabajo. Los cambios en los requisitos se consideran un riesgo de baja prioridad, ya que el análisis inicial, basado en formularios y perfiles de usuario, ha permitido definir de forma estable los objetivos funcionales del sistema. En cambio, los riesgos tecnológicos presentan una prioridad alta, debido a la dependencia de librerías, frameworks y herramientas externas que pueden sufrir cambios de versión, introducir vulnerabilidades o requerir ajustes de compatibilidad. Asimismo, la carga académica del estudiante y la necesidad de compatibilizar el desarrollo con los exámenes representan un riesgo de cronograma de prioridad media-alta, ya que pueden afectar a la secuencia de trabajo si no se gestionan con márgenes temporales adecuados. Por último, los riesgos asociados a la integración de servicios, la seguridad de acceso y la deuda técnica requieren una supervisión continua, dado que su materialización podría afectar tanto a la estabilidad del sistema como a su mantenibilidad futura. Toda esta información se puede consultar en detalle
 
 \begin{table}[H]
     \centering
-    \caption{Riesgos identificados y estrategias de mitigación}
-    \label{tab:riesgos}
     \renewcommand{\arraystretch}{1.25}
-    \resizebox{\textwidth}{!}{%
+    \resizebox{\textwidth}{!}{
     \begin{tabular}{|p{0.18\textwidth}|p{0.32\textwidth}|c|c|p{0.28\textwidth}|}
         \hline
         \textbf{Tipo de riesgo} & \textbf{Descripción} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Mitigación} \\ \hline
@@ -78,6 +78,8 @@ Los riesgos identificados durante la planificación del proyecto se han clasific
         Definir requisitos esenciales y priorizar el alcance. \\ \hline
     \end{tabular}%
     }
+    \caption{Riesgos identificados y estrategias de mitigación}
+    \label{tab:risks_management}
 \end{table}
 
 \section{Entregables}
@@ -86,8 +88,16 @@ Además de la planificación y el seguimiento del proyecto, se han definido una 
 En la lista siguiente se pueden encontrar todos los entregables necesarios para este proyecto:
 
 \begin{enumerate}
-    \item \textbf{Entregables de análisis}: requisitos funcionales y no funcionales, diagrama de casos de uso y diagrama usuario-sistema para un caso de uso crítico.
-    \item \textbf{Entregables de diseño}: diagrama C4 con los primeros tres niveles y modelo de datos.
-    \item \textbf{Entregables técnicos}: código fuente, contrato API, configuración de desarrollo local y despliegue, y migraciones de la base de datos.
-    \item \textbf{Entregables de validación}: documentación final y resultados de validación del sistema.
+    \item Requisitos funcionales.
+    \item Requisitos no funcionales. 
+    \item Diagrama de casos de uso. 
+    \item Diagrama usuario-sistema para un caso de uso crítico.
+    \item Diagrama C4 con los primeros tres niveles.
+    \item Modelo de datos.
+    \item Código fuente.
+    \item Contrato API.
+    \item Configuración de desarrollo local y despliegue.
+    \item Migraciones de la base de datos.
+    \item Documentación final
+    \item Resultados de validación del sistema.
 \end{enumerate}

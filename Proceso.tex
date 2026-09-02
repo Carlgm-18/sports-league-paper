@@ -242,7 +242,7 @@ Se puede apreciar que, para las preguntas de escala de Likert, la mayoría de la
 Los formularios fueron distribuidos a través de WhatsApp a los distintos grupos objetivos y se esperó a que hubiera una cantidad significativa de respuestas.
 
 
-\subsection{Análisis}
+\subsection{Análisis de las respuestas de los formularios}
 
 Las encuestas fueron respondidas por un total de 26 participantes: 16 jugadores, 2 árbitros, 6 capitanes y 2 administradores. Las respuestas presentadas en los formularios concluyeron en los siguientes resultados:
 
@@ -339,6 +339,7 @@ RF-EVE-2 & Evento de Partido & El sistema debe permitir que cada evento pueda se
 \end{longtable}
 }
 
+% TODO Pon el diagrama en el apéndice y referéncialo
 Podemos apreciar mejor los requisitos funcionales mediante el diagrama de casos de uso presente en el apéndice \href{https://drive.google.com/file/d/1S-nP_uzW5Z5XFGLOPDLM0Ln91ALcyA5O/view?usp=drive_link}{Diagrama de casos de uso}
 
 {\renewcommand{\arraystretch}{1.8}
@@ -386,12 +387,13 @@ Definiremos el diseño en dos niveles distintos: la distribución e interacción
 
 \subsection{Arquitectura del sistema}
 
-Las siguientes imágenes que representan los tres primeros niveles de un modelo C4 explican en detalle la arquitectura establecida para Sports League:
+Las Figuras \ref{fig:C4-1}, \ref{fig:C4-2}, \ref{fig:C4-3-1} y \ref{fig:C4-3-2} representan los tres primeros niveles de del modelo C4 y explican en detalle la arquitectura establecida para Sports League.
 
 El nivel 1 muestra cómo interactúan los distintos tipos de usuarios con la aplicación. Además, muestra la relación del servicio de autenticación de la UIB con nuestro sistema.
 
 En el nivel 2 podemos observar cómo los distintos componentes interactúan entre ellos: la interfaz gráfica se comunica con el servidor back-end para la consulta y envío de datos a través de peticiones HTTP, mientras que el servidor back-end se comunica con los distintos almacenamientos a través de sus API específicas. 
 
+% TODO Mencionar el código del requisito no funcional sobre la arquitectura hexagonal
 El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema. Podemos observar dos versiones diferentes para este nivel. Para poder cumplir con el requisito no funcional [...] se ha decidido utilizar dos tipos de arquitectura de software diferentes: una arquitectura de tres capas simple para los módulos que engloban entidades con ciclos de vida simple (creación, visualización y actualización); mientras que para módulos de entidades con ciclos de vida más complejos, (seguridad, autenticación, mantenimiento de sub recursos, cambios y actualizaciones complejas de varios pasos transaccionales, etc.) se aplica la arquitectura hexagonal o arquitectura de puertos y adaptadores.
 
 En el caso de la arquitectura de tres capas, vemos como hay un flujo de datos desde los controladores que reciben las peticiones del front-end aceptadas por el filtro de seguridad y autenticación, pasando por los servicios sobre los que se delega la lógica de negocio y acabando en los repositorios, encargados de la persistencia y obtención de los datos.
@@ -415,7 +417,7 @@ Aparte de la vista general del diagrama resultaría interesante destacar dos zon
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.22\textwidth]{img/class_diagram/participant.jpg}
+    \includegraphics[width=\textwidth]{img/class_diagram/participant.jpg}
     \caption{Clase participante}
     \label{fig:participant_class}
 \end{figure}
@@ -424,7 +426,7 @@ En la primera zona (Ver Figura \ref{fig:participant_class}), la pieza central de
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.22\textwidth]{img/class_diagram/results.jpg}
+    \includegraphics[width=\textwidth]{img/class_diagram/results.jpg}
     \caption{Resultado y acta}
     \label{fig:result}
 \end{figure}
@@ -447,17 +449,21 @@ Cabe tener en cuenta que este diseño tan solo muestra la forma en la que los us
 % TODO explain a critical wireframe
 
 \subsection{Diseño del contrato API}
-
 El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end, para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. Para redactar el contrato se ha hecho uso del estándar Open API ampliamente utilizado en la industria del desarrollo. 
 
 La definición del contrato se ha hecho de forma que sea una representación casi idéntica del modelo de datos (Ver \ref{sec:bd_design}). Se han separado los esquemas según las clases pero agrupándolas según sus relaciones. Por otro lado, se han definido esquemas para representar las operaciones de escritura, lectura y actualización de recursos. Además, se han creado esquemas enumerados para poder definir de forma concreta y consistente algunos atributos de las clases como lo pueden ser los estados de: una petición, una liga, un partido o una solicitud.
 
-Para la definición de las rutas se ha optado por un sistema híbrido entre enrutamiento simple y profundo. Para las rutas que representan operaciones de creación de recursos se utiliza un enrutamiento profundo, de esta forma se especifica de forma concreta todos los superrecursos necesarios para indentificar de forma inequivoca el recurso creado. Mientras que, para la obtención, actualización y eliminación de recursos, se utiliza un enrutamiento simple, ya que para obtener, actualizar o eliminar la información de un recurso ya creado basta con utilizar el identificador único del recurso.
+Para la definición de las rutas se ha optado por un sistema híbrido entre enrutamiento simple y profundo. Para las rutas que representan operaciones de creación de recursos se utiliza un enrutamiento profundo, de esta forma se especifica de forma concreta todos los superrecursos necesarios para identificar de forma inequívoca el recurso creado. Mientras que, para la obtención, actualización y eliminación de recursos, se utiliza un enrutamiento simple, ya que para obtener, actualizar o eliminar la información de un recurso ya creado basta con utilizar el identificador único del recurso.
 
+% TODO Posar exemples de rutes, explicar peculiaritats... És una part important del desenvolupament com per només dedicar-hi mitja pàgina.
+
+% TODO No hem posat cap enllaç als repositoris encara, no podem dir "el repositorio correspondiente"
 El contenido completo del contrato API se puede encontrar en el repositorio correspondiente.
 
 \subsection{Control de versiones}
 
 Para gestionar el control de versiones de los componentes del sistema se ha decidido utilizar Git. Es la herramienta que más se usa dentro de la industria y la más fácil de utilizar para un equipo de desarrollo de una sola persona, como es el caso de este proyecto.
 
-Se han creado tres repositorios, uno para cada componente principal del sistema: back-end, front-end y contrato API. Se ha optado por esta separación, ya que de esta manera separamos el sistema según el ámbito: definición, procesamiento y presentación de los datos. Un aspecto interesante es que el repositorio del contrato API existe como submódulo de los otros dos. Gracias a esto, ambos componentes tienen una vía directa para actualizar el contrato en caso de ser necesario y consultar los cambios que haya efectuado el otro componente. De esta forma, ambos componentes están al día 
+Se han creado tres repositorios, uno para cada componente principal del sistema: back-end, front-end y contrato API. Se ha optado por esta separación, ya que de esta manera separamos el sistema según el ámbito: definición, procesamiento y presentación de los datos. Un aspecto interesante es que el repositorio del contrato API existe como submódulo de los otros dos. Gracias a esto, ambos componentes tienen una vía directa para actualizar el contrato en caso de ser necesario y consultar los cambios que haya efectuado el otro componente. De esta forma, ambos componentes están al día \dots
+
+% TODO explica també com hem fet les revisions per issues al repositori de la documentació. Falta també explicar que has emprat missatges de commit convencionals per fer més llegible el registre de canvis

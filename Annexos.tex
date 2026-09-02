@@ -3,18 +3,6 @@
 \chapter{Formularios de opinión}
 
 \chapter{Resultados de los formularios}
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \pie[text=legend]{
-            30.77/Menos de 2 veces al mes, 26.92/No sabía que había una aplicación o\dots, 19.23/Un día a la semana, 19.23/Menos de 4 días a la semana, 3.85/Más de 4 días a la semana
-        }
-    \end{tikzpicture}
-    \caption{¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella?}
-    \label{fig:col_use}
-\end{figure}
-
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -44,8 +32,8 @@
         \end{axis}
     \end{tikzpicture}
     
-    \label{fig:admin_col}
     \caption{¿Cómo puntuarías la administración de la liga a través de la aplicación?}
+    \label{fig:admin_col}
 \end{figure}
 
 \begin{figure}[H]
@@ -77,8 +65,8 @@
         \end{axis}
     \end{tikzpicture}
     
-    \label{fig:referee_col_0}
     \caption{¿Cómo puntuarías la gestión de los partidos a través de la aplicación?}
+    \label{fig:referee_col_0}
 \end{figure}
 
 \begin{figure}[H]
@@ -121,10 +109,11 @@
         \end{axis}
     \end{tikzpicture}
     
-    \label{fig:captain_col}
     \caption{Gestión equipos}
+    \label{fig:captain_col}
 \end{figure}
 
+\section{Respuestas a las preguntas abiertas}
 \textbf{Otros aspectos}
 \begin{itemize}
     \item Me gustaría que hubiera estado más adaptada al voleibol. Se nota que no está hecha para este deporte por el tema de la complicación de asignar una distinta puntuación a diferentes finales de partido o la falta de aparición de los puntos a favor y él contra en la clasificación. Además la asignación de los árbitros a los partidos es muy tediosa por tener que seleccionarlos uno a uno. Me gustaría también que se creará un calendario donde se viera más claramente cuando es cada partido y árbitro asignado. \label{list:other_aspects}
@@ -394,7 +383,7 @@
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.22\textwidth]{img/clupik/price_planes.png}
+    \includegraphics[width=\textwidth]{img/clupik/price_planes.png}
     \caption{Planes de pago}
     \label{fig:clupik_price_planes}
 \end{figure}
@@ -421,3 +410,33 @@
 \chapter{Diseño de la base de datos}
 
 \chapter{Contrato API}
+
+\chapter{Modelos C4}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/system_design/C4.1.jpg}
+    \caption{Modelo C4 nivel 1}
+    \label{fig:C4-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/system_design/C4.2.jpg}
+    \caption{Modelo C4 nivel 2}
+    \label{fig:C4-2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/system_design/C4.3.1.jpg}
+    \caption{Modelo C4 nivel 3: arquitectura de tres capas}
+    \label{fig:C4-3-1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/system_design/C4.3.2.jpg}
+    \caption{Modelo C4 nivel 3: arquitectura hexagonal}
+    \label{fig:C4-3-2}
+\end{figure}

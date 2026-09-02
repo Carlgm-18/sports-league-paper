@@ -14,18 +14,6 @@ Para el front-end se ha decidido utilizar Visual Studio Code, ya que es uno de l
 
 Mientras que para el back-end se ha optado por IntelliJ IDEA, un IDE de nicho cuando se trata de desarrollar sistemas implementados mediante tecnologías basadas en la JDK, como lo es, en este caso, Kotlin. Además, ofrece bastantes herramientas para trabajar de forma sencilla con lenguajes orientados a objetos, desarrollo de pruebas de código y ejecución y depuración de los programas desarrollados.
 
-\subsubsection{Back-end}
-La parte del servidor se ha implementado con Kotlin y Spring Boot, usando una arquitectura modular y una organización por dominios. La capa de dominio encapsula la lógica de negocio, mientras que los controladores, servicios y repositorios gestionan la entrada de datos, la validación y la persistencia. Spring Boot ha permitido integrar de forma natural Spring Security, transacciones, validación de datos y configuración por variables de entorno.
-
-\subsubsection{Front-end}
-La interfaz multiplataforma se ha desarrollado con React Native y Expo, de manera que el mismo proyecto pueda ejecutarse en dispositivos Android e iOS. La estructura se ha organizado por pantallas, componentes reutilizables y servicios para la comunicación con la API, con una navegación orientada a los distintos perfiles del sistema: jugador, capitán, árbitro y administrador.
-
-\subsubsection{Base de datos}
-La base de datos relacional se ha implementado sobre PostgreSQL. Este motor ha sido elegido por su fiabilidad, soporte para transacciones y capacidades para modelar relaciones complejas con integridad referencial, claves foráneas, unicidad y restricciones de comprobación.
-
-\subsubsection{Almacenamiento de objetos}
-Para almacenar imágenes, documentos y archivos asociados a equipos, jugadores y actas se ha usado MinIO, un servicio compatible con la API S3 que permite un despliegue local equivalente a un entorno de almacenamiento de objetos en producción. Esto evita cargar la base de datos con archivos binarios y permite mantener una separación clara entre datos transaccionales y contenido multimedia.
-
 \subsection{Ejecución local}
 
 El archivo \emph{docker-compose.yaml} se ha utilizado para configurar un entorno de desarrollo aislado y reproducible. Gracias a los contenedores, el sistema puede levantarse con una única orden y sin depender de una configuración manual compleja de cada servicio. El comando principal es:\newline
@@ -48,11 +36,21 @@ En el back-end, se ha utilizado la librería \emph{org.openapi.generator}, que, 
 
 \section{Servidor back-end}
 
-\subsection{Estructura modular}
+% TODO
+% Intentaria posar un esquema/diagrama a cada secció on tengui sentit:
+% - Estructura
+% - Lògica de lligues
+% - Generació de fases
+% - Gestió d'actes
+% Així com està ara és molt superficial, s'ha d'explicar amb més detall
+
+\subsection{Estructura}
 
 La capa back-end se ha diseñado como un monolito modular, organizando las responsabilidades por dominio y funcionalidad, en lugar de mantener toda la lógica en un único bloque. Cada módulo contiene sus propios controladores, servicios, repositorios y modelos de dominio. La separación vertical por entidad permite que cada pieza del sistema tenga un alcance claro y que el código pueda crecer sin volverse inmanejable.
 
 En los módulos con lógica más compleja, como ligas, partidos y actas, se ha aplicado una arquitectura hexagonal: el núcleo de negocio queda separado de la infraestructura y de los adaptadores que acceden a la base de datos o a servicios externos. En entidades más simples se ha mantenido una estructura de tres capas, con un controlador, un servicio y un repositorio asociados.
+
+% TODO Añadir imagen de la estructura de carpetas
 
 \subsection{Implementación de la seguridad}
 La seguridad del servidor se ha implementado mediante Spring Security y tokens \ac{JWT}. Cada petición autenticada pasa por un filtro que valida el token e identifica al usuario. A partir de ese punto, la petición se delega a los servicios de pre autorización, que aplican la lógica \ac{ABAC} necesaria para poder mantener la seguridad y privacidad en los recursos.
@@ -92,10 +90,13 @@ Además, se han aplicado restricciones de unicidad para evitar duplicados y rela
 % TODO Comentar la imagen de minio
 Como ya se ha comentado el almacenamiento de objetos se ha implementado mediante MinIO. En concreto, se ha utilizado el contenedor \dots
 
-Al levantar la aplicación el sistema comprueba si existe el \emph{bucket} de almacenamiento y, si no existe, lo crea. De esta forma tanto si el sistema se ejecuta por primera vez como si se vuelve a levantar tras una caída, se asegura de tener creado el principal punto de alamcenamiento.
+Al levantar la aplicación el sistema comprueba si existe el \emph{bucket} de almacenamiento y, si no existe, lo crea. De esta forma tanto si el sistema se ejecuta por primera vez como si se vuelve a levantar tras una caída, se asegura de tener creado el principal punto de almacenamiento.
+
+% TODO Añadir diagrama de flujo para el levantamiento del OS
 
 Los archivos se almacenan con claves únicas que combinan el identificador de la entidad y el tipo de recurso, similar a como funcionan las rutas de directorios. Así, se evitan colisiones y se facilita la recuperación posterior. La validación se centra en el tipo de archivo y su tamaño, con límites razonables para no desbordar el almacenamiento ni comprometer la experiencia del usuario. Las credenciales se mantienen en variables de entorno y no se incorporan al código fuente, de manera que el despliegue local y el de producción no compartan secretos sensibles.
 
+% TODO Añadir diagrama para explicar mejor
 La comunicación con el almacenamiento de objetos se establece: a través de la API de \emph{Amazon S3} ofrecida por la librería de \emph{MinIO} dentro de \emph{Kotlin} para las operaciones que requieren la creación de recursos; y a través de \emph{URL} para la obtención de los recursos almacenados.
 
 % TODO Finish
@@ -112,8 +113,10 @@ Tal y como se ha comentado en al sección \ref{sec:interface_design} todo el tra
 
 Para generar los estilos se ha utilizado el arnés de \emph{Antigravity} y el modelo de \emph{Gemini 3.5 Flash} con precisión \emph{Medium}. Para ayudar con la generación se añadieron imágenes de el mockup creado en Figma y los requisitos no funcionales como contexto. Se le pidió explícitamente que añadiera estilos para obtener una interfaz atractiva y que utilice una temática deportiva.
 
-\subsection{Flujos por rol}
+% TODO Comentar el resutlado obtenido poniendo de ejemplo algunas pantallas.
 
+\subsection{Flujos por rol}
+% TODO añadir diagrama explicando
 Los flujos principales se han implementado de forma distinta según el rol. El administrador tiene una visión global de la liga y puede gestionar calendarios, fases y ajustes; el capitán se centra en la gestión de su equipo y la coordinación de partidos; el árbitro requiere una interfaz ágil para registrar eventos y cerrar actas con pocos clics; y el jugador consulta información relevante y accede al contenido asociado a su equipo. Esta separación por rol es una de las principales mejoras del sistema frente a las alternativas analizadas en la introducción.
 
 En resumen, la implementación demuestra que la arquitectura y el diseño planteados en los capítulos previos no son solo una propuesta teórica, sino un sistema funcional con lógica de negocio, persistencia, almacenamiento de archivos y una interfaz de usuario consistente. La combinación de diferentes tecnologías y patrones ha permitido construir una solución que cubre de forma integral la gestión de ligas universitarias, manteniendo una estructura escalable y modular.

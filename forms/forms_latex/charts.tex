@@ -1,6 +1,17 @@
 \subsubsection*{Aspectos cuantitativos}
 
-La gráfica \ref{fig:col_use} nos permite ver que la mayoría de los usuarios casi no usan la aplicación o que incluso no la usan para nada. Esto puede ser debido a la poca utilidad o facilidad de uso de la aplicación que encuentran en su uso cotidiano.
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \pie[text=legend]{
+            30.77/Menos de 2 veces al mes, 26.92/No sabía que había una aplicación o\dots, 19.23/Un día a la semana, 19.23/Menos de 4 días a la semana, 3.85/Más de 4 días a la semana
+        }
+    \end{tikzpicture}
+    \caption{¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella?}
+    \label{fig:col_use}
+\end{figure}
+
+La Figura \ref{fig:col_use} nos permite ver que la mayoría de los usuarios casi no usan la aplicación o que incluso no la usan para nada. Esto puede ser debido a la poca utilidad o facilidad de uso de la aplicación que encuentran en su uso cotidiano.
 
 Esto nos puede indicar que la aplicación tan solo la usan los usuarios que estrictamente tienen que utilizarla: como los árbitros, para guardar los resultados de los partidos; o los administradores, para hacer un seguimiento continuo del correcto desarrollo de la liga.
 
@@ -15,7 +26,7 @@ Esto nos puede indicar que la aplicación tan solo la usan los usuarios que estr
     \label{fig:col_device}
 \end{figure}
 
-La gráfica \ref{fig:col_device} nos confirma el uso multiplataforma que hacen los usuarios de la aplicación, ya sea para ver ciertos datos de forma rápida con dispositivos móviles o consultas más precisas y extensas con el navegador web. Este dato nos informa sobre la necesidad de un sistema disponible en dispositivos varios.
+La Figura \ref{fig:col_device} nos confirma el uso multiplataforma que hacen los usuarios de la aplicación, ya sea para ver ciertos datos de forma rápida con dispositivos móviles o consultas más precisas y extensas con el navegador web. Este dato nos informa sobre la necesidad de un sistema disponible en dispositivos varios.
 
 \subsubsection*{Aspectos cualitativos}
 
@@ -26,7 +37,6 @@ La gráfica \ref{fig:col_device} nos confirma el uso multiplataforma que hacen l
 \subsubsection*{Nota final y necesidad de un nuevo sistema}
 
 \begin{figure}[H]
-    
     \begin{tikzpicture}
         \begin{axis}[
             title={\textbf{Nota final}},
@@ -70,7 +80,7 @@ En las puntuaciones finales (Ver \ref{fig:col_final_result}), observamos un patr
     \label{fig:col_new_app}
 \end{figure}
 
-La gráfica \ref{fig:col_new_app} es la clave y el principal motivo del desarrollo de un nuevo sistema. Nos confirma que la gran mayoría de los usuarios buscan nuevas opciones que mejoren la experiencia que han tenido hasta ahora con el sistema actual.
+La Figura \ref{fig:col_new_app} es la clave y el principal motivo del desarrollo de un nuevo sistema. Nos confirma que la gran mayoría de los usuarios buscan nuevas opciones que mejoren la experiencia que han tenido hasta ahora con el sistema actual.
 
 \subsubsection*{Aspectos específicos}
 
@@ -90,6 +100,6 @@ En segundo lugar, se reportan notables deficiencias de rendimiento y usabilidad.
 
 Por último, existe una clara demanda de mejores herramientas de gestión y comunicación. Las respuestas subrayan la necesidad de que los equipos puedan gestionar sus propias plantillas, recibir avisos de los próximos encuentros y contar con un sistema mucho más ágil para visualizar el calendario y asignar a los árbitros.
 
-Para consultar el listado íntegro de las respuestas y los problemas específicos reportados por los usuarios, véase el \ref{list:other_aspects} y \ref{list:problems}
+Para consultar el listado íntegro de las respuestas y los problemas específicos reportados por los usuarios, véase las listas que se encuentran en la página \ref{list:other_aspects}.
 
 Resumiendo, buscan un sistema multiplataforma, interactivo, abierto a participación y fácil de utilizar. Un sistema que refleje de forma mucho más clara el tipo de deporte que se está jugando y ofrezca funcionalidades que faciliten dicha gestión. Un sistema a prueba de fallos, eficiente, consistente y visualmente atractivo.
