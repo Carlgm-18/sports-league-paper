@@ -34,23 +34,44 @@ Para la generación de los \ac{DTO} en todos los servicios se han utilizado herr
 
 En el back-end, se ha utilizado la librería \emph{org.openapi.generator}, que, para cada esquema del contrato, genera los \emph{data class} o enumerados correspondientes. En el front-end, el paquete \emph{swagger-typescript-api} genera un archivo con el mismo nombre que el contrato, pero con la extensión \texttt{.ts}. Gracias a este flujo, ambos lados de la aplicación utilizan las mismas estructuras de mensaje, reduciendo errores por desalineación y facilitando el mantenimiento del sistema.
 
-\section{Servidor back-end}
-
 % TODO
 % Intentaria posar un esquema/diagrama a cada secció on tengui sentit:
-% - Estructura
 % - Lògica de lligues
 % - Generació de fases
 % - Gestió d'actes
 % Així com està ara és molt superficial, s'ha d'explicar amb més detall
+\section{Servidor back-end}
 
 \subsection{Estructura}
+Mediante la Figura \ref{fig:folder_structure} como el servidor se ha diseñado como un monolito modular, organizando las responsabilidades por dominio y funcionalidad, en lugar de mantener toda la lógica en un único bloque. Cada módulo contiene sus propios controladores, servicios, repositorios y modelos de dominio. La separación vertical por entidad permite que cada pieza del sistema tenga un alcance claro y que el código pueda crecer sin volverse inmanejable.
 
-La capa back-end se ha diseñado como un monolito modular, organizando las responsabilidades por dominio y funcionalidad, en lugar de mantener toda la lógica en un único bloque. Cada módulo contiene sus propios controladores, servicios, repositorios y modelos de dominio. La separación vertical por entidad permite que cada pieza del sistema tenga un alcance claro y que el código pueda crecer sin volverse inmanejable.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/system_design/folder_structure.jpg}
+    \caption{Estructura de carpetas}
+    \label{fig:folder_structure}
+\end{figure}
 
-En los módulos con lógica más compleja, como ligas, partidos y actas, se ha aplicado una arquitectura hexagonal: el núcleo de negocio queda separado de la infraestructura y de los adaptadores que acceden a la base de datos o a servicios externos. En entidades más simples se ha mantenido una estructura de tres capas, con un controlador, un servicio y un repositorio asociados.
+En los módulos con lógica más compleja, como ligas, usuarios y participantes, se ha aplicado una arquitectura hexagonal: el núcleo de negocio queda separado de la infraestructura y de los adaptadores que acceden a la base de datos o a servicios externos. En entidades más simples se ha mantenido una estructura de tres capas, con un controlador, un servicio y un repositorio asociados. En la Figura \ref{fig:architecture_examples} podemos ver la estructura de dos módulos diferentes, cada uno siguiendo una de las arquitecturas explicadas.
 
-% TODO Añadir imagen de la estructura de carpetas
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/matches.jpeg}
+        \caption{Ejemplo de módulo con arquitectura hexagonal}
+        \label{fig:hexagonal}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{img/clupik/groups.jpeg}
+        \caption{Ejemplo de módulo con arquitectura de tres capas}
+        \label{fig:simple}
+    \end{subfigure}
+    \caption{Ejemplos de arquitecturas en los módulos}
+    \label{fig:architecture_examples}
+\end{figure}
 
 \subsection{Implementación de la seguridad}
 La seguridad del servidor se ha implementado mediante Spring Security y tokens \ac{JWT}. Cada petición autenticada pasa por un filtro que valida el token e identifica al usuario. A partir de ese punto, la petición se delega a los servicios de pre autorización, que aplican la lógica \ac{ABAC} necesaria para poder mantener la seguridad y privacidad en los recursos.
@@ -60,10 +81,14 @@ Además, se han incorporado validaciones de entrada para evitar que datos mal fo
 \subsection{Implementación de la lógica de ligas}
 La lógica de ligas es el eje central del sistema. En ella se gestionan la configuración de cada competición, los equipos, los grupos, las fases, las jornadas y la clasificación. La creación de una liga no se limita a guardar un registro en base de datos: incluye validaciones del formato de competición, compatibilidad con el deporte seleccionado, creación de grupos y generación de los partidos iniciales.
 
-Este diseño permite que cambios en la configuración de una liga se reflejen de forma coherente en toda la estructura del sistema. Por ejemplo, si se modifica el sistema de puntuación o el número de grupos, el cálculo de clasificación y la lógica de competición se actualizan de acuerdo con la nueva configuración.
+Este diseño permite que cambios en la configuración de una liga se reflejen de forma coherente en toda la estructura del sistema. Por ejemplo, si se modifica el sistema de puntuación, el cálculo de las puntuaciones de los equipos se actualizará, reflejando los cambios en la tabla clasificatoria. 
 
-\subsection{Generación de fases, rondas y partidos}
-La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula los partidos según: el número de equipos y el tipo de fase; a partir de ahí crea las jornadas, emparejamientos y referencias necesarias para cada partido. Este flujo es especialmente relevante en ligas con formato de clasificación con o sin grupos, donde la organización del calendario debe respetar la lógica competitiva del deporte. Es interesante mencionar que para generar los partidos de las fases de clasificación se utiliza el algoritmo de Bereger. Este algoritmo busca completar el emparejamiento de los equipos de forma equilibrada, consiguiendo que ningún equipo tenga que jugar más de dos partidos consecutivos como visitante. % TODO Ajuntar enlace al algoritmo
+\subsection{Generación de jornadas y partidos}
+La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula los partidos según: el número de equipos y el tipo de fase. Se aprecian dos procesos distintos dependiendo de si la fase seleccionada es de clasificación o torneo.
+
+Para las fases de clasificación el proceso consta de dos pasos: generación de partidos y generación de jornadas. Tal y como ya se ha visto en la Figura \ref{fig:us_create-macthes} la generación de partidos se hace mediante la implementación del algoritmo de \emph{Doble Round Robin}. Este algoritmo busca completar el emparejamiento de los equipos de forma equilibrada, consiguiendo que ningún equipo tenga que jugar más de dos partidos consecutivos como visitante. A continuación, utilizamos 
+
+Las fases de torneo cuentan con los mismos dos pasos pero aplicados de forma más sencilla. Primero se calcula el
 
 La ventaja de esta automatización es doble: por un lado, reduce el trabajo manual del administrador; por otro, garantiza que todos los equipos queden cubiertos por un calendario consistente y que las relaciones entre partidos, jornadas y fases se mantengan coherentes dentro de la base de datos.
 
@@ -87,17 +112,15 @@ La base de datos se ha implementado mediante una serie de migraciones \texttt{.s
 Además, se han aplicado restricciones de unicidad para evitar duplicados y relaciones asociativas para modelar relaciones muchos a muchos, como la pertenencia de jugadores a equipos o la participación de equipos en una liga. El uso del borrado lógico garantiza que la información no pueda perderse de forma irreversible si se elimina un recurso que tiene implicaciones históricas o administrativas.
 
 \section{Almacenamiento de objetos}
-% TODO Comentar la imagen de minio
-Como ya se ha comentado el almacenamiento de objetos se ha implementado mediante MinIO. En concreto, se ha utilizado el contenedor \dots
+Durante la inicialización del contexto de Spring Boot, la clase de configuración \texttt{MinioConfig} verifica de forma reactiva la existencia del \emph{bucket} configurado (\texttt{minio.bucket}) mediante el cliente oficial de MinIO (\texttt{client.bucketExists}). Si el contenedor no está presente en la instancia de almacenamiento, se procede a su aprovisionamiento automático (\texttt{client.makeBucket}) y se aplica una política de acceso basada en declaraciones (\texttt{SetBucketPolicyArgs}). Esta política concede permisos públicos de solo lectura (\texttt{s3:GetObject}) sobre los recursos alojados, garantizando la persistencia idónea tanto en el primer despliegue como en reinicios tras fallos del servicio, sin requerir intervención manual por parte de los administradores de infraestructura.
 
-Al levantar la aplicación el sistema comprueba si existe el \emph{bucket} de almacenamiento y, si no existe, lo crea. De esta forma tanto si el sistema se ejecuta por primera vez como si se vuelve a levantar tras una caída, se asegura de tener creado el principal punto de almacenamiento.
+Para la gestión de los objetos, el sistema adopta un esquema de rutas jerárquicas virtuales basadas en prefijos, delimitados por el enumerado de dominio \texttt{StorageFolder} (\texttt{avatars}, \texttt{profiles}, \texttt{league-banners}, \texttt{team-shields}, \texttt{signatures} y \texttt{match-records}). Cada fichero se identifica de forma determinista mediante la concatenación de la carpeta correspondiente y un identificador único universal (UUID v4) junto con la extensión indicada (\texttt{"\$folder/\$uuid.\$extension"}). Por ejemplo, la firma digitalizada de un usuario se almacenará bajo la clave:
+\begin{center}
+\texttt{signatures/550e8400-e29b-41d4-a716-446655440000.png}
+\end{center}
+Este criterio erradica cualquier riesgo de colisión por coincidencia de nombres entre usuarios, previene ataques de inyección en la ruta (\emph{path traversal}) y asegura que los identificadores de recursos no revelen información secuencial predecible.
 
-% TODO Añadir diagrama de flujo para el levantamiento del OS
-
-Los archivos se almacenan con claves únicas que combinan el identificador de la entidad y el tipo de recurso, similar a como funcionan las rutas de directorios. Así, se evitan colisiones y se facilita la recuperación posterior. La validación se centra en el tipo de archivo y su tamaño, con límites razonables para no desbordar el almacenamiento ni comprometer la experiencia del usuario. Las credenciales se mantienen en variables de entorno y no se incorporan al código fuente, de manera que el despliegue local y el de producción no compartan secretos sensibles.
-
-% TODO Añadir diagrama para explicar mejor
-La comunicación con el almacenamiento de objetos se establece: a través de la API de \emph{Amazon S3} ofrecida por la librería de \emph{MinIO} dentro de \emph{Kotlin} para las operaciones que requieren la creación de recursos; y a través de \emph{URL} para la obtención de los recursos almacenados.
+La subida de archivos se desacopla del servidor de aplicaciones mediante el patrón de \emph{Presigned URLs} (URLs prefirmadas). En lugar de canalizar pesados flujos binarios multipart a través de la memoria JVM del back-end, el servicio \texttt{StorageService} valida previamente la categoría solicitada (\texttt{StorageFolder.isValid}) y expide una URL de subida temporal con verbo HTTP \texttt{PUT} firmada criptográficamente, acotada a una ventana de expiración estricta de cinco minutos. La carga efectiva del archivo la efectúa el cliente directamente contra el servidor de almacenamiento. Finalmente, los parámetros de conexión y las credenciales (\texttt{endpoint}, \texttt{access-key}, \texttt{secret-key} y \texttt{bucket}) se inyectan dinámicamente desde variables de entorno mediante anotaciones \texttt{@Value}, preservando el principio de doce factores (\emph{12-Factor App}) y asegurando que los secretos del entorno de producción nunca queden expuestos en el código fuente.
 
 % TODO Finish
 \section{Interfaz multiplataforma}
@@ -106,7 +129,27 @@ La comunicación con el almacenamiento de objetos se establece: a través de la 
 La navegación dentro de la interfaz está basado en el componente \texttt{Stack} que permite definir las pantallas que la interfaz incluye. Este componente es el que permite la navegación con rutas parametrizadas mediante parámetros URL. Estos parámetros son útiles a la hora de obtener la información de una página en concreto. El principal uso que se hace es el de obtener el identificador de un recurso que se quiere consultar para poder hacer la petición al endpoint correspondiente del back-end.
 
 \subsection{Comunicación con la API}
-% La comunicación con la API se hace a través de un cliente API implementado de forma manual a partir de la función \texttt{fecth} que ofrece JavaScript para poder hacer peticiones de red. Se ha decidido utilizar una implementación propia debido a un problema de seguridad que se explicado en la sección \ref{}
+La comunicación entre la aplicación móvil y la API REST del back-end se articula 
+a través de un cliente HTTP centralizado (\texttt{apiClient}), desarrollado de forma 
+ad-hoc sobre la interfaz nativa \texttt{fetch} de JavaScript. 
+
+A diferencia de los enfoques convencionales que delegan la capa de red en librerías de 
+terceros (como \texttt{axios}) o en clientes generados automáticamente por herramientas 
+como \texttt{swagger-typescript-api}, se ha optado por una implementación propia y 
+minimalista que desacopla la definición estática de tipos del código de transporte de red. 
+De este modo, los contratos OpenAPI se emplean exclusivamente para la generación de interfaces 
+TypeScript (mediante el flag \texttt{--no-client}), garantizando el tipado estricto en tiempo 
+de compilación sin incorporar dependencias externas en tiempo de ejecución.
+
+Esta decisión responde a criterios estrictos de seguridad orientados a mitigar los riesgos 
+asociados a ataques sobre la cadena de suministro (\textit{Supply Chain Attacks}) en el ecosistema 
+\textit{npm}, los cuales se detallan en la sección~\ref{sec:change_tech}. Al basarse 
+exclusivamente en APIs nativas del estándar ECMAScript, se reduce al mínimo la superficie de ataque, 
+se evitan árboles de dependencias transitivas innecesarias y se obtiene un control total sobre 
+el ciclo de vida de la petición: desde la inyección automática del token de autenticación 
+JWT en la cabecera \texttt{Authorization: Bearer} a partir del almacenamiento seguro del dispositivo, 
+hasta la normalización de las respuestas y la captura homogénea de errores HTTP bajo un tipo unión 
+discriminado (\texttt{ApiResult<T>}).
 
 \subsection{Estilo de la interfaz}
 Tal y como se ha comentado en al sección \ref{sec:interface_design} todo el trabajo relacionado con el estilo de la interfaz se ha decidido delegar a una herramienta de IA generativa. El trabajo se ha basado en la generación de los estilos CSS para conseguir una interfaz atractiva y con un buen diseño.

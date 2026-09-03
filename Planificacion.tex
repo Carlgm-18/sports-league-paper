@@ -17,14 +17,49 @@ Las principales fases con las que cuenta el proyecto son las siguientes:
     \item \textbf{Documentación}: registrar el trabajo completado en documentación formal y entregar el sistema desarrollado.
 \end{enumerate}
 
+\section{Entregables}
+Además de la planificación y el seguimiento del proyecto, se han definido una serie de entregables que permiten verificar el progreso y la evolución del sistema a lo largo de su desarrollo. Estos entregables incluyen la especificación de requisitos, el diseño de la arquitectura, el contrato de la API, la estructura de la base de datos, el código fuente de la aplicación, la configuración del entorno de despliegue y la documentación final del trabajo. Cada uno de estos artefactos responde a una fase concreta del proyecto y constituye un resultado intermedio que valida el avance del desarrollo antes de pasar a la siguiente etapa.
+
+En la lista siguiente se pueden encontrar todos los entregables necesarios para este proyecto:
+
+\begin{enumerate}
+    \item Requisitos funcionales.
+    \item Requisitos no funcionales. 
+    \item Diagrama de casos de uso. 
+    \item Diagrama usuario-sistema para un caso de uso crítico.
+    \item Diagrama C4 con los primeros tres niveles.
+    \item Modelo de datos.
+    \item Código fuente.
+    \item Contrato API.
+    \item Configuración de desarrollo local y despliegue.
+    \item Migraciones de la base de datos.
+    \item Documentación final
+    \item Resultados de validación del sistema.
+\end{enumerate}
+
 \section{Planificación temporal}
-% TODO add reference to cronogram
-En la Figura X se muestra el cronograma del proyecto, donde se representan las diferentes fases del desarrollo y la secuencia temporal en la que se han llevado a cabo. Este esquema permite visualizar de forma clara el orden de ejecución de cada etapa, así como los hitos principales que marcan el avance del trabajo y la transición entre una fase y la siguiente. La planificación se ha estructurado de manera que responda tanto a la evolución técnica del sistema como al calendario académico del TFG, garantizando que cada bloque de trabajo se desarrolle en un periodo realista y con una carga de esfuerzo adecuada. En este sentido, la duración de las fases de análisis y desarrollo ha tenido en cuenta la necesidad de dedicar tiempo al estudio para los exámenes y para el aprendizaje de tecnologías, lo que ha condicionado la progresión del proyecto y ha motivado una distribución temporal más equilibrada entre trabajo académico y desarrollo del sistema.
+En la Figura \ref{fig:cronogram} se muestra el cronograma del proyecto, donde se representan las diferentes fases del desarrollo y la secuencia temporal en la que se han llevado a cabo. Este esquema permite visualizar de forma clara el orden de ejecución de cada etapa, así como los hitos principales que marcan el avance del trabajo y la transición entre una fase y la siguiente. La planificación se ha estructurado de manera que responda tanto a la evolución técnica del sistema como al calendario académico del TFG, garantizando que cada bloque de trabajo se desarrolle en un periodo realista y con una carga de esfuerzo adecuada. En este sentido, la duración de las fases de análisis y desarrollo ha tenido en cuenta la necesidad de dedicar tiempo al estudio para los exámenes y para el aprendizaje de tecnologías, lo que ha condicionado la progresión del proyecto y ha motivado una distribución temporal más equilibrada entre trabajo académico y desarrollo del sistema.
 
 \section{Hitos principales}
-Tal y como se muestra en la Figura X, los hitos son los encargados de marcar la finalización de cada fase. Los principales hitos que se pueden alcanzar son: al completar el análisis de requisitos, al diseñar por completo el sistema, al implementar todos los componentes, al evaluar el comportamiento del sistema, al desplegar el sistema y al elaborar la documentación del trabajo realizado.
+Tal y como se muestra en la Figura \ref{fig:cronogram}, los hitos marcan la finalización formal de cada fase del proyecto. Cada hito se considera alcanzado cuando sus entregables asociados están terminados y verificados:
 
-% TODO Describir todos los hitos en detalle
+\subsection*{H1: Requisitos del sistema definidos}
+Se alcanza al completar y consolidar el catálogo de requisitos funcionales y no funcionales, junto con el diagrama de casos de uso y el diagrama usuario-sistema para el caso crítico. Se da por concluido cuando el alcance queda delimitado sin ambigüedades técnicas.
+
+\subsection*{H2: Sistema diseñado}
+Se cumple al finalizar el modelo de datos, el contrato de la API y los tres primeros niveles del modelo C4. El criterio de cierre exige que la arquitectura soporte íntegramente los requisitos definidos en el hito anterior.
+
+\subsection*{H3: Sistema implementado}
+Se alcanza cuando el código fuente de los módulos y las migraciones de la base de datos están completos, integrados en el repositorio y compilan sin errores, implementando la lógica acordada en el diseño y el contrato API.
+
+\subsection*{H4: Sistema validado}
+Se marca como completado tras la ejecución de las pruebas y la obtención del documento de resultados de validación, confirmando que las funcionalidades operan según lo previsto y que no existen fallos críticos bloqueantes.
+
+\subsection*{H5: Entorno y despliegue configurados}
+Se cumple al verificar la configuración de desarrollo local y generar los artefactos o contenedores de despliegue, comprobando que el sistema validado se ejecuta y responde correctamente en un entorno controlado.
+
+\subsection*{H6: Proyecto documentado}
+Se alcanza con la redacción, revisión y maquetación definitiva de la memoria del trabajo, conteniendo todos los diagramas, especificaciones y resultados técnicos listos para su entrega académica.
 
 \section{Gestión de riesgos}
 Los riesgos identificados durante la planificación del proyecto se han clasificado en función de su probabilidad de aparición y del impacto potencial sobre el alcance, la calidad y la ejecución temporal del trabajo. Los cambios en los requisitos se consideran un riesgo de baja prioridad, ya que el análisis inicial, basado en formularios y perfiles de usuario, ha permitido definir de forma estable los objetivos funcionales del sistema. En cambio, los riesgos tecnológicos presentan una prioridad alta, debido a la dependencia de librerías, frameworks y herramientas externas que pueden sufrir cambios de versión, introducir vulnerabilidades o requerir ajustes de compatibilidad. Asimismo, la carga académica del estudiante y la necesidad de compatibilizar el desarrollo con los exámenes representan un riesgo de cronograma de prioridad media-alta, ya que pueden afectar a la secuencia de trabajo si no se gestionan con márgenes temporales adecuados. Por último, los riesgos asociados a la integración de servicios, la seguridad de acceso y la deuda técnica requieren una supervisión continua, dado que su materialización podría afectar tanto a la estabilidad del sistema como a su mantenibilidad futura. Toda esta información se puede consultar en detalle
@@ -81,23 +116,3 @@ Los riesgos identificados durante la planificación del proyecto se han clasific
     \caption{Riesgos identificados y estrategias de mitigación}
     \label{tab:risks_management}
 \end{table}
-
-\section{Entregables}
-Además de la planificación y el seguimiento del proyecto, se han definido una serie de entregables que permiten verificar el progreso y la evolución del sistema a lo largo de su desarrollo. Estos entregables incluyen la especificación de requisitos, el diseño de la arquitectura, el contrato de la API, la estructura de la base de datos, el código fuente de la aplicación, la configuración del entorno de despliegue y la documentación final del trabajo. Cada uno de estos artefactos responde a una fase concreta del proyecto y constituye un resultado intermedio que valida el avance del desarrollo antes de pasar a la siguiente etapa.
-
-En la lista siguiente se pueden encontrar todos los entregables necesarios para este proyecto:
-
-\begin{enumerate}
-    \item Requisitos funcionales.
-    \item Requisitos no funcionales. 
-    \item Diagrama de casos de uso. 
-    \item Diagrama usuario-sistema para un caso de uso crítico.
-    \item Diagrama C4 con los primeros tres niveles.
-    \item Modelo de datos.
-    \item Código fuente.
-    \item Contrato API.
-    \item Configuración de desarrollo local y despliegue.
-    \item Migraciones de la base de datos.
-    \item Documentación final
-    \item Resultados de validación del sistema.
-\end{enumerate}

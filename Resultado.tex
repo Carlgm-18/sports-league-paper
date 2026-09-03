@@ -14,6 +14,7 @@ Respecto a los requisitos iniciales, el sistema mantiene la mayor parte de los o
 \section{Desviaciones respecto a la planificación inicial}
 
 \subsection{Tecnología}
+\label{sec:change_tech}
 Durante el desarrollo del sistema surgieron varios cambios que afectaron al proceso de implementación y a la forma de gestionar la infraestructura.
 
 El principal cambio que afectó al front-end fue la necesidad de cambiar el gestor de dependencias de JavaScript por motivos de seguridad. La aparición de ataques de cadena de suministro \cite{new:tanstack-sca} contra paquetes populares de \emph{npm} hizo necesario migrar el proyecto a \emph{pnpm}, un gestor que ofrece mejor control sobre las versiones y configuraciones de las dependencias. Lo que acarrea una capa robusta de seguridad ante este tipo de ataques.

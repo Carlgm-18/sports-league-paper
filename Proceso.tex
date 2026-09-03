@@ -339,8 +339,7 @@ RF-EVE-2 & Evento de Partido & El sistema debe permitir que cada evento pueda se
 \end{longtable}
 }
 
-% TODO Pon el diagrama en el apéndice y referéncialo
-Podemos apreciar mejor los requisitos funcionales mediante el diagrama de casos de uso presente en el apéndice \href{https://drive.google.com/file/d/1S-nP_uzW5Z5XFGLOPDLM0Ln91ALcyA5O/view?usp=drive_link}{Diagrama de casos de uso}
+Podemos apreciar mejor los requisitos funcionales mediante el diagrama de casos de uso presente en el apéndice \ref{fig:uc_diagram}
 
 {\renewcommand{\arraystretch}{1.8}
 \begin{longtable}{|l|l|p{0.6\textwidth}|}
@@ -386,25 +385,25 @@ RNF-DES-7 & Desarrollo & El código fuente del back-end debe seguir los principi
 Definiremos el diseño en dos niveles distintos: la distribución e interacción de los distintos componentes y cómo se va a diseñar cada componente a nivel interno.
 
 \subsection{Arquitectura del sistema}
-
 Las Figuras \ref{fig:C4-1}, \ref{fig:C4-2}, \ref{fig:C4-3-1} y \ref{fig:C4-3-2} representan los tres primeros niveles de del modelo C4 y explican en detalle la arquitectura establecida para Sports League.
 
 El nivel 1 muestra cómo interactúan los distintos tipos de usuarios con la aplicación. Además, muestra la relación del servicio de autenticación de la UIB con nuestro sistema.
 
 En el nivel 2 podemos observar cómo los distintos componentes interactúan entre ellos: la interfaz gráfica se comunica con el servidor back-end para la consulta y envío de datos a través de peticiones HTTP, mientras que el servidor back-end se comunica con los distintos almacenamientos a través de sus API específicas. 
 
-% TODO Mencionar el código del requisito no funcional sobre la arquitectura hexagonal
-El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema. Podemos observar dos versiones diferentes para este nivel. Para poder cumplir con el requisito no funcional [...] se ha decidido utilizar dos tipos de arquitectura de software diferentes: una arquitectura de tres capas simple para los módulos que engloban entidades con ciclos de vida simple (creación, visualización y actualización); mientras que para módulos de entidades con ciclos de vida más complejos, (seguridad, autenticación, mantenimiento de sub recursos, cambios y actualizaciones complejas de varios pasos transaccionales, etc.) se aplica la arquitectura hexagonal o arquitectura de puertos y adaptadores.
+El nivel 3 indica cómo se ha estructurado el back-end: el núcleo del sistema. Podemos observar dos versiones diferentes para este nivel. Para poder cumplir con el requisito no funcional \emph[RNF-DES-7] se ha decidido utilizar dos tipos de arquitectura de software diferentes: una arquitectura de tres capas simple para los módulos que engloban entidades con ciclos de vida simple (creación, visualización y actualización); mientras que para módulos de entidades con ciclos de vida más complejos, (seguridad, autenticación, mantenimiento de sub recursos, cambios y actualizaciones complejas de varios pasos transaccionales, etc.) se aplica la arquitectura hexagonal o arquitectura de puertos y adaptadores.
 
 En el caso de la arquitectura de tres capas, vemos como hay un flujo de datos desde los controladores que reciben las peticiones del front-end aceptadas por el filtro de seguridad y autenticación, pasando por los servicios sobre los que se delega la lógica de negocio y acabando en los repositorios, encargados de la persistencia y obtención de los datos.
 
 Por otro lado, en la arquitectura hexagonal, vemos como las peticiones llegan a la capa de infraestructura, pasando del filtro de seguridad al adaptador de entrada correspondiente, este procede a llamar al puerto necesario para delegar la lógica de negocio a la capa de aplicación y dicho caso de uso utiliza los repositorios implementados por los adaptadores de salida para comunicarse con las bases de persistencia de datos. 
 
-% TODO Añadir las imagenes del modelo C4 en el anexo
+\subsection{Comportamiento del sistema}
 
-\subsection{Diseño del sistema}
+Las Figuras \ref{fig:us_login}, \ref{fig:us_create-macthes} muestran mediante diagramas usuario-sistema como se deben comportar los diferentes componentes del sistema para poder cumplir con los casos de uso especificado.
 
-% TODO: use-cases diagram, user-system diagram
+El diagrama de la Figura \ref{fig:us_login} muestra como la interfaz envía las credenciales al servidor, el servidor las compara con las credenciales existentes en la \ac{BD}. Tanto si las credenciales no existen como si la contraseña recibida y almacenada difieren, se deniega el acceso al solicitante. En cambio, si las credenciales existen y las contraseñas coinciden se le permite el acceso al usuario que lo solicita.
+
+El diagrama de la Figura \ref{fig:us_create-macthes} explica como la interfaz hace una petición al servidor para crear enfrentamientos entre los equipos de una fase. A su vez, el servidor pide la lista de equipos presentes en la fase a la base de datos y esta le devuelve la lista. Si no hay suficientes equipos, se cancela la petición y se devuelve el error a la interfaz; en cambio, si hay suficientes, el servidor aplica el algoritmo de \emph{Doble Round Robin} \cite{art:round-robin} para la lista de equipos generando los enfrentamientos correspondientes. El servidor guarda los enfrentamientos generados en la base de datos y se devuelve el calendario de enfrentamientos al la interfaz.
 
 \subsection{Diseño de la base de datos}
 \label{sec:bd_design}
@@ -437,6 +436,72 @@ Se consideró esta primera opción por la naturaleza cambiante y dinámica de la
 
 Como se puede ver en la Figura [...] tenemos un conjunto de clases relacionadas que modelan todos los datos necesarios para generar un acta oficial. Se podría argumentar que la inclusión de algunos atributos introduce redundancia en el modelo, ya que las puntuaciones de los equipos almacenadas en la clase \emph{Resultado} pueden obtenerse sumando los puntos de los distintos periodos del partido. Sin embargo, se trata de una redundancia controlada y deliberada: los atributos se registran una única vez al cerrar el acta y permiten consultar directamente el resultado global del partido. Esta decisión ofrece dos ventajas. En primer lugar, evita recalcular las puntuaciones cada vez que se consulta el resultado. En segundo lugar, mejora el rendimiento al mostrar listados de partidos, ya que no es necesario sumar los puntos de los periodos de cada partido visible en pantalla.
 
+\subsection{Diseño del Contrato API y Enfoque \textit{API-First}}
+\label{subsec:api_contract_design}
+
+El desarrollo del sistema se ha concebido bajo el paradigma de diseño \textit{API-First}. Bajo esta metodología, la interfaz de programación y los acuerdos de intercambio de información no se conciben como un subproducto accidental de la implementación posterior, sino como el paso inicial y vertebrador del diseño del sistema. El contrato resultante actúa como la \textit{única fuente de la verdad} (\textit{Single Source of Truth}) a partir de la cual se deriva la estructura formal de los objetos de transferencia de datos (\ac{DTO}), desacoplando de manera efectiva el servicio central de los clientes y garantizando una comunicación consistente y tipada. El código fuente íntegro de la especificación se encuentra formalizado y versionado en su correspondiente repositorio independiente\footnote{Repositorio del contrato API: \url{https://github.com/Carlgm-18/sports-league-api-contracts}}.
+
+Para formalizar esta especificación se ha adoptado el estándar abierto \textbf{OpenAPI 3.0}, ampliamente consolidado por su neutralidad tecnológica, su riqueza semántica y su capacidad para describir interfaces RESTful de manera exhaustiva.
+
+\subsubsection{Modularización y Arquitectura Multidocumento de la Especificación}
+En un sistema con múltiples dominios de negocio interconectados, agrupar el contrato en un único fichero monolítico compromete la legibilidad y dificulta la mantenibilidad del diseño. Por ello, se ha optado por una arquitectura modular distribuida mediante el uso de referencias canónicas (\texttt{\$ref}), estructurada en tres capas conceptuales:
+
+\begin{itemize}
+    \item \textbf{Fichero Principal (\texttt{main.yaml}):} Actúa como punto de entrada del contrato. Define las direcciones base de los entornos de servicio, el esquema de seguridad mediante autorización basada en tokens portadores (\texttt{bearerAuth}), el catálogo central de esquemas y el mapeo de rutas de primer nivel.
+    \item \textbf{Directorio de Rutas (\texttt{paths/}):} Modula las operaciones HTTP (\texttt{GET}, \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}) agrupadas por área de dominio funcional (\texttt{league.yaml}, \texttt{match.yaml}, \texttt{participant.yaml}, \texttt{team.yaml}, \texttt{request.yaml}, \texttt{user.yaml}, etc.).
+    \item \textbf{Directorio de Esquemas (\texttt{schemas/}):} Alberga las estructuras de datos de negocio de manera desacoplada de los verbos HTTP, favoreciendo la reutilización transversal de modelos tanto en las peticiones como en las respuestas.
+\end{itemize}
+
+\subsubsection{Taxonomía y Ciclo de Vida de los DTOs}
+El contrato modela las entidades asegurando coherencia con el diseño de la base de datos (ver Sección~\ref{sec:bd_design}), pero estableciendo una frontera estricta de encapsulación. Para optimizar el tráfico de red y evitar la exposición innecesaria de atributos internos, se ha diseñado una taxonomía de esquemas clasificada según su propósito funcional:
+
+\begin{enumerate}
+    \item \textbf{Esquemas de Creación (\texttt{*CreateRequest}):} Definen exclusivamente los parámetros iniciales requeridos para dar de alta una entidad, omitiendo identificadores primarios generados por el sistema, marcas temporales de auditoría o estados derivados (e.g., \texttt{LeagueCreateRequest}, \texttt{PhaseCreateRequest}).
+    
+    \item \textbf{Esquemas de Actualización (\texttt{*UpdateRequest}):} Orientados a modificaciones puntuales o parciales mediante operaciones \texttt{PATCH} o \texttt{PUT}, permitiendo alterar configuraciones o atributos concretos sin obligar al reenvío del objeto completo (e.g., \texttt{ConfigurationUpdateRequest}, \texttt{ParticipantUpdateRequest}).
+    
+    \item \textbf{Esquemas Resumidos (\texttt{*Summary}):} Representaciones ligeras optimizadas para operaciones de listado, consultas maestras y selectores. Contienen únicamente los atributos visuales clave (e.g., \texttt{LeagueSummary}, \texttt{ParticipantSummary}), previniendo problemas de sobrecarga en la transferencia de datos (\textit{over-fetching}).
+    
+    \item \textbf{Esquemas Detallados (\texttt{*Details}):} Representaciones completas que encapsulan el grafo exhaustivo del recurso, incluyendo relaciones asociadas, colecciones hijas y estadísticas consolidadas (e.g., \texttt{LeagueDetails}, \texttt{MatchDetails}, \texttt{ResultDetails}).
+\end{enumerate}
+
+Complementariamente, los atributos de estado o tipos cerrados se modelan mediante enumerados estrictos (\texttt{enum}), garantizando un vocabulario controlado y libre de inconsistencias para conceptos como el estado del partido (\texttt{MatchState}: \texttt{NOT\_SCHEDULED}, \texttt{PENDING}, \texttt{ENDED}), el estado de solicitudes (\texttt{RequestState}: \texttt{PENDING}, \texttt{ACCEPTED}, \texttt{REJECTED}) o el rol de los colegiados (\texttt{RefereeType}: \texttt{FIRST}, \texttt{SECOND}).
+
+\subsubsection{Estrategia de Enrutamiento Híbrida: Jerárquica frente a Plana}
+Para el diseño de las URIs se ha establecido un patrón híbrido que combina la contextualización de las entidades dependientes con la sencillez en el acceso directo a recursos ya creados:
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabularx}{\textwidth}{l p{5.5cm} X}
+\toprule
+\textbf{Patrón de Ruta} & \textbf{Ejemplo Representativo} & \textbf{Propósito y Justificación de Diseño} \\
+\midrule
+\textbf{Jerárquico} & \texttt{POST /leagues/\{id\}/requests} & \textbf{Creación contextualizada:} El nuevo recurso nace subordinado a una entidad superior (la liga), acotando la validez y los permisos de la operación. \\
+(\textit{Deep Routing}) & \texttt{POST /leagues/\{id\}/phases} & Facilita la comprensión del alcance de pertenencia directamente desde la propia URI. \\
+\midrule
+\textbf{Plano o Directo} & \texttt{GET /teams/\{teamId\}} & \textbf{Operaciones sobre entidades existentes:} Una vez que el recurso posee un identificador global unívoco, se prescinde de prefijos padre. \\
+(\textit{Flat Routing}) & \texttt{PATCH /matches/\{matchId\}} & Se evita el problema de URLs innecesariamente anidadas (\textit{nested URL hell}), simplificando las llamadas desde el cliente. \\
+ & \texttt{DELETE /teams/\{teamId\}} & Reduce redundancias semánticas en la especificación. \\
+\bottomrule
+\end{tabularx}
+\caption{Comparativa de patrones de enrutamiento aplicados en el diseño de la API.}
+\label{tab:api_routing_patterns}
+\end{table}
+
+Tal como se resume en la Tabla~\ref{tab:api_routing_patterns}, para las acciones de creación e inscripción se opta por un \textit{enrutamiento jerárquico}. Por ejemplo, al emitir una solicitud para inscribir un equipo o solicitar rol de árbitro, el endpoint se diseña como \texttt{POST /leagues/\{leagueId\}/requests}, ya que el contexto de la liga es indispensable para delimitar la petición.
+
+Por el contrario, cuando un recurso ya cuenta con un identificador único en el sistema, las acciones de consulta, actualización o eliminación adoptan un \textit{enrutamiento plano}. Rutas como consultar la ficha de un club (\texttt{GET /teams/\{teamId\}}), resolver una solicitud (\texttt{PATCH /requests/\{requestId\}}), editar un dorsal (\texttt{PATCH /participants/\{participantId\}}) o fijar las horas de juego (\texttt{GET /rounds/\{roundId\}/availability}) son accesibles de forma directa sin requerir la cadena completa de recursos contenedores.
+
+\subsubsection{Polimorfismo en Solicitudes y Respuestas Normalizadas}
+El diseño contempla asimismo patrones avanzados para satisfacer requisitos funcionales heterogéneos:
+
+\begin{itemize}
+    \item \textbf{Polimorfismo Mediante Discriminador:} La gestión de solicitudes unifica distintos trámites bajo una abstracción común (\texttt{BaseRequest}). Mediante la propiedad \texttt{discriminator} asociada al campo \texttt{requestType}, el endpoint \texttt{POST /leagues/\{leagueId\}/requests} permite canalizar peticiones de diversa naturaleza (unión a equipo, fundación de equipo o postulación a árbitro), cada una con sus atributos requeridos pero compartiendo un ciclo de resolución homogéneo (\texttt{ResolveRequestInput}).
+
+    \item \textbf{Estandarización Semántica de Respuestas:} Se formaliza el uso riguroso de los códigos de estado HTTP para informar del resultado de cada interacción: códigos \texttt{200 OK} y \texttt{201 Created} para resoluciones exitosas, \texttt{204 No Content} para eliminaciones o actualizaciones sin cuerpo de retorno, y esquemas tipados como \texttt{FormErrorResponse} acompañados de códigos \texttt{400 Bad Request}, \texttt{401 Unauthorized}, \texttt{403 Forbidden}, \texttt{404 Not Found} y \texttt{409 Conflict} para la gestión estructurada de anomalías de negocio.
+\end{itemize}
+
 \subsection{Diseño de la interfaz}
 \label{sec:interface_design}
 
@@ -446,24 +511,154 @@ Para el diseño de la interfaz se ha optado por usar la herramienta de Figma al 
 
 Cabe tener en cuenta que este diseño tan solo muestra la forma en la que los usuarios interactuarán con la interfaz y cómo se les mostrará la información. Todo lo relacionado con el diseño visual, estilos, paletas de colores, logotipos y demás se delegará a un agente de generación de código que será el encargado de darle estilo la interfaz.
 
+\subsection*{Módulo de Arbitraje y Cierre de Acta en Tiempo Real (\texttt{partido-en-vivo-arbitro})}
+\label{subsec:ui_live_match_referee}
+
+La pantalla de arbitraje en tiempo real representa el componente de mayor densidad funcional y 
+complejidad técnica de la capa de presentación. Su objetivo fundamental es erradicar por completo 
+el uso del acta física tradicional en papel, implementando una digitalización nativa de extremo 
+a extremo integrada con la lógica de negocio y las políticas de auditoría del back-end.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.85\textwidth]{img/ui/ui-figma.jpg}
+    \caption{Diseño en Figma de la interfaz de arbitraje interactivo y acta en vivo.}
+    \label{fig:live_match_ui}
+\end{figure}
+
+\subsubsection{Arquitectura y Componentes de la Interfaz}
+Tal como se ilustra en el diseño de la interfaz (Figura~\ref{fig:live_match_ui}), la pantalla se articula en torno a cuatro bloques funcionales:
+
+\begin{enumerate}
+    \item \textbf{Cabecera y Marcador Táctil Reactivo:} 
+    Presenta el emparejamiento en curso (\textit{Equipo Local vs. Equipo Visitante}) mediante 
+    un marcador de alta legibilidad diseñado para su manipulación ágil a pie de pista. Incluye 
+    controles táctiles de incremento y decremento (\texttt{+} / \texttt{-}), el cómputo de sets 
+    o periodos disputados (e.g., \textit{Set actual: 2 de 3}) y el desglose de los parciales ya concluidos.
+
+    \item \textbf{Alineaciones y Gestión de Convocatoria:} 
+    Permite verificar la lista nominal de jugadores convocados y sus respectivos dorsales oficiales 
+    por cada contendiente (entidades \texttt{Lineup}). Facilita al colegiado contrastar las fichas federativas 
+    y articular el registro de sustituciones en vivo identificando inequívocamente al jugador saliente y al entrante.
+
+    \item \textbf{Módulo de Sanciones e Incidencias en Vivo:} 
+    A través de una ventana modal desacoplada, el árbitro anota en vivo las incidencias disciplinarias 
+    tipificadas (\texttt{SanctionType}: amonestaciones, tarjetas rojas o faltas reglamentarias) y tiempos muertos 
+    (\texttt{Timeout}). Cada evento queda indexado con la marca de tiempo de juego (\texttt{happenedAtTime}), el tanteo 
+    en ese momento exacto, el infractor y una observación explicativa textual.
+
+    \item \textbf{Protocolo de Doble Rúbrica Digital Descentralizada:} 
+    En lugar de requerir firmas sobre papel o garabatos en una misma pantalla compartida, el sistema 
+    implementa un mecanismo de firma asíncrono y auditado. El reglamento contempla dos momentos clave:
+    \begin{itemize}
+        \item \textbf{Conformidad Inicial (\texttt{PRE\_MATCH}):} Previo al pitido inicial, los capitanes y árbitros 
+        validan la convocatoria y el estado de la pista pulsando el botón \textit{Firmar Inicio}.
+        \item \textbf{Ratificación Final (\texttt{POST\_MATCH}):} Tras finalizar el partido y revisar los parciales 
+        y sanciones, cada actor pulsa \textit{Firmar Cierre} para dar su conformidad al resultado.
+    \end{itemize}
+    Cada acción despacha una petición al back-end que registra una tupla en la tabla \texttt{MATCH\_SIGN}, 
+    vinculando el instante preciso (\texttt{signedAt}), el momento reglamentario y el rol del firmante (\texttt{InMatchRole}: 
+    árbitro principal, segundo árbitro, capitán local o capitán visitante) haciendo uso de la firma digital almacenada 
+    previamente en el perfil del usuario.
+\end{enumerate}
+
+\subsubsection{Flujo de Datos y Consolidación Paperless en el back-end}
+Desde el punto de vista del ciclo de vida de los datos, la interfaz opera bajo un enfoque completamente digital 
+y desacoplado:
+\begin{itemize}
+    \item \textbf{Persistencia en memoria volátil durante el juego:} La evolución del tanteo, el control del cronómetro 
+    y el apilamiento de eventos se gestionan íntegramente en el estado local de React Native. De este modo se 
+    anula la latencia de red en pista, se garantiza la operatividad ante microcortes de cobertura y se permite al 
+    colegiado rectificar cualquier anotación antes de su formalización definitiva.
+
+    \item \textbf{Volcado canónico del resultado (\texttt{PUT /matches/\{matchId\}/result}):} 
+    Al pulsar \textit{Finalizar Partido}, el cliente transmite el objeto estructurado \texttt{ResultDetails}. 
+    Este paquete de datos consolida los puntos globales, el array de periodos (\texttt{periods}) con sus eventos cronometrados 
+    y las observaciones arbitrales. El back-end persiste estas entidades en base de datos transaccional y conmuta el 
+    estado del partido a \texttt{ENDED}, lo que desencadena que la clasificación de la fase calculada bajo demanda 
+    refleje al instante los nuevos puntos de la liga.
+
+    \item \textbf{Generación y exportación de actas oficiales:} 
+    Dado que el sistema rechaza el escaneo de documentos físicos externos, el back-end actúa como la única fuente 
+    de la verdad (\textit{single source of truth}). Al combinar la radiografía exacta del partido almacenada en las 
+    tablas de resultado y eventos con las evidencias de no repudio de la tabla \texttt{MATCH\_SIGN}, el servidor 
+    queda facultado para generar de forma automatizada y fidedigna el acta en formato oficial reglamentario (e.g., documento PDF normalizado con las marcas temporales y las rúbricas estampadas de cada interviniente).
+\end{itemize}
+\label{subsec:ui_live_match_referee}
+
+La pantalla de arbitraje en tiempo real representa el componente de mayor densidad funcional y 
+complejidad técnica de la capa de presentación. Su objetivo fundamental es trasladar la labor 
+del cuerpo arbitral desde el acta física tradicional en papel hacia un flujo digital interactivo, 
+auditado e integrado con el back-end del sistema.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{figuras/partido_en_vivo_arbitro.png}
+    \caption{Diseño en Figma de la interfaz de arbitraje interactivo y acta en vivo.}
+    \label{fig:live_match_ui}
+\end{figure}
+
+\subsubsection{Arquitectura y Componentes de la Interfaz}
+Tal como se ilustra en el diseño de la interfaz (Figura~\ref{fig:live_match_ui}), la pantalla se articula en torno a cuatro bloques funcionales:
+
+\begin{enumerate}
+    \item \textbf{Cabecera y Marcador Táctil Reactivo:} 
+    Presenta la confrontación en curso (\textit{Equipo Local vs. Equipo Visitante}) acompañada 
+    por un marcador de gran visibilidad. Dispone de controles directos de incremento y decremento 
+    (\texttt{+} / \texttt{-}) orientados a la operativa ágil a pie de pista. Incorpora un indicador 
+    de progreso de periodos o sets (e.g., \textit{Set actual: 2 de 3}) y el histórico consolidado de los 
+    parciales previos ya disputados.
+
+    \item \textbf{Alineaciones y Gestión de Convocatoria:} 
+    Muestra los listados de jugadores inscritos vinculados a las alineaciones del encuentro (\texttt{Lineup}) 
+    junto a sus respectivos dorsales oficiales para ambos contendientes, permitiendo al colegiado verificar la 
+    identidad y elegibilidad reglamentaria de los participantes, así como articular cambios y sustituciones en vivo.
+
+    \item \textbf{Módulo de Sanciones e Incidencias en Vivo:} 
+    A través de una ventana modal desacoplada, el árbitro puede registrar eventos disciplinarios 
+    tipificados (\texttt{SanctionType}: tarjetas amarillas, rojas o expulsiones) y tiempos muertos (\texttt{Timeout}), 
+    imputando cada evento al jugador o equipo específico con su correspondiente marca de tiempo (\texttt{happenedAtTime}), 
+    marcador en ese instante y observación textual asociada.
+
+    \item \textbf{Protocolo de Validación y Cierre de Acta:} 
+    Al declarar la conclusión del encuentro mediante el botón \textit{Finalizar Partido}, se 
+    despliega el panel de cierre reglamentario. Para garantizar el no repudio del resultado, 
+    el sistema permite tanto la confirmación y rúbrica digital de los participantes autorizados 
+    (árbitros y capitanes en el momento reglamentario \texttt{POST\_MATCH}) como la adjunción opcional 
+    de evidencias documentales o fotográficas complementarias del acta física de la mesa.
+\end{enumerate}
+
+\subsubsection{Flujo de Datos y Comunicación con el back-end}
+Desde el punto de vista del desarrollo en el cliente, esta interfaz orquesta un flujo de datos 
+asimétrico de alta exigencia:
+\begin{itemize}
+    \item \textbf{Persistencia en memoria volátil durante el juego:} La evolución del tanteo, los 
+    parciales y los eventos se gestionan localmente en el estado del componente React Native, minimizando la 
+    latencia en pista y permitiendo al colegiado rectificar cualquier anotación errónea antes de formalizar 
+    el resultado definitivo en el servidor.
+
+    \item \textbf{Transferencia de evidencias a MinIO:} En caso de adjuntar un acta física escaneada 
+    o evidencia fotográfica complementaria, el cliente solicita un enlace prefirmado 
+    (\texttt{POST /api/v1/storage/upload-url} para la carpeta \texttt{match-records}) y realiza un volcado 
+    binario directo vía \texttt{PUT} hacia el almacenamiento de objetos S3/MinIO. La URL pública devuelta 
+    se asocia al acta en el campo \texttt{recordUrl}.
+
+    \item \textbf{Consolidación en el back-end:} Finalmente, se despacha una única petición estructurada 
+    (\texttt{PUT /api/v1/matches/\{matchId\}/result}) transportando el objeto \texttt{ResultDetails}, el cual 
+    encapsula los tanteos totales, el desglose detallado por periodos (\texttt{periods}), la relación de eventos 
+    disciplinarios y sustituciones, y las observaciones finales. El back-end persiste el acta en bloque, transiciona 
+    el estado del partido a \texttt{ENDED} y provoca que la clasificación de la fase computada dinámicamente 
+    refleje inmediatamente los nuevos puntos del encuentro.
+\end{itemize}
+
 % TODO explain a critical wireframe
-
-\subsection{Diseño del contrato API}
-El desarrollo del sistema se ha enfocado como un proceso API-first. Lo que quiere decir, que el primer paso ha sido definir un contrato API que funciona como única fuente de la verdad y del que se derivan todos los \ac{DTO} utilizados tanto en el back-end como en el front-end, para estandarizar la estructura de los mensajes que permiten la comunicación entre estos dos servicios. Para redactar el contrato se ha hecho uso del estándar Open API ampliamente utilizado en la industria del desarrollo. 
-
-La definición del contrato se ha hecho de forma que sea una representación casi idéntica del modelo de datos (Ver \ref{sec:bd_design}). Se han separado los esquemas según las clases pero agrupándolas según sus relaciones. Por otro lado, se han definido esquemas para representar las operaciones de escritura, lectura y actualización de recursos. Además, se han creado esquemas enumerados para poder definir de forma concreta y consistente algunos atributos de las clases como lo pueden ser los estados de: una petición, una liga, un partido o una solicitud.
-
-Para la definición de las rutas se ha optado por un sistema híbrido entre enrutamiento simple y profundo. Para las rutas que representan operaciones de creación de recursos se utiliza un enrutamiento profundo, de esta forma se especifica de forma concreta todos los superrecursos necesarios para identificar de forma inequívoca el recurso creado. Mientras que, para la obtención, actualización y eliminación de recursos, se utiliza un enrutamiento simple, ya que para obtener, actualizar o eliminar la información de un recurso ya creado basta con utilizar el identificador único del recurso.
-
-% TODO Posar exemples de rutes, explicar peculiaritats... És una part important del desenvolupament com per només dedicar-hi mitja pàgina.
-
-% TODO No hem posat cap enllaç als repositoris encara, no podem dir "el repositorio correspondiente"
-El contenido completo del contrato API se puede encontrar en el repositorio correspondiente.
 
 \subsection{Control de versiones}
 
 Para gestionar el control de versiones de los componentes del sistema se ha decidido utilizar Git. Es la herramienta que más se usa dentro de la industria y la más fácil de utilizar para un equipo de desarrollo de una sola persona, como es el caso de este proyecto.
 
-Se han creado tres repositorios, uno para cada componente principal del sistema: back-end, front-end y contrato API. Se ha optado por esta separación, ya que de esta manera separamos el sistema según el ámbito: definición, procesamiento y presentación de los datos. Un aspecto interesante es que el repositorio del contrato API existe como submódulo de los otros dos. Gracias a esto, ambos componentes tienen una vía directa para actualizar el contrato en caso de ser necesario y consultar los cambios que haya efectuado el otro componente. De esta forma, ambos componentes están al día \dots
+Se han creado tres repositorios, uno para cada parte crítica del sistema: back-end, front-end, contrato API. Se ha optado por esta separación, ya que de esta manera separamos el sistema según el ámbito: definición, procesamiento y presentación de los datos. Un aspecto interesante es que el repositorio del contrato API existe como submódulo de los otros dos. Gracias a esto, ambos componentes tienen una vía directa para actualizar el contrato en caso de ser necesario y consultar los cambios que haya efectuado el otro componente. De esta forma, ambos componentes están al día en caso de tener que cambiar el contenido del contrato debido a la ejecución de un plan de mitigación de riesgos.
 
-% TODO explica també com hem fet les revisions per issues al repositori de la documentació. Falta també explicar que has emprat missatges de commit convencionals per fer més llegible el registre de canvis
+Asimismo, se ha habilitado un cuarto repositorio destinado al control de versiones de la memoria del proyecto. Este entorno facilita un seguimiento bidireccional continuo: permite al tutor supervisar el progreso de la redacción y ofrece al alumno un canal claro para gestionar las revisiones. En concreto, el flujo de trabajo se ha articulado mediante \emph{issues} de GitHub, lo que posibilita registrar correcciones puntuales, conservar una trazabilidad completa de los cambios solicitados y vincular directamente su resolución al cierre de cada incidencia a través de los correspondientes \emph{commits}.
+
+Por otra parte, se ha adoptado la convención de \emph{Conventional Commits} para la redacción de los mensajes asociados a cada confirmación, facilitando una lectura más clara del historial del proyecto y simplificando la generación estructurada del registro de cambios.
