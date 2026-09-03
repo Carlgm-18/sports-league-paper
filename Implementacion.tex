@@ -32,7 +32,7 @@ Este enfoque también ayuda a diferenciar entre datos del esquema y datos inicia
 \subsection{Contrato API y generación de DTO}
 Para la generación de los \ac{DTO} en todos los servicios se han utilizado herramientas específicas cuya función principal es la generación de clases y tipos a partir de un contrato API.
 
-En el back-end, se ha utilizado la librería \emph{org.openapi.generator}, que, para cada esquema del contrato, genera los \emph{data class} o enumerados correspondientes. En el front-end, el paquete \emph{swagger-typescript-api} genera un archivo con el mismo nombre que el contrato, pero con la extensión \texttt{.ts}. Gracias a este flujo, ambos lados de la aplicación utilizan las mismas estructuras de mensaje, reduciendo errores por desalineación y facilitando el mantenimiento del sistema.
+En el back-end, se ha utilizado la librería \emph{org.openapi.generator} \cite{plugin:openapi-generator}, que, para cada esquema del contrato, genera los \emph{data class} o enumerados correspondientes. En el front-end, el paquete \emph{swagger-typescript-api} \cite{npm:swagger-typescript-api} genera un archivo con el mismo nombre que el contrato, pero con la extensión \texttt{.ts}. Gracias a este flujo, ambos lados de la aplicación utilizan las mismas estructuras de mensaje, reduciendo errores por desalineación y facilitando el mantenimiento del sistema.
 
 % TODO
 % Intentaria posar un esquema/diagrama a cada secció on tengui sentit:
@@ -86,9 +86,9 @@ Este diseño permite que cambios en la configuración de una liga se reflejen de
 \subsection{Generación de jornadas y partidos}
 La generación de partidos se ha automatizado para evitar un proceso manual repetitivo y propenso a errores. El sistema calcula los partidos según: el número de equipos y el tipo de fase. Se aprecian dos procesos distintos dependiendo de si la fase seleccionada es de clasificación o torneo.
 
-Para las fases de clasificación el proceso consta de dos pasos: generación de partidos y generación de jornadas. Tal y como ya se ha visto en la Figura \ref{fig:us_create-macthes} la generación de partidos se hace mediante la implementación del algoritmo de \emph{Doble Round Robin}. Este algoritmo busca completar el emparejamiento de los equipos de forma equilibrada, consiguiendo que ningún equipo tenga que jugar más de dos partidos consecutivos como visitante. A continuación, utilizamos 
+Para las fases de clasificación el proceso consta de dos pasos: generación de partidos y generación de jornadas. Tal y como ya se ha visto en la Figura \ref{fig:us_create-macthes}, la generación de partidos se hace mediante la implementación del algoritmo de \emph{Doble Round Robin}. Este algoritmo busca completar el emparejamiento de los equipos de forma equilibrada, alternando las condiciones de local y visitante y evitando que un equipo tenga que jugar más de dos partidos consecutivos como visitante. A continuación, el conjunto de partidos generado se distribuye entre las jornadas disponibles. La asignación se realiza procurando que cada equipo tenga como máximo un partido en cada jornada, de manera que los encuentros de un mismo equipo quedan repartidos a lo largo del calendario. En esta fase todavía no se conocen las fechas y horas definitivas, por lo que no es necesario comprobar solapamientos temporales. Estas se determinan posteriormente mediante el sistema de negociación entre los capitanes, que selecciona una franja compatible con la disponibilidad de los equipos.
 
-Las fases de torneo cuentan con los mismos dos pasos pero aplicados de forma más sencilla. Primero se calcula el
+Las fases de torneo cuentan con los mismos dos pasos, aunque la generación de los enfrentamientos se realiza de forma diferente. Primero se generan tantas jornadas como niveles tenga el torneo. A continuación, se crean los partidos sin equipos asignados y se identifican mediante índices que representan su posición dentro de un árbol binario. Los enfrentamientos del primer nivel se asignan manualmente. Cuando finaliza uno de estos partidos, su ganador se propaga automáticamente al partido padre correspondiente. Esta relación se calcula mediante la división entera $\lfloor i/2 \rfloor$ sobre el índice del partido hijo, de forma que no es necesario almacenar manualmente todas las relaciones entre rondas. El proceso se repite en los niveles superiores hasta determinar el ganador del torneo.
 
 La ventaja de esta automatización es doble: por un lado, reduce el trabajo manual del administrador; por otro, garantiza que todos los equipos queden cubiertos por un calendario consistente y que las relaciones entre partidos, jornadas y fases se mantengan coherentes dentro de la base de datos.
 
@@ -97,11 +97,21 @@ La gestión de resultados y actas es una de las partes más importantes del sist
 
 Este flujo requiere coordinar varias capas: la validación del estado del partido, la actualización del resultado, la creación del historial de actas y la revisión de la información por parte de capitanes o administradores. El objetivo es que no haya estados intermedios ambiguos que puedan derivar en errores de la competición o en incoherencias en la tabla clasificatoria.
 
+El cierre del acta recibe un objeto \texttt{ResultDetails}, cuyos campos se validan antes de persistir el resultado. Esta validación comprueba que la estructura recibida es coherente con el partido y que los periodos y eventos incluidos tienen el formato esperado. Las firmas de capitanes y árbitros siguen un flujo independiente: cada participante firma desde su propio dispositivo y el sistema registra la firma en el momento en que se recibe, sin bloquear el guardado del resultado por la firma pendiente de otro participante. Una vez registrado o modificado un resultado, se actualiza la tabla de clasificación para que refleje el estado más reciente del partido. Esta separación permite corregir posteriormente un resultado erróneo sin perder la posibilidad de mantener la información de las firmas asociada al acta.
+
 \subsection{Gestión de errores de validación}
 
 Las capas de dominio y aplicación gestionan los errores a través del patrón \emph{Result}. Este patrón consiste en la encapsulación de los valores de retorno de las funciones mediante objetos que representan un retorno exitoso o fallido. El resultado, en caso de ser exitoso, contiene el valor retornado; mientras que, si es fallido, contiene el error ocurrido.
 
 El uso de este patrón es preferible frente a usar excepciones, ya que: uno, la generación de excepciones obliga al programa a pausar su ejecución momentáneamente mientras este genera el rastro de la pila para dicha excepción; y dos, a nivel semántico tiene más sentido utilizar errores simples de dominio para expresar fallos de validación esperados, mientras que relegamos el uso de excepciones para estados no esperados del sistema como fallos en la conexión a los diferentes servicios o controladores.
+
+\subsection{Pruebas y validación}
+
+La lógica principal se ha comprobado mediante pruebas unitarias de los cálculos de puntuación y clasificación, la generación de partidos y jornadas, los permisos asociados a los roles y las validaciones y transiciones de estado de los resultados. Estas pruebas permiten verificar la lógica de negocio de forma independiente de los servicios externos y de la persistencia.
+
+También se han implementado pruebas de integración para comprobar los ciclos de vida de una liga, un usuario y un partido. Estas pruebas verifican la interacción entre los endpoints, la lógica de aplicación y la persistencia utilizando definiciones de base de datos en memoria preparadas específicamente para el entorno de pruebas. Además, se ha utilizado una conexión simulada con el almacenamiento de objetos para validar la generación de URLs públicas y de subida.
+
+Finalmente, se ha realizado una validación de extremo a extremo con el arnés de \emph{Antigravity} y el modelo \emph{Gemini 3.5 Flash}, con precisión \emph{Medium}. Esta validación permitió revisar conjuntamente los flujos implementados y comprobar que las diferentes partes de la aplicación funcionaban de forma coherente.
 
 \section{Base de datos}
 
@@ -122,48 +132,33 @@ Este criterio erradica cualquier riesgo de colisión por coincidencia de nombres
 
 La subida de archivos se desacopla del servidor de aplicaciones mediante el patrón de \emph{Presigned URLs} (URLs prefirmadas). En lugar de canalizar pesados flujos binarios multipart a través de la memoria JVM del back-end, el servicio \texttt{StorageService} valida previamente la categoría solicitada (\texttt{StorageFolder.isValid}) y expide una URL de subida temporal con verbo HTTP \texttt{PUT} firmada criptográficamente, acotada a una ventana de expiración estricta de cinco minutos. La carga efectiva del archivo la efectúa el cliente directamente contra el servidor de almacenamiento. Finalmente, los parámetros de conexión y las credenciales (\texttt{endpoint}, \texttt{access-key}, \texttt{secret-key} y \texttt{bucket}) se inyectan dinámicamente desde variables de entorno mediante anotaciones \texttt{@Value}, preservando el principio de doce factores (\emph{12-Factor App}) y asegurando que los secretos del entorno de producción nunca queden expuestos en el código fuente.
 
-% TODO Finish
 \section{Interfaz multiplataforma}
 
 \subsection{Navegación}
 La navegación dentro de la interfaz está basado en el componente \texttt{Stack} que permite definir las pantallas que la interfaz incluye. Este componente es el que permite la navegación con rutas parametrizadas mediante parámetros URL. Estos parámetros son útiles a la hora de obtener la información de una página en concreto. El principal uso que se hace es el de obtener el identificador de un recurso que se quiere consultar para poder hacer la petición al endpoint correspondiente del back-end.
 
 \subsection{Comunicación con la API}
-La comunicación entre la aplicación móvil y la API REST del back-end se articula 
-a través de un cliente HTTP centralizado (\texttt{apiClient}), desarrollado de forma 
-ad-hoc sobre la interfaz nativa \texttt{fetch} de JavaScript. 
+La comunicación entre la aplicación móvil y la API REST del back-end se articula a través de un cliente HTTP centralizado (\texttt{apiClient}), desarrollado de forma ad-hoc sobre la interfaz nativa \texttt{fetch} de JavaScript.
 
-A diferencia de los enfoques convencionales que delegan la capa de red en librerías de 
-terceros (como \texttt{axios}) o en clientes generados automáticamente por herramientas 
-como \texttt{swagger-typescript-api}, se ha optado por una implementación propia y 
-minimalista que desacopla la definición estática de tipos del código de transporte de red. 
-De este modo, los contratos OpenAPI se emplean exclusivamente para la generación de interfaces 
-TypeScript (mediante el flag \texttt{--no-client}), garantizando el tipado estricto en tiempo 
-de compilación sin incorporar dependencias externas en tiempo de ejecución.
+A diferencia de los enfoques convencionales que delegan la capa de red en librerías de terceros (como \texttt{axios}) o en clientes generados automáticamente por herramientas como \texttt{swagger-typescript-api}, se ha optado por una implementación propia y minimalista que desacopla la definición estática de tipos del código de transporte de red. De este modo, los contratos OpenAPI se emplean exclusivamente para la generación de interfaces TypeScript (mediante el flag \texttt{--no-client}), garantizando el tipado estricto en tiempo de compilación sin incorporar dependencias externas en tiempo de ejecución.
 
-Esta decisión responde a criterios estrictos de seguridad orientados a mitigar los riesgos 
-asociados a ataques sobre la cadena de suministro (\textit{Supply Chain Attacks}) en el ecosistema 
-\textit{npm}, los cuales se detallan en la sección~\ref{sec:change_tech}. Al basarse 
-exclusivamente en APIs nativas del estándar ECMAScript, se reduce al mínimo la superficie de ataque, 
-se evitan árboles de dependencias transitivas innecesarias y se obtiene un control total sobre 
-el ciclo de vida de la petición: desde la inyección automática del token de autenticación 
-JWT en la cabecera \texttt{Authorization: Bearer} a partir del almacenamiento seguro del dispositivo, 
-hasta la normalización de las respuestas y la captura homogénea de errores HTTP bajo un tipo unión 
-discriminado (\texttt{ApiResult<T>}).
+Esta decisión responde a criterios estrictos de seguridad orientados a mitigar los riesgos asociados a ataques sobre la cadena de suministro (\textit{Supply Chain Attacks}) en el ecosistema \textit{npm}, los cuales se detallan en la sección~\ref{sec:change_tech}. Al basarse exclusivamente en APIs nativas del estándar ECMAScript, se reduce al mínimo la superficie de ataque, se evitan árboles de dependencias transitivas innecesarias y se obtiene un control total sobre el ciclo de vida de la petición: desde la inyección automática del token de autenticación JWT en la cabecera \texttt{Authorization: Bearer} a partir del almacenamiento seguro del dispositivo, hasta la normalización de las respuestas y la captura homogénea de errores HTTP bajo un tipo unión discriminado (\texttt{ApiResult<T>}).
 
 \subsection{Estilo de la interfaz}
-Tal y como se ha comentado en al sección \ref{sec:interface_design} todo el trabajo relacionado con el estilo de la interfaz se ha decidido delegar a una herramienta de IA generativa. El trabajo se ha basado en la generación de los estilos CSS para conseguir una interfaz atractiva y con un buen diseño.
+Tal y como se ha explicado en la sección \ref{sec:interface_design}, el diseño visual de la interfaz se ha desarrollado a partir de los prototipos elaborados en Figma y se ha concretado mediante la generación y adaptación de los estilos CSS. Para ello, se ha utilizado el arnés \emph{Antigravity} junto con el modelo \emph{Gemini 3.5 Flash}, configurado con un nivel de precisión \emph{Medium}. Como contexto para la generación, se proporcionaron los prototipos de Figma, los requisitos no funcionales y las directrices relacionadas con la temática deportiva de la aplicación.
 
-Para generar los estilos se ha utilizado el arnés de \emph{Antigravity} y el modelo de \emph{Gemini 3.5 Flash} con precisión \emph{Medium}. Para ayudar con la generación se añadieron imágenes de el mockup creado en Figma y los requisitos no funcionales como contexto. Se le pidió explícitamente que añadiera estilos para obtener una interfaz atractiva y que utilice una temática deportiva.
+El resultado se ha revisado y ajustado para mantener la coherencia visual entre las distintas pantallas, mejorar la legibilidad de la información y adaptar la interfaz a los diferentes dispositivos y tamaños de pantalla. Las figuras siguientes muestran algunos ejemplos de las pantallas implementadas y permiten comparar la propuesta visual con los diseños definidos durante la fase de prototipado.
 
 % TODO Comentar el resutlado obtenido poniendo de ejemplo algunas pantallas.
 
 \subsection{Flujos por rol}
-% TODO añadir diagrama explicando
-Los flujos principales se han implementado de forma distinta según el rol. El administrador tiene una visión global de la liga y puede gestionar calendarios, fases y ajustes; el capitán se centra en la gestión de su equipo y la coordinación de partidos; el árbitro requiere una interfaz ágil para registrar eventos y cerrar actas con pocos clics; y el jugador consulta información relevante y accede al contenido asociado a su equipo. Esta separación por rol es una de las principales mejoras del sistema frente a las alternativas analizadas en la introducción.
+Tal y como se muestra en el diagrama de actividades de la Figura \ref{fig:roles_flux}, los flujos de trabajo de la aplicación se adaptan a las responsabilidades de cada rol. El administrador configura la competición, crea sus fases y jornadas, genera el calendario y supervisa su evolución. El capitán administra la información de su equipo, consulta los partidos asignados y coordina su disponibilidad. Durante la celebración de un encuentro, el árbitro registra los eventos y resultados, completa el acta y la cierra para que el sistema actualice la clasificación. Finalmente, el jugador puede consultar los próximos partidos, los resultados, la clasificación y la información relacionada con su equipo. Esta distribución de funciones permite limitar las operaciones disponibles según los permisos de cada usuario y ofrece una experiencia adaptada a las necesidades de cada participante.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{img/code/roles_activities_diagram.jpeg}
+    \caption{Diagrama de actividades del flujo por rol}
+    \label{fig:roles_flux}
+\end{figure}
 
 En resumen, la implementación demuestra que la arquitectura y el diseño planteados en los capítulos previos no son solo una propuesta teórica, sino un sistema funcional con lógica de negocio, persistencia, almacenamiento de archivos y una interfaz de usuario consistente. La combinación de diferentes tecnologías y patrones ha permitido construir una solución que cubre de forma integral la gestión de ligas universitarias, manteniendo una estructura escalable y modular.
-
-% Links to libraries:
-% back: https://plugins.gradle.org/plugin/org.openapi.generator
-% front: https://www.npmjs.com/package/swagger-typescript-api?activeTab=dependencies

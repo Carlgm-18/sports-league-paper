@@ -514,12 +514,9 @@ Cabe tener en cuenta que este diseño tan solo muestra la forma en la que los us
 \subsection*{Módulo de Arbitraje y Cierre de Acta en Tiempo Real (\texttt{partido-en-vivo-arbitro})}
 \label{subsec:ui_live_match_referee}
 
-La pantalla de arbitraje en tiempo real representa el componente de mayor densidad funcional y 
-complejidad técnica de la capa de presentación. Su objetivo fundamental es erradicar por completo 
-el uso del acta física tradicional en papel, implementando una digitalización nativa de extremo 
-a extremo integrada con la lógica de negocio y las políticas de auditoría del back-end.
+La pantalla de arbitraje en tiempo real representa el componente de mayor densidad funcional y complejidad técnica de la capa de presentación. Su objetivo fundamental es erradicar por completo el uso del acta física tradicional en papel, implementando una digitalización nativa de extremo a extremo integrada con la lógica de negocio y las políticas de auditoría del back-end.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{img/ui/ui-figma.jpg}
     \caption{Diseño en Figma de la interfaz de arbitraje interactivo y acta en vivo.}
@@ -527,131 +524,32 @@ a extremo integrada con la lógica de negocio y las políticas de auditoría del
 \end{figure}
 
 \subsubsection{Arquitectura y Componentes de la Interfaz}
-Tal como se ilustra en el diseño de la interfaz (Figura~\ref{fig:live_match_ui}), la pantalla se articula en torno a cuatro bloques funcionales:
+Tal como se ilustra en el diseño de la interfaz (Figura \ref{fig:live_match_ui}), la pantalla se articula en torno a cuatro bloques funcionales:
 
 \begin{enumerate}
     \item \textbf{Cabecera y Marcador Táctil Reactivo:} 
-    Presenta el emparejamiento en curso (\textit{Equipo Local vs. Equipo Visitante}) mediante 
-    un marcador de alta legibilidad diseñado para su manipulación ágil a pie de pista. Incluye 
-    controles táctiles de incremento y decremento (\texttt{+} / \texttt{-}), el cómputo de sets 
-    o periodos disputados (e.g., \textit{Set actual: 2 de 3}) y el desglose de los parciales ya concluidos.
+    Presenta el emparejamiento en curso (\textit{Equipo Local vs. Equipo Visitante}) mediante un marcador de alta legibilidad diseñado para su manipulación ágil a pie de pista. Incluye controles táctiles de incremento y decremento (\texttt{+} / \texttt{-}), el cómputo de sets o periodos disputados (e.g., \textit{Set actual: 2 de 3}) y el desglose de los parciales ya concluidos.
+    \item \textbf{Alineaciones y Gestión de Convocatoria:} Permite verificar la lista nominal de jugadores convocados y sus respectivos dorsales oficiales por cada contendiente (entidades \texttt{Lineup}). Facilita al colegiado contrastar las fichas federativas y articular el registro de sustituciones en vivo identificando inequívocamente al jugador saliente y al entrante.
+    \item \textbf{Módulo de Sanciones e Incidencias en Vivo:} A través de una ventana modal desacoplada, el árbitro anota en vivo las incidencias disciplinarias tipificadas (\texttt{SanctionType}: amonestaciones, tarjetas rojas o faltas reglamentarias) y tiempos muertos (\texttt{Timeout}). Cada evento queda indexado con la marca de tiempo de juego (\texttt{happenedAtTime}), el tanteo en ese momento exacto, el infractor y una observación explicativa textual.
 
-    \item \textbf{Alineaciones y Gestión de Convocatoria:} 
-    Permite verificar la lista nominal de jugadores convocados y sus respectivos dorsales oficiales 
-    por cada contendiente (entidades \texttt{Lineup}). Facilita al colegiado contrastar las fichas federativas 
-    y articular el registro de sustituciones en vivo identificando inequívocamente al jugador saliente y al entrante.
-
-    \item \textbf{Módulo de Sanciones e Incidencias en Vivo:} 
-    A través de una ventana modal desacoplada, el árbitro anota en vivo las incidencias disciplinarias 
-    tipificadas (\texttt{SanctionType}: amonestaciones, tarjetas rojas o faltas reglamentarias) y tiempos muertos 
-    (\texttt{Timeout}). Cada evento queda indexado con la marca de tiempo de juego (\texttt{happenedAtTime}), el tanteo 
-    en ese momento exacto, el infractor y una observación explicativa textual.
-
-    \item \textbf{Protocolo de Doble Rúbrica Digital Descentralizada:} 
-    En lugar de requerir firmas sobre papel o garabatos en una misma pantalla compartida, el sistema 
-    implementa un mecanismo de firma asíncrono y auditado. El reglamento contempla dos momentos clave:
+    \item \textbf{Protocolo de Doble Rúbrica Digital Descentralizada:} En lugar de requerir firmas sobre papel o garabatos en una misma pantalla compartida, el sistema implementa un mecanismo de firma asíncrono y auditado. El reglamento contempla dos momentos clave:
     \begin{itemize}
-        \item \textbf{Conformidad Inicial (\texttt{PRE\_MATCH}):} Previo al pitido inicial, los capitanes y árbitros 
-        validan la convocatoria y el estado de la pista pulsando el botón \textit{Firmar Inicio}.
-        \item \textbf{Ratificación Final (\texttt{POST\_MATCH}):} Tras finalizar el partido y revisar los parciales 
-        y sanciones, cada actor pulsa \textit{Firmar Cierre} para dar su conformidad al resultado.
+        \item \textbf{Conformidad Inicial (\texttt{PRE\_MATCH}):} Previo al pitido inicial, los capitanes y árbitros validan la convocatoria y el estado de la pista pulsando el botón \textit{Firmar Inicio}.
+        \item \textbf{Ratificación Final (\texttt{POST\_MATCH}):} Tras finalizar el partido y revisar los parciales y sanciones, cada actor pulsa \textit{Firmar Cierre} para dar su conformidad al resultado.
     \end{itemize}
-    Cada acción despacha una petición al back-end que registra una tupla en la tabla \texttt{MATCH\_SIGN}, 
-    vinculando el instante preciso (\texttt{signedAt}), el momento reglamentario y el rol del firmante (\texttt{InMatchRole}: 
-    árbitro principal, segundo árbitro, capitán local o capitán visitante) haciendo uso de la firma digital almacenada 
-    previamente en el perfil del usuario.
+    Cada acción despacha una petición al back-end que registra una tupla en la tabla \texttt{MATCH\_SIGN}, vinculando el instante preciso (\texttt{signedAt}), el momento reglamentario y el rol del firmante (\texttt{InMatchRole}: árbitro principal, segundo árbitro, capitán local o capitán visitante) haciendo uso de la firma digital almacenada previamente en el perfil del usuario.
 \end{enumerate}
 
 \subsubsection{Flujo de Datos y Consolidación Paperless en el back-end}
-Desde el punto de vista del ciclo de vida de los datos, la interfaz opera bajo un enfoque completamente digital 
-y desacoplado:
+Desde el punto de vista del ciclo de vida de los datos, la interfaz opera bajo un enfoque completamente digital y desacoplado:
+
 \begin{itemize}
-    \item \textbf{Persistencia en memoria volátil durante el juego:} La evolución del tanteo, el control del cronómetro 
-    y el apilamiento de eventos se gestionan íntegramente en el estado local de React Native. De este modo se 
-    anula la latencia de red en pista, se garantiza la operatividad ante microcortes de cobertura y se permite al 
-    colegiado rectificar cualquier anotación antes de su formalización definitiva.
-
-    \item \textbf{Volcado canónico del resultado (\texttt{PUT /matches/\{matchId\}/result}):} 
-    Al pulsar \textit{Finalizar Partido}, el cliente transmite el objeto estructurado \texttt{ResultDetails}. 
-    Este paquete de datos consolida los puntos globales, el array de periodos (\texttt{periods}) con sus eventos cronometrados 
-    y las observaciones arbitrales. El back-end persiste estas entidades en base de datos transaccional y conmuta el 
-    estado del partido a \texttt{ENDED}, lo que desencadena que la clasificación de la fase calculada bajo demanda 
-    refleje al instante los nuevos puntos de la liga.
-
-    \item \textbf{Generación y exportación de actas oficiales:} 
-    Dado que el sistema rechaza el escaneo de documentos físicos externos, el back-end actúa como la única fuente 
-    de la verdad (\textit{single source of truth}). Al combinar la radiografía exacta del partido almacenada en las 
-    tablas de resultado y eventos con las evidencias de no repudio de la tabla \texttt{MATCH\_SIGN}, el servidor 
-    queda facultado para generar de forma automatizada y fidedigna el acta en formato oficial reglamentario (e.g., documento PDF normalizado con las marcas temporales y las rúbricas estampadas de cada interviniente).
-\end{itemize}
-\label{subsec:ui_live_match_referee}
-
-La pantalla de arbitraje en tiempo real representa el componente de mayor densidad funcional y 
-complejidad técnica de la capa de presentación. Su objetivo fundamental es trasladar la labor 
-del cuerpo arbitral desde el acta física tradicional en papel hacia un flujo digital interactivo, 
-auditado e integrado con el back-end del sistema.
-
-\begin{figure}[htbp]
-    \centering
-    % \includegraphics[width=0.85\textwidth]{figuras/partido_en_vivo_arbitro.png}
-    \caption{Diseño en Figma de la interfaz de arbitraje interactivo y acta en vivo.}
-    \label{fig:live_match_ui}
-\end{figure}
-
-\subsubsection{Arquitectura y Componentes de la Interfaz}
-Tal como se ilustra en el diseño de la interfaz (Figura~\ref{fig:live_match_ui}), la pantalla se articula en torno a cuatro bloques funcionales:
-
-\begin{enumerate}
-    \item \textbf{Cabecera y Marcador Táctil Reactivo:} 
-    Presenta la confrontación en curso (\textit{Equipo Local vs. Equipo Visitante}) acompañada 
-    por un marcador de gran visibilidad. Dispone de controles directos de incremento y decremento 
-    (\texttt{+} / \texttt{-}) orientados a la operativa ágil a pie de pista. Incorpora un indicador 
-    de progreso de periodos o sets (e.g., \textit{Set actual: 2 de 3}) y el histórico consolidado de los 
-    parciales previos ya disputados.
-
-    \item \textbf{Alineaciones y Gestión de Convocatoria:} 
-    Muestra los listados de jugadores inscritos vinculados a las alineaciones del encuentro (\texttt{Lineup}) 
-    junto a sus respectivos dorsales oficiales para ambos contendientes, permitiendo al colegiado verificar la 
-    identidad y elegibilidad reglamentaria de los participantes, así como articular cambios y sustituciones en vivo.
-
-    \item \textbf{Módulo de Sanciones e Incidencias en Vivo:} 
-    A través de una ventana modal desacoplada, el árbitro puede registrar eventos disciplinarios 
-    tipificados (\texttt{SanctionType}: tarjetas amarillas, rojas o expulsiones) y tiempos muertos (\texttt{Timeout}), 
-    imputando cada evento al jugador o equipo específico con su correspondiente marca de tiempo (\texttt{happenedAtTime}), 
-    marcador en ese instante y observación textual asociada.
-
-    \item \textbf{Protocolo de Validación y Cierre de Acta:} 
-    Al declarar la conclusión del encuentro mediante el botón \textit{Finalizar Partido}, se 
-    despliega el panel de cierre reglamentario. Para garantizar el no repudio del resultado, 
-    el sistema permite tanto la confirmación y rúbrica digital de los participantes autorizados 
-    (árbitros y capitanes en el momento reglamentario \texttt{POST\_MATCH}) como la adjunción opcional 
-    de evidencias documentales o fotográficas complementarias del acta física de la mesa.
-\end{enumerate}
-
-\subsubsection{Flujo de Datos y Comunicación con el back-end}
-Desde el punto de vista del desarrollo en el cliente, esta interfaz orquesta un flujo de datos 
-asimétrico de alta exigencia:
-\begin{itemize}
-    \item \textbf{Persistencia en memoria volátil durante el juego:} La evolución del tanteo, los 
-    parciales y los eventos se gestionan localmente en el estado del componente React Native, minimizando la 
-    latencia en pista y permitiendo al colegiado rectificar cualquier anotación errónea antes de formalizar 
-    el resultado definitivo en el servidor.
-
-    \item \textbf{Transferencia de evidencias a MinIO:} En caso de adjuntar un acta física escaneada 
-    o evidencia fotográfica complementaria, el cliente solicita un enlace prefirmado 
-    (\texttt{POST /api/v1/storage/upload-url} para la carpeta \texttt{match-records}) y realiza un volcado 
-    binario directo vía \texttt{PUT} hacia el almacenamiento de objetos S3/MinIO. La URL pública devuelta 
-    se asocia al acta en el campo \texttt{recordUrl}.
-
-    \item \textbf{Consolidación en el back-end:} Finalmente, se despacha una única petición estructurada 
-    (\texttt{PUT /api/v1/matches/\{matchId\}/result}) transportando el objeto \texttt{ResultDetails}, el cual 
-    encapsula los tanteos totales, el desglose detallado por periodos (\texttt{periods}), la relación de eventos 
-    disciplinarios y sustituciones, y las observaciones finales. El back-end persiste el acta en bloque, transiciona 
-    el estado del partido a \texttt{ENDED} y provoca que la clasificación de la fase computada dinámicamente 
-    refleje inmediatamente los nuevos puntos del encuentro.
+    \item \textbf{Persistencia en memoria volátil durante el juego:} La evolución del tanteo, el control del cronómetro y el apilamiento de eventos se gestionan íntegramente en el estado local de React Native. De este modo se anula la latencia de red en pista, se garantiza la operatividad ante microcortes de cobertura y se permite al colegiado rectificar cualquier anotación antes de su formalización definitiva.
+    \item \textbf{Volcado canónico del resultado (\texttt{PUT /matches/\{matchId\}/result}):} Al pulsar \textit{Finalizar Partido}, el cliente transmite el objeto estructurado \texttt{ResultDetails}. Este paquete de datos consolida los puntos globales, el array de periodos (\texttt{periods}) con sus eventos cronometrados y las observaciones arbitrales. El back-end persiste estas entidades en base de datos transaccional y conmuta el estado del partido a \texttt{ENDED}, lo que desencadena que la clasificación de la fase calculada bajo demanda refleje al instante los nuevos puntos de la liga.
+    \item \textbf{Datos necesarios para el acta oficial:} Dado que el sistema rechaza el escaneo de documentos físicos externos, el back-end actúa como la única fuente de la verdad (\textit{single source of truth}). Las tablas de resultados, periodos, eventos y firmas digitales almacenan la información necesaria para generar posteriormente el acta en formato oficial reglamentario. La generación y exportación automática del documento PDF queda como una funcionalidad pendiente.
 \end{itemize}
 
-% TODO explain a critical wireframe
+La pantalla de arbitraje en tiempo real representa el componente de mayor densidad funcional y complejidad técnica de la capa de presentación. Su objetivo fundamental es trasladar la labor del cuerpo arbitral desde el acta física tradicional en papel hacia un flujo digital interactivo, auditado e integrado con el back-end del sistema.
 
 \subsection{Control de versiones}
 
