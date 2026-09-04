@@ -1,15 +1,12 @@
 \chapter{Resultado}
 \label{ch:result}
-% Falta la comparació respecte el cronograma, no només l'abast. Has de revisar el principal del capítol 3:
-% - Abast (fet, pendents els canvis de la revisió)
-% - Cronograma
-% - Riscs
-
-En este capítulo se presentan los cambios reales que han surgido durante el desarrollo del proyecto, comparando el alcance inicial del sistema con la solución final implementada. La idea no es limitarse a describir las funcionalidades ya desarrolladas, sino también reconocer qué aspectos quedaron pendientes y qué decisiones técnicas fueron necesarias para que el sistema siguiese siendo viable.
+En este capítulo se evalúa el grado de cumplimiento de los requisitos y objetivos definidos inicialmente, comparándolos con la solución final implementada. También se indican las desviaciones producidas durante el desarrollo y los elementos que no se han podido verificar de forma completa.
 
 \section{Cambios aplicados}
 
-Respecto a los requisitos iniciales, el sistema mantiene la mayor parte de los objetivos de gestión deportiva definidos en la fase de análisis. Se han implementado las funciones principales relacionadas con la creación de ligas, formación de equipos, registro de usuarios, gestión de partidos y cálculo de clasificación. También se han incluido diferentes perfiles dentro de la misma aplicación, lo que representa una mejora importante frente a las alternativas utilizadas en la \ac{LVUIB}.
+Respecto a los requisitos iniciales, el sistema cumple las funcionalidades principales de gestión deportiva definidas durante la fase de análisis. Se han implementado el registro y la autenticación propia de usuarios, la creación y configuración de ligas, la gestión de equipos y participantes, el sistema de roles, la creación de fases y rondas, la generación de calendarios, la negociación de fechas, la asignación de árbitros y la gestión de resultados y firmas digitales. La única funcionalidad funcional prevista que no se ha implementado es la autenticación mediante las credenciales institucionales de la UIB.
+
+El desarrollo se organizó en cinco fases consecutivas: análisis, diseño, implementación, pruebas y documentación. Todas las fases se completaron dentro del periodo previsto. Para reducir el impacto de las obligaciones académicas de otras asignaturas y de los periodos de exámenes, se reservó margen de tiempo en la planificación inicial. Esta previsión permitió atender dichas obligaciones sin modificar la duración de las fases ni retrasar la finalización del proyecto.
 
 \section{Desviaciones respecto a la planificación inicial}
 
@@ -17,17 +14,41 @@ Respecto a los requisitos iniciales, el sistema mantiene la mayor parte de los o
 \label{sec:change_tech}
 Durante el desarrollo del sistema surgieron varios cambios que afectaron al proceso de implementación y a la forma de gestionar la infraestructura.
 
-El principal cambio que afectó al front-end fue la necesidad de cambiar el gestor de dependencias de JavaScript por motivos de seguridad. La aparición de ataques de cadena de suministro \cite{new:tanstack-sca} contra paquetes populares de \emph{npm} hizo necesario migrar el proyecto a \emph{pnpm}, un gestor que ofrece mejor control sobre las versiones y configuraciones de las dependencias. Lo que acarrea una capa robusta de seguridad ante este tipo de ataques.
+El principal cambio que afectó al front-end fue la necesidad de cambiar el gestor de dependencias de JavaScript por motivos de seguridad. La aparición de ataques de cadena de suministro \cite{new:tanstack-sca} contra paquetes populares de \emph{npm} hizo necesario migrar el proyecto a \emph{pnpm}, un gestor que ofrece mejor control sobre las versiones y configuraciones de las dependencias. Esta decisión modificó la configuración inicial, pero no redujo el alcance funcional previsto.
 
 Otra desviación en el front-end ha sido el cambio de sistema para gestionar los estilos de la interfaz. En primera instancia se utilizaba el componente nativo \texttt{StyleSheet}. Este componente permite escribir los estilos de una forma similar a \emph{CSS} puro, pero mediante objetos dentro del mismo archivo \texttt{.ts}. En ocasiones, esto resultaba engorroso al querer aplicar estilos relativamente complicados, ya que las funciones nativas de \emph{CSS} no estaban disponibles al ser solo parte de la API de estilos enfocada a web y no a multiplataforma. Por este motivo se decidió cambiar a \emph{Nativewind}: una librería de estilos que permite utilizar el sistema de estilos de \href{https://www.nativewind.dev/docs/getting-started/installation}{Tailwind CSS} en aplicaciones de React Native.
 
-Por otra parte, hubo inconveniente al querer implementar la verificación de credenciales de la \ac{UIB}. Tras hacer una consulta a los servicios de soporte informático sobre la posibilidad de utilizar alguna herramienta con acceso mediante peticiones HTTPS para poder implementar la funcionalidad, se indicó que dicha herramienta no estaba disponible a proyectos desarrollados para un \ac{TFG}. Dada la negativa, se aplicó la gestión de riesgo correspondiente y se decidió omitir dicha funcionalidad por su probabilidad e impacto. 
+Por otra parte, hubo inconvenientes al querer implementar la verificación de credenciales de la \ac{UIB}. Tras consultar a los servicios de soporte informático sobre la posibilidad de utilizar alguna herramienta con acceso mediante peticiones HTTPS, se indicó que dicha herramienta no estaba disponible para proyectos desarrollados como \ac{TFG}. Por este motivo, se aplicó la gestión del riesgo correspondiente y se decidió dejar esta funcionalidad fuera de la versión desarrollada.
 
-% TODO Mover a la sección 6.1: explicacion completa del resultado
+El desarrollo se completó dentro del plazo previsto en el cronograma. Las modificaciones introducidas afectaron principalmente a decisiones tecnológicas y no supusieron una reducción general del alcance funcional. La integración con servicios de auditoría y la preparación de un despliegue productivo se mantienen como mejoras futuras, ya que no formaban parte de los requisitos mínimos de la versión desarrollada.
+
 \section{Funcionalidades implementadas}
-Dentro del sistema ya desarrollado se pueden distinguir tres grupos de funcionalidades: aquellas totalmente implementadas, las implementadas parcialmente y las pendientes. Entre las primeras destacan la gestión de ligas, la configuración de equipos y participantes, la generación de calendarios y la evaluación de clasificaciones. También se han implementado los flujos de actas y resultados, así como la lógica de roles para distinguir un administrador, un capitán, un árbitro y un jugador.
+El sistema implementa completamente la gestión de usuarios, ligas, equipos y participantes, incluyendo sus solicitudes y relaciones. También se han implementado el sistema de roles, la configuración de fases y rondas, la generación de partidos clasificatorios y de torneo, la distribución de partidos entre jornadas, la negociación de fechas, la gestión de disponibilidades y la asignación manual y automática de árbitros.
+
+Asimismo, se ha completado el flujo de resultados y actas digitales. El sistema permite registrar puntuaciones, periodos, eventos, observaciones y firmas digitales de capitanes y árbitros. Al guardar un resultado, la clasificación se actualiza con los datos vigentes del encuentro. La generación automática de un documento oficial de acta no se ha implementado, por lo que constituye la principal funcionalidad funcional pendiente.
+
+Los requisitos no funcionales relacionados con seguridad, fiabilidad, eficiencia de almacenamiento, operación, contenerización, control de versiones, contrato API y pruebas automatizadas se consideran implementados. Las pruebas unitarias, de integración y de extremo a extremo ejecutadas para comprobar el funcionamiento general del sistema fueron satisfactorias. No obstante, no se han verificado experimentalmente los objetivos de resolver la clasificación en menos de 200 ms ni de mostrar el Dashboard en menos de 3 segundos.
+
+El estado de los elementos que se apartan del cumplimiento completo se resume en la siguiente tabla:
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|p{0.28\textwidth}|p{0.18\textwidth}|p{0.42\textwidth}|}
+		\hline
+		\textbf{Elemento} & \textbf{Estado} & \textbf{Explicación} \\ \hline
+		Autenticación institucional de la UIB & No implementado & No se pudo acceder al servicio institucional necesario. \\ \hline
+		Generación automática del acta oficial & Pendiente & Se almacenan los datos, eventos y firmas digitales, pero no se genera el documento oficial. \\ \hline
+		Tiempo de respuesta de la clasificación & No verificado & No se realizó una medición experimental que confirme el objetivo de 200 ms. \\ \hline
+		Tiempo de arranque del Dashboard & No verificado & No se realizó una medición experimental que confirme el objetivo de 3 segundos. \\ \hline
+	\end{tabular}
+	\caption{Elementos cuyo cumplimiento no es completo o no ha sido verificado.}
+	\label{tab:affected_requirements}
+\end{table}
+
+De acuerdo con la tabla de requisitos funcionales de la sección \ref{sec:requirements}, los requisitos funcionales codificados se consideran implementados. La autenticación institucional de la UIB no forma parte de dicha tabla y se trata de una funcionalidad adicional que no pudo incorporarse por la falta de acceso al servicio correspondiente. Del mismo modo, la generación automática del acta oficial aparece como una funcionalidad deseada en los formularios, pero no como un requisito funcional codificado; por tanto, se considera una funcionalidad prevista pendiente y no un incumplimiento de los requisitos funcionales definidos.
 
 \section{Funcionalidades no implementadas}
-Quedan pendientes, dentro del alcance actual del proyecto, ciertos componentes de despliegue y operación. En particular, la autenticación con credenciales de la UIB, la integración de servicios de auditoría y el despliegue final en un servidor productivo no se consideran cerrados. Tampoco se ha validado de forma prolongada el sistema con una temporada completa de competición, algo que sería necesario para una verificación real de rendimiento y estabilidad.
-% END TODO
+Las funcionalidades previstas que no se han implementado son la autenticación con credenciales institucionales de la UIB y la generación y exportación automática del acta oficial. La primera no pudo desarrollarse por la falta de acceso al servicio institucional y la segunda quedó fuera de la implementación final, aunque se mantuvo el registro digital de resultados, eventos, firmas y observaciones. La integración de servicios de auditoría y el despliegue en un entorno productivo se consideran mejoras futuras, no incumplimientos de los requisitos funcionales codificados.
+
+Por último, aunque se han ejecutado pruebas unitarias, de integración y de extremo a extremo, el sistema no se ha validado durante una temporada completa de competición. Por ello, los objetivos de rendimiento indicados anteriormente permanecen sin verificar en un escenario real prolongado.
 

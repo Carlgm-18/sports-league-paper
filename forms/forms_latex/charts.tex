@@ -1,10 +1,10 @@
 \subsubsection*{Aspectos cuantitativos}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
-    \begin{tikzpicture}
-        \pie[text=legend]{
-            30.77/Menos de 2 veces al mes, 26.92/No sabía que había una aplicación o\dots, 19.23/Un día a la semana, 19.23/Menos de 4 días a la semana, 3.85/Más de 4 días a la semana
+    \begin{tikzpicture}[scale=0.75]
+        \pie[text=legend, hide number, sum=auto, every pie/.style={font=\scriptsize}]{
+            8/Menos de 2 veces al mes (8 votos), 7/No sabía que había una aplicación o\dots (7 votos), 5/Un día a la semana (5 votos), 5/Menos de 4 días a la semana (5 votos), 1/Más de 4 días a la semana (1 voto)
         }
     \end{tikzpicture}
     \caption{¿Cada cuánto usas la aplicación de la liga de la UIB o consultas la información de la liga a través de ella?}
@@ -15,11 +15,11 @@ La Figura \ref{fig:col_use} nos permite ver que la mayoría de los usuarios casi
 
 Esto nos puede indicar que la aplicación tan solo la usan los usuarios que estrictamente tienen que utilizarla: como los árbitros, para guardar los resultados de los partidos; o los administradores, para hacer un seguimiento continuo del correcto desarrollo de la liga.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
-    \begin{tikzpicture}
-        \pie[text=legend]{
-            38.46/Aplicación móvil, 34.62/Navegador web, 26.92/No accedo
+    \begin{tikzpicture}[scale=0.75]
+        \pie[text=legend, hide number, sum=auto, every pie/.style={font=\scriptsize}]{
+            10/Aplicación móvil (10 votos), 9/Navegador web (9 votos), 7/No accedo (7 votos)
         }
     \end{tikzpicture}
     \caption{¿A través de qué medio accedes principalmente a la aplicación?}
@@ -36,17 +36,17 @@ La Figura \ref{fig:col_device} nos confirma el uso multiplataforma que hacen los
 
 \subsubsection*{Nota final y necesidad de un nuevo sistema}
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \begin{tikzpicture}
         \begin{axis}[
             title={\textbf{Nota final}},
             width=\textwidth,
             ybar,
-            bar width=12pt,
-            height=6cm,
+            bar width=8pt,
+            height=4.2cm,
             ymin=0, ymax=29,
             xlabel={Puntuación},
-            ylabel={Votos (\%)},
+            ylabel={Número de votos},
             xtick={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
             symbolic x coords={1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
             nodes near coords, 
@@ -59,7 +59,7 @@ La Figura \ref{fig:col_device} nos confirma el uso multiplataforma que hacen los
             }
         ]
         \addplot[fill=blue!50] coordinates {
-            (1, 15.38) (2, 7.69) (3, 3.85) (4, 19.23) (5, 19.23) (6, 7.69) (7, 19.23) (8, 0.0) (9, 3.85) (10, 3.85)
+            (1, 4) (2, 2) (3, 1) (4, 5) (5, 5) (6, 2) (7, 5) (8, 0) (9, 1) (10, 1)
         };
         \end{axis}
     \end{tikzpicture}
@@ -69,11 +69,11 @@ La Figura \ref{fig:col_device} nos confirma el uso multiplataforma que hacen los
 
 En las puntuaciones finales (Ver \ref{fig:col_final_result}), observamos un patrón en el que destacan los valores bajos y donde los valores altos son insignificantes en comparación. Esto nos da el veredicto final y nos describe el descontento generalizado que hay con la aplicación.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{tikzpicture}
-        \pie[text=legend]{
-            96.15/Si, 3.85/No
+        \pie[text=legend, hide number, sum=auto, every pie/.style={font=\scriptsize}]{
+            25/Sí (25 votos), 1/No (1 voto)
         }
     \end{tikzpicture}
     \caption{¿Te gustaría una nueva aplicación que incluya nuevas y mejores funcionalidades?}

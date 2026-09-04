@@ -71,6 +71,10 @@
 \usepackage{tcolorbox}
 \usepackage{enumitem}
 \usepackage{longtable}
+\usepackage{xltabular}
+\usepackage{booktabs}
+\usepackage{ragged2e}
+
 \usepackage{tikz}
 \usepackage{pgf-pie}
 \usepackage{pgfplots}
@@ -78,6 +82,12 @@
 \usepackage{float}
 \usepackage{diagbox}
 \usepackage{pdflscape}
+
+\newcommand{\lightrule}{%
+	\arrayrulecolor{black!30}%
+	\midrule%
+	\arrayrulecolor{black}%
+}
 
 % Si voleu que les referències bibliogràfiques
 % apareguin amb el format "autor-any" en comptes 
