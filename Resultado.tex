@@ -27,7 +27,30 @@ El sistema implementa completamente la gestión de usuarios, ligas, equipos y pa
 
 Asimismo, se ha completado el flujo de resultados y actas digitales. El sistema permite registrar puntuaciones, periodos, eventos, observaciones y firmas digitales de capitanes y árbitros. Al guardar un resultado, la clasificación se actualiza con los datos vigentes del encuentro. La generación automática de un documento oficial de acta no se ha implementado, por lo que constituye la principal funcionalidad funcional pendiente.
 
-Los requisitos no funcionales relacionados con seguridad, fiabilidad, eficiencia de almacenamiento, operación, contenerización, control de versiones, contrato API y pruebas automatizadas se consideran implementados. Las pruebas unitarias, de integración y de extremo a extremo ejecutadas para comprobar el funcionamiento general del sistema fueron satisfactorias. No obstante, no se han verificado experimentalmente los objetivos de resolver la clasificación en menos de 200 ms ni de mostrar el Dashboard en menos de 3 segundos.
+Los requisitos no funcionales relacionados con seguridad, fiabilidad, eficiencia de almacenamiento, operación, contenerización, control de versiones, contrato API y pruebas automatizadas se consideran implementados y verificados. Las pruebas unitarias, de integración y de extremo a extremo ejecutadas para comprobar el funcionamiento general del sistema fueron satisfactorias.
+
+Asimismo, se ha validado experimentalmente el cumplimiento del requisito \textbf{RNF-EFI-2} (tiempo de respuesta de la clasificación inferior a 200 ms) mediante un banco de pruebas de rendimiento automatizado (\texttt{LeaderboardBenchmarkTest}). Para reproducir las condiciones reales de una competición, se simuló una liga con 10 equipos, 10 jornadas y 50 partidos finalizados con sus respectivos marcadores y resultados consolidados en la base de datos PostgreSQL, refrescando la vista materializada \texttt{v\_match\_team\_performance}. Tras una fase inicial de calentamiento (\emph{warmup}) de 15 solicitudes y 100 iteraciones consecutivas sobre la pila HTTP y de persistencia, se obtuvieron las métricas presentadas en la Cuadro~\ref{tab:benchmark_leaderboard}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|p{0.37\textwidth}|r|r|}
+		\hline
+		\textbf{Métrica de rendimiento} & \textbf{Clasificación completa} & \textbf{Histórico (Jornada 5)} \\ \hline
+		Tiempo mínimo (Min) & 16,04 ms & 5,68 ms \\ \hline
+		Tiempo promedio (Mean) & 26,40 ms & 8,99 ms \\ \hline
+		Mediana (P50) & 24,64 ms & 8,30 ms \\ \hline
+		Percentil 90 (P90) & 36,89 ms & 11,69 ms \\ \hline
+		Percentil 95 (P95) & 42,36 ms & 14,27 ms \\ \hline
+		Percentil 99 (P99) & 48,94 ms & 18,91 ms \\ \hline
+		Tiempo máximo (Max) & 56,31 ms & 21,43 ms \\ \hline
+		Desviación estándar ($\sigma$) & 7,85 ms & 2,78 ms \\ \hline
+		Rendimiento estimado (\emph{Throughput}) & 37,9 req/s & 111,3 req/s \\ \hline
+	\end{tabular}
+	\caption{Resultados del benchmark de tiempo de respuesta de la clasificación (\texttt{RNF-EFI-2}).}
+	\label{tab:benchmark_leaderboard}
+\end{table}
+
+Los resultados confirman que tanto el tiempo medio (26,40 ms) como el percentil 95 (42,36 ms) se sitúan sustancialmente por debajo del límite de 200 ms establecido, acreditando la ventaja técnica de desacoplar el cálculo de puntuaciones mediante la vista materializada. El único objetivo de rendimiento que permanece sin una medición experimental sistemática en dispositivo cliente es el tiempo de arranque del \emph{Dashboard} en menos de 3 segundos.
 
 El estado de los elementos que se apartan del cumplimiento completo se resume en la siguiente tabla:
 
@@ -38,7 +61,6 @@ El estado de los elementos que se apartan del cumplimiento completo se resume en
 		\textbf{Elemento} & \textbf{Estado} & \textbf{Explicación} \\ \hline
 		Autenticación institucional de la UIB & No implementado & No se pudo acceder al servicio institucional necesario. \\ \hline
 		Generación automática del acta oficial & Pendiente & Se almacenan los datos, eventos y firmas digitales, pero no se genera el documento oficial. \\ \hline
-		Tiempo de respuesta de la clasificación & No verificado & No se realizó una medición experimental que confirme el objetivo de 200 ms. \\ \hline
 		Tiempo de arranque del Dashboard & No verificado & No se realizó una medición experimental que confirme el objetivo de 3 segundos. \\ \hline
 	\end{tabular}
 	\caption{Elementos cuyo cumplimiento no es completo o no ha sido verificado.}
@@ -50,5 +72,5 @@ De acuerdo con la tabla de requisitos funcionales de la sección \ref{sec:requir
 \section{Funcionalidades no implementadas}
 Las funcionalidades previstas que no se han implementado son la autenticación con credenciales institucionales de la UIB y la generación y exportación automática del acta oficial. La primera no pudo desarrollarse por la falta de acceso al servicio institucional y la segunda quedó fuera de la implementación final, aunque se mantuvo el registro digital de resultados, eventos, firmas y observaciones. La integración de servicios de auditoría y el despliegue en un entorno productivo se consideran mejoras futuras, no incumplimientos de los requisitos funcionales codificados.
 
-Por último, aunque se han ejecutado pruebas unitarias, de integración y de extremo a extremo, el sistema no se ha validado durante una temporada completa de competición. Por ello, los objetivos de rendimiento indicados anteriormente permanecen sin verificar en un escenario real prolongado.
+Por último, aunque se han ejecutado pruebas unitarias, de integración, rendimiento y de extremo a extremo, el sistema no se ha validado durante una temporada completa de competición en producción. Por ello, la verificación del tiempo de arranque del Dashboard en dispositivos cliente bajo diferentes condiciones de red permanece como trabajo futuro.
 

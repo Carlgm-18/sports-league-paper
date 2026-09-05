@@ -7,8 +7,8 @@ En este capítulo veremos todos los pasos que se han tomado para completar la es
 
 \subsection{Análisis de los interesados}
 
-Entre los interesados del proyecto: todas aquellas partes que se ven, de una forma u otra, afectadas por el ciclo de vida del proyecto, podemos apreciar dos grupos de interesados claramente divididos. Por un lado, tenemos los interesados institucionales y académicos, que velan por el correcto desarrollo del proyecto; mientras que, por otro lado, están los usuarios finales, aquellos que interactuarán directamente con el sistema a través de los distintos roles definidos. Todos los interesados quedan explicados en la tabla \ref{tab:stakeholders}.
-
+Entre los interesados del proyecto, todas aquellas partes que se ven, de una forma u otra, afectadas por el ciclo de vida del proyecto, podemos apreciar dos grupos de interesados claramente divididos. Por un lado, tenemos los interesados institucionales y académicos, que velan por el correcto desarrollo del proyecto; mientras que, por otro lado, están los usuarios finales, aquellos que interactuarán directamente con el sistema a través de los distintos roles definidos. Todos los interesados quedan explicados en Cuadro~\ref{tab:stakeholders}.
+% TODO Igualar el estilo de las tablas
 {\renewcommand{\arraystretch}{1.8}
 \begin{xltabular}{\textwidth}{>{\RaggedRight}p{2.3cm} c >{\RaggedRight}X >{\RaggedRight}X}
 \caption{Stakeholders del sistema}\label{tab:stakeholders}\\
@@ -212,7 +212,7 @@ Estas preguntas nos permiten saber qué funcionalidades les gustaría que hubier
 
 Preguntas de respuesta abierta que permiten a los encuestados detallar problemas específicos dentro de la aplicación además de especificar otras funcionalidades deseadas que no se contemplan en otras preguntas
 
-En la siguiente tabla se muestra un resumen con las preguntas formuladas en los formularios:
+En el Cuadro~\ref{tab:forms_questions} se muestra un resumen con las preguntas formuladas en los formularios:
 
 \begin{table}[H]
     \centering
@@ -235,12 +235,15 @@ En la siguiente tabla se muestra un resumen con las preguntas formuladas en los 
         Otros aspectos & Respuesta abierta & Todos \\ \lightrule
         Problemas encontrados & Respuesta abierta & Todos \\ \lightrule
     \end{tabular}
+    \caption{Resumen de las preguntas}
+    \label{tab:forms_questions}
 \end{table}
 
 Se puede apreciar que, para las preguntas de escala de Likert, la mayoría de las veces se usan escalas del al 10 a excepción de dos casos, que se usan escalas del 1 al 5: el diseño y el manejo de la aplicación. Esta diferencia está directamente relacionada con la naturaleza del aspecto evaluado. La mayoría de aspectos de escalas funcionan como evaluaciones estándar para facilitar a los encuestados la evaluación; pero, en los aspectos mencionados la escala funciona como una asociación directa con la pregunta. Para el manejo vemos como la escala representa la cantidad de clics necesarios para acceder a la información deseada donde una nota más baja indica una cantidad inferior de clics. Mientras que para el diseño se hace de este modo por comodidad del encuestado. En aspectos subjetivos como este, al encuestado le es más cómodo evaluar del 1 al 5 que del 1 al 10, ya que de esa forma acarrea una menor carga cognitiva al necesitar menos argumentos internos para evaluar el aspecto.
 
-Los formularios fueron distribuidos a través de WhatsApp a los distintos grupos objetivos y se esperó a que hubiera una cantidad significativa de respuestas.
+Los formularios fueron distribuidos a través de WhatsApp a los distintos grupos objetivos: jugadores, capitanes, árbitros y administradores de la liga y se esperó a que hubiera una cantidad significativa de respuestas.
 
+% TODO TODO Continua por aquí
 
 \subsection{Análisis de las respuestas de los formularios}
 
@@ -408,7 +411,7 @@ El diagrama de la Figura \ref{fig:us_create-macthes} explica como la interfaz ha
 \subsection{Diseño de la base de datos}
 \label{sec:bd_design}
 
-El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. En el enlace \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} podemos ver el diagrama más detalladamente.
+El diseño de la \ac{BD} ha sido un derivado directo de los requisitos funcionales y muestra cómo las entidades se relacionan entre ellas a partir de los requisitos. Se ha utilizado la herramienta de draw.io para crear un diagrama de clases UML que muestra la estructura de la \ac{BD}. Tanto en el enlace \href{https://drive.google.com/file/d/1mxL6X2hpuJfcd0a5c4KClujh1otP2HsV/view?usp=sharing}{Diagrama UML - draw.io} como en la Figura \ref{fig:full_class_diagram} podemos ver el diagrama al completo.
 
 En el diagrama se pueden apreciar: las clases definidas con sus atributos correspondientes y las relaciones que relacionan dichas clases. Cabe aclarar que se pueden ver algunos de los nombres de clases repetidos junto a un asterisco `*'. Dicho formato indica que la clase ya ha sido definida y que simplemente se usa como una `referencia'. Se ha decidido aplicar este formato por claridad visual. De esta forma evitamos que las relaciones que conectan dos clases muy separadas no estorben en la lectura del diagrama.
 
@@ -471,25 +474,25 @@ Complementariamente, los atributos de estado o tipos cerrados se modelan mediant
 Para el diseño de las URIs se ha establecido un patrón híbrido que combina la contextualización de las entidades dependientes con la sencillez en el acceso directo a recursos ya creados:
 
 \begin{table}[htbp]
-\centering
-\small
-\begin{tabularx}{\textwidth}{l p{5.5cm} X}
-\toprule
-\textbf{Patrón de Ruta} & \textbf{Ejemplo Representativo} & \textbf{Propósito y Justificación de Diseño} \\
-\midrule
-\textbf{Jerárquico} & \texttt{POST /leagues/\{id\}/requests} & \textbf{Creación contextualizada:} El nuevo recurso nace subordinado a una entidad superior (la liga), acotando la validez y los permisos de la operación. \\
-(\textit{Deep Routing}) & \texttt{POST /leagues/\{id\}/phases} & Facilita la comprensión del alcance de pertenencia directamente desde la propia URI. \\
-\midrule
-\textbf{Plano o Directo} & \texttt{GET /teams/\{teamId\}} & \textbf{Operaciones sobre entidades existentes:} Una vez que el recurso posee un identificador global unívoco, se prescinde de prefijos padre. \\
-(\textit{Flat Routing}) & \texttt{PATCH /matches/\{matchId\}} & Se evita el problema de URLs innecesariamente anidadas (\textit{nested URL hell}), simplificando las llamadas desde el cliente. \\
- & \texttt{DELETE /teams/\{teamId\}} & Reduce redundancias semánticas en la especificación. \\
-\bottomrule
-\end{tabularx}
-\caption{Comparativa de patrones de enrutamiento aplicados en el diseño de la API.}
-\label{tab:api_routing_patterns}
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}{l p{5.5cm} X}
+        \toprule
+        \textbf{Patrón de Ruta} & \textbf{Ejemplo Representativo} & \textbf{Propósito y Justificación de Diseño} \\
+        \midrule
+        \textbf{Jerárquico} & \texttt{POST /leagues/\{id\}/requests} & \textbf{Creación contextualizada:} El nuevo recurso nace subordinado a una entidad superior (la liga), acotando la validez y los permisos de la operación. \\
+        (\textit{Deep Routing}) & \texttt{POST /leagues/\{id\}/phases} & Facilita la comprensión del alcance de pertenencia directamente desde la propia URI. \\
+        \midrule
+        \textbf{Plano o Directo} & \texttt{GET /teams/\{teamId\}} & \textbf{Operaciones sobre entidades existentes:} Una vez que el recurso posee un identificador global unívoco, se prescinde de prefijos padre. \\
+        (\textit{Flat Routing}) & \texttt{PATCH /matches/\{matchId\}} & Se evita el problema de URLs innecesariamente anidadas (\textit{nested URL hell}), simplificando las llamadas desde el cliente. \\
+        & \texttt{DELETE /teams/\{teamId\}} & Reduce redundancias semánticas en la especificación. \\
+        \bottomrule
+    \end{tabularx}
+    \caption{Comparativa de patrones de enrutamiento aplicados en el diseño de la API.}
+    \label{tab:api_routing_patterns}
 \end{table}
 
-Tal como se resume en la Tabla~\ref{tab:api_routing_patterns}, para las acciones de creación e inscripción se opta por un \textit{enrutamiento jerárquico}. Por ejemplo, al emitir una solicitud para inscribir un equipo o solicitar rol de árbitro, el endpoint se diseña como \texttt{POST /leagues/\{leagueId\}/requests}, ya que el contexto de la liga es indispensable para delimitar la petición.
+Tal como se resume en la Cuadro~\ref{tab:api_routing_patterns}, para las acciones de creación e inscripción se opta por un \textit{enrutamiento jerárquico}. Por ejemplo, al emitir una solicitud para inscribir un equipo o solicitar rol de árbitro, el endpoint se diseña como \texttt{POST /leagues/\{leagueId\}/requests}, ya que el contexto de la liga es indispensable para delimitar la petición.
 
 Por el contrario, cuando un recurso ya cuenta con un identificador único en el sistema, las acciones de consulta, actualización o eliminación adoptan un \textit{enrutamiento plano}. Rutas como consultar la ficha de un club (\texttt{GET /teams/\{teamId\}}), resolver una solicitud (\texttt{PATCH /requests/\{requestId\}}), editar un dorsal (\texttt{PATCH /participants/\{participantId\}}) o fijar las horas de juego (\texttt{GET /rounds/\{roundId\}/availability}) son accesibles de forma directa sin requerir la cadena completa de recursos contenedores.
 
@@ -555,7 +558,7 @@ La pantalla de arbitraje en tiempo real representa el componente de mayor densid
 
 Para gestionar el control de versiones de los componentes del sistema se ha decidido utilizar Git. Es la herramienta que más se usa dentro de la industria y la más fácil de utilizar para un equipo de desarrollo de una sola persona, como es el caso de este proyecto.
 
-Se han creado tres repositorios, uno para cada parte crítica del sistema: back-end, front-end, contrato API. Se ha optado por esta separación, ya que de esta manera separamos el sistema según el ámbito: definición, procesamiento y presentación de los datos. Un aspecto interesante es que el repositorio del contrato API existe como submódulo de los otros dos. Gracias a esto, ambos componentes tienen una vía directa para actualizar el contrato en caso de ser necesario y consultar los cambios que haya efectuado el otro componente. De esta forma, ambos componentes están al día en caso de tener que cambiar el contenido del contrato debido a la ejecución de un plan de mitigación de riesgos.
+Se han creado tres repositorios, uno para cada parte crítica del sistema: back-end, front-end, contrato API. Se ha optado por esta separación, ya que de esta manera separamos el sistema según el ámbito: definición, procesamiento y presentación de los datos. Un aspecto interesante es que el repositorio del contrato API existe como submódulo de los otros dos. Gracias a esto, ambos componentes tienen una vía directa para actualizar el contrato en caso de ser necesario y consultar los cambios que haya efectuado el otro componente. De esta forma, ambos componentes están al día en caso de tener que cambiar el contenido del contrato debido a la ejecución de un plan de mitigación de riesgos. Se puede consultar el código fuente tanto del back-end como del front-end en sus correspondientes repositorios\footnote{Repositorio del front-end: \url{https://github.com/Carlgm-18/sports-league-frontend}}\footnote{Repositorio del backend: \url{https://github.com/Carlgm-18/sports-league-backend}}.
 
 Asimismo, se ha habilitado un cuarto repositorio destinado al control de versiones de la memoria del proyecto. Este entorno facilita un seguimiento bidireccional continuo: permite al tutor supervisar el progreso de la redacción y ofrece al alumno un canal claro para gestionar las revisiones. En concreto, el flujo de trabajo se ha articulado mediante \emph{issues} de GitHub, lo que posibilita registrar correcciones puntuales, conservar una trazabilidad completa de los cambios solicitados y vincular directamente su resolución al cierre de cada incidencia a través de los correspondientes \emph{commits}.
 

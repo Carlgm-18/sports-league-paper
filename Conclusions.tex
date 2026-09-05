@@ -25,7 +25,7 @@ Otra mejora relevante es la posibilidad de autoalojamiento, ya que el proyecto p
 
 El proyecto también presenta limitaciones claras. En primer lugar, la muestra de opinión recogida en los formularios es limitada y no permite validar completamente la utilidad del sistema sobre una temporada real completa. En segundo lugar, no se ha podido completar la integración con la autenticación institucional de la UIB ni la validación de credenciales oficiales, por restricciones de seguridad y alcance. Asimismo, la fase de despliegue en producción sigue siendo limitada y necesitaría ajustes adicionales en autenticación, copias de seguridad, observabilidad y gestión de secretos.
 
-También hay que reconocer que el proyecto no ha sido validado con una temporada completa de competición ni se han medido experimentalmente los objetivos de tiempo de respuesta de la clasificación y de arranque del Dashboard. Esto limita la generalización de algunas conclusiones, aunque no resta valor a la base técnica y funcional que se ha construido.
+También hay que reconocer que el proyecto no ha sido validado con una temporada completa de competición en producción ni se ha medido experimentalmente en cliente el objetivo de arranque del Dashboard en menos de 3 segundos. Sin embargo, los requisitos de rendimiento críticos en el back-end, como el cálculo y consulta de clasificaciones bajo demanda, sí han sido validados experimentalmente mediante pruebas automatizadas de rendimiento, alcanzando latencias medias de 26,40 ms frente al límite de 200 ms estipulado. Esto limita la generalización de algunas conclusiones en cliente, aunque consolida la solvencia de la base técnica construida.
 
 \section{Aprendizaje}
 

@@ -34,20 +34,13 @@ Para la generación de los \ac{DTO} en todos los servicios se han utilizado herr
 
 En el back-end, se ha utilizado la librería \emph{org.openapi.generator} \cite{plugin:openapi-generator}, que, para cada esquema del contrato, genera los \emph{data class} o enumerados correspondientes. En el front-end, el paquete \emph{swagger-typescript-api} \cite{npm:swagger-typescript-api} genera un archivo con el mismo nombre que el contrato, pero con la extensión \texttt{.ts}. Gracias a este flujo, ambos lados de la aplicación utilizan las mismas estructuras de mensaje, reduciendo errores por desalineación y facilitando el mantenimiento del sistema.
 
-% TODO
-% Intentaria posar un esquema/diagrama a cada secció on tengui sentit:
-% - Lògica de lligues
-% - Generació de fases
-% - Gestió d'actes
-% Així com està ara és molt superficial, s'ha d'explicar amb més detall
 \section{Servidor back-end}
-
 \subsection{Estructura}
 Mediante la Figura \ref{fig:folder_structure} como el servidor se ha diseñado como un monolito modular, organizando las responsabilidades por dominio y funcionalidad, en lugar de mantener toda la lógica en un único bloque. Cada módulo contiene sus propios controladores, servicios, repositorios y modelos de dominio. La separación vertical por entidad permite que cada pieza del sistema tenga un alcance claro y que el código pueda crecer sin volverse inmanejable.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/system_design/folder_structure.jpg}
+    \includegraphics[width=0.3\textwidth]{img/system_design/folder_structure.jpg}
     \caption{Estructura de carpetas}
     \label{fig:folder_structure}
 \end{figure}
@@ -56,19 +49,21 @@ En los módulos con lógica más compleja, como ligas, usuarios y participantes,
 
 \begin{figure}[H]
     \centering
+    \hfill
     \begin{subfigure}{0.25\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{img/system_design/hexagonal_module.jpg}
+        \includegraphics[height=4cm, keepaspectratio]{img/system_design/hexagonal_module.jpg}
         \caption{Ejemplo de módulo con arquitectura hexagonal}
         \label{fig:hexagonal}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.25\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{img/system_design/simple_module.jpg}
+        \includegraphics[height=4cm, keepaspectratio]{img/system_design/simple_module.jpg}
         \caption{Ejemplo de módulo con arquitectura de tres capas}
         \label{fig:simple}
     \end{subfigure}
+    \hfill
     \caption{Ejemplos de arquitecturas en los módulos}
     \label{fig:architecture_examples}
 \end{figure}
@@ -88,9 +83,9 @@ Este diseño permite que cambios en la configuración de una liga se reflejen de
 \subsection{Generación de jornadas y partidos}
 La generación de calendarios deportivos se ha automatizado mediante implementaciones de la interfaz \texttt{MatchGenerationStrategy}, distinguiendo dos lógicas según la tipología de la fase:
 
-Para las fases de clasificación, la clase \texttt{ClassificationMatchGenerationStrategy} implementa el algoritmo de \emph{Double Round-Robin} (método de rotación de Berger). Para grupos con un número impar de participantes $N$, el sistema introduce automáticamente un participante ficticio de descanso (\emph{BYE}), garantizando en complejidad $O(N^2)$ que cada equipo dispute exactamente un partido contra cada oponente por vuelta sin coincidencias en la misma jornada y alternando la condición de local y visitante. Cuando los grupos de una fase tienen tamaños dispares, el sistema concilia las jornadas determinando el máximo de rondas requeridas ($\max(R_i)$); de este modo, se generan entidades globales \texttt{Round} espaciadas según la cadencia en semanas configurada (\texttt{roundDuration}), permitiendo que los grupos con menos equipos concluyan antes su calendario sin provocar inconsistencias temporales en la fase.
+Para las fases de clasificación, la clase encargada de la estrategia de emparejamientos (\texttt{Classification\-Match\-Generation\-Strategy}) implementa el algoritmo de \emph{Double Round-Robin} (método de rotación de Berger). Para grupos con un número impar de participantes $N$, el sistema introduce automáticamente un participante ficticio de descanso (\emph{BYE}), garantizando en complejidad $O(N^2)$ que cada equipo dispute exactamente un partido contra cada oponente por vuelta sin coincidencias en la misma jornada y alternando la condición de local y visitante. Cuando los grupos de una fase tienen tamaños dispares, el sistema concilia las jornadas determinando el máximo de rondas requeridas ($\max(R_i)$); de este modo, se generan entidades globales \texttt{Round} espaciadas según la cadencia en semanas configurada (\texttt{roundDuration}), permitiendo que los grupos con menos equipos concluyan antes su calendario sin provocar inconsistencias temporales en la fase.
 
-En las fases de torneo eliminatorio, la clase \texttt{TournamentMatchGenerationStrategy} proyecta una estructura de árbol binario gobernada por el número de etapas configuradas ($S$). El algoritmo genera $2^{S - s}$ partidos vacíos para cada ronda $s$, indexándolos y vinculándolos secuencialmente mediante entidades \texttt{TournamentSlot} que definen la ruta de avance de los vencedores hacia la final.
+En las fases de torneo eliminatorio, la estrategia \texttt{Tournament\-Match\-Generation\-Strategy} proyecta una estructura de árbol binario gobernada por el número de etapas configuradas ($S$). El algoritmo genera $2^{S - s}$ partidos vacíos para cada ronda $s$, indexándolos y vinculándolos secuencialmente mediante entidades \texttt{TournamentSlot} que definen la ruta de avance de los vencedores hacia la final.
 
 \subsection{Gestión de resultados y actas}
 La gestión de resultados conecta la disputa del encuentro con la información canónica de la competición. El árbitro principal registra en vivo los tanteos, periodos (\texttt{MatchPeriod}) y eventos disciplinarios tipificados (\texttt{Sanction}, \texttt{Substitution}, \texttt{Timeout}), los cuales quedan vinculados a las alineaciones oficiales (\texttt{Lineup}). 
@@ -102,25 +97,19 @@ Las capas de dominio y aplicación gestionan los errores a través del patrón \
 
 El uso de este patrón es preferible frente a usar excepciones, ya que: uno, la generación de excepciones obliga al programa a pausar su ejecución momentáneamente mientras este genera el rastro de la pila para dicha excepción; y dos, a nivel semántico tiene más sentido utilizar errores simples de dominio para expresar fallos de validación esperados, mientras que relegamos el uso de excepciones para estados no esperados del sistema como fallos en la conexión a los diferentes servicios o controladores.
 
-\subsection{Pruebas y validación}
-
-La lógica principal se ha comprobado mediante pruebas unitarias de los cálculos de puntuación y clasificación, la generación de partidos y jornadas, los permisos asociados a los roles y las validaciones y transiciones de estado de los resultados. Estas pruebas permiten verificar la lógica de negocio de forma independiente de los servicios externos y de la persistencia.
-
-También se han implementado pruebas de integración para comprobar los ciclos de vida de una liga, un usuario y un partido. Estas pruebas verifican la interacción entre los endpoints, la lógica de aplicación y la persistencia utilizando definiciones de base de datos en memoria preparadas específicamente para el entorno de pruebas. Además, se ha utilizado una conexión simulada con el almacenamiento de objetos para validar la generación de URLs públicas y de subida.
-
-Finalmente, se ha realizado una validación de extremo a extremo con el arnés de \emph{Antigravity} y el modelo \emph{Gemini 3.5 Flash}, con precisión \emph{Medium}. Esta validación permitió revisar conjuntamente los flujos implementados y comprobar que las diferentes partes de la aplicación funcionaban de forma coherente.
+\subsection{Pruebas y validación del back-end}
+La fiabilidad de la lógica de negocio, la integridad de las rutas API y el rendimiento de las consultas críticas se han validado mediante una batería de 23 pruebas automatizadas estructuradas en 13 suites de test (ejecutadas sobre JUnit 5, MockK y Spring Boot Test):
+\begin{itemize}
+    \item \textbf{Pruebas unitarias de dominio y servicios:} Pruebas aisladas en \texttt{UserServiceTest}, \texttt{LeagueServiceTest}, \texttt{ParticipantServiceTest} y \texttt{StorageServiceTest}, que utilizan dobles de prueba (\textit{mocks}) para validar exhaustivamente las ramas de éxito y error tipado bajo el patrón \texttt{DomainResult}, asegurando que ninguna regla de negocio quede desatendida.
+    \item \textbf{Pruebas de integración extremo a extremo:} Implementadas en \texttt{BaseIntegrationTest} y sus clases derivadas mediante \texttt{MockMvc}. Levantan el contexto íntegro del servidor y verifican de forma transaccional contra la base de datos los flujos de registro de usuarios, emisión y renovación de tokens JWT, creación jerárquica de ligas con fases y grupos, y evaluación efectiva de los guardias de seguridad ABAC.
+    \item \textbf{Pruebas de rendimiento e integración de vistas materializadas:} Implementadas en \texttt{LeaderboardBenchmarkTest}, donde se somete a prueba el endpoint de clasificación (\texttt{GET /api/v1/leagues/\{id\}/leaderboard}) frente a un escenario simulado de 10 equipos, 10 jornadas y 50 partidos concluidos. Esta prueba evalúa el tiempo de respuesta real y su dispersión estadística a través de la pila completa del servidor y PostgreSQL con la vista materializada \texttt{v\_match\_team\_performance}.
+\end{itemize}
 
 \section{Base de datos}
 Como se ha explicado, la \ac{BD} ha sido implementada con el motor PostgreSQL bajo los principios de la tercera forma normal. La base de datos evoluciona de manera determinista mediante migraciones versionadas con Flyway: creación del esquema relacional, instalación de disparadores para borrado lógico, creación de la vista materializada de clasificación y carga de datos iniciales.
 
 El cómputo de la clasificación se desacopla del motor transaccional mediante la vista materializada \texttt{v\_match\_team\_performance}. Esta estructura ejecuta una operación \texttt{UNION ALL} para normalizar el rendimiento de cada contendiente desde la perspectiva local y visitante sobre los partidos en estado \texttt{ENDED}. La vista calcula victorias, empates y derrotas mediante sentencias condicionales, sumatorios de puntos de sets e imputa la puntuación aplicando dinámicamente el baremo de la liga (\texttt{punctuation\_rule}) o el estándar 3/1/0. La vista se refresca síncronamente (\texttt{REFRESH MATERIALIZED VIEW}) al cerrarse un acta. Gracias a ello, la consulta de clasificación agrupada (\texttt{GROUP BY team\_id}) se resuelve en tiempo $O(1)$ sin sobrecargar el motor con agregaciones continuadas, posibilitando adicionalmente la reconstrucción de tablas históricas mediante el filtrado por la jornada límite (\texttt{round\_sequence\_order}).
 
-\section{Verificación y pruebas}
-La fiabilidad de la lógica de negocio y la integridad de las rutas API se han validado mediante una batería de 22 pruebas automatizadas estructuradas en 12 suites de test (ejecutadas sobre JUnit 5, MockK y Spring Boot Test):
-\begin{itemize}
-    \item \textbf{Pruebas unitarias de dominio y servicios:} Pruebas aisladas en \texttt{UserServiceTest}, \texttt{LeagueServiceTest}, \texttt{ParticipantServiceTest} y \texttt{StorageServiceTest}, que utilizan dobles de prueba (\textit{mocks}) para validar exhaustivamente las ramas de éxito y error tipado bajo el patrón \texttt{DomainResult}, asegurando que ninguna regla de negocio quede desatendida.
-    \item \textbf{Pruebas de integración extremo a extremo:} Implementadas en \texttt{BaseIntegrationTest} y sus derivadas mediante \texttt{MockMvc}. Levantan el contexto íntegro del servidor y verifican de forma transaccional contra la base de datos los flujos de registro de usuarios, emisión y renovación de tokens JWT, creación jerárquica de ligas con fases y grupos, y evaluación efectiva de los guardias de seguridad ABAC.
-\end{itemize}
 
 \section{Almacenamiento de objetos}
 Durante la inicialización del contexto de Spring Boot, la clase de configuración \texttt{MinioConfig} verifica de forma reactiva la existencia del \emph{bucket} configurado (\texttt{minio.bucket}) mediante el cliente oficial de MinIO (\texttt{client.bucketExists}). Si el contenedor no está presente en la instancia de almacenamiento, se procede a su aprovisionamiento automático (\texttt{client.makeBucket}) y se aplica una política de acceso basada en declaraciones (\texttt{SetBucketPolicyArgs}). Esta política concede permisos públicos de solo lectura (\texttt{s3:GetObject}) sobre los recursos alojados, garantizando la persistencia idónea tanto en el primer despliegue como en reinicios tras fallos del servicio, sin requerir intervención manual por parte de los administradores de infraestructura.
@@ -146,11 +135,53 @@ A diferencia de los enfoques convencionales que delegan la capa de red en librer
 Esta decisión responde a criterios estrictos de seguridad orientados a mitigar los riesgos asociados a ataques sobre la cadena de suministro (\textit{Supply Chain Attacks}) en el ecosistema \textit{npm}, los cuales se detallan en la sección~\ref{sec:change_tech}. Al basarse exclusivamente en APIs nativas del estándar ECMAScript, se reduce al mínimo la superficie de ataque, se evitan árboles de dependencias transitivas innecesarias y se obtiene un control total sobre el ciclo de vida de la petición: desde la inyección automática del token de autenticación JWT en la cabecera \texttt{Authorization: Bearer} a partir del almacenamiento seguro del dispositivo, hasta la normalización de las respuestas y la captura homogénea de errores HTTP bajo un tipo unión discriminado (\texttt{ApiResult<T>}).
 
 \subsection{Estilo de la interfaz}
-Tal y como se ha explicado en la sección \ref{sec:interface_design}, el diseño visual de la interfaz se ha desarrollado a partir de los prototipos elaborados en Figma y se ha concretado mediante la generación y adaptación de los estilos CSS. Para ello, se ha utilizado el arnés \emph{Antigravity} junto con el modelo \emph{Gemini 3.5 Flash}, configurado con un nivel de precisión \emph{Medium}. Como contexto para la generación, se proporcionaron los prototipos de Figma, los requisitos no funcionales y las directrices relacionadas con la temática deportiva de la aplicación.
+Tal y como se ha explicado en la sección \ref{sec:interface_design}, el diseño visual de la interfaz se ha desarrollado a partir de los prototipos elaborados en Figma y se ha concretado mediante la generación y adaptación de los estilos CSS con NativeWind. Para ello, se ha utilizado el arnés \emph{Antigravity} junto con el modelo \emph{Gemini 3.5 Flash}, configurado con un nivel de precisión \emph{Medium}. Como contexto para la generación, se proporcionaron los prototipos de Figma, los requisitos no funcionales y las directrices dirigidas a conferir un estilo atractivo, moderno y dinámico adecuado a la temática deportiva.
 
-El resultado se ha revisado y ajustado para mantener la coherencia visual entre las distintas pantallas, mejorar la legibilidad de la información y adaptar la interfaz a los diferentes dispositivos y tamaños de pantalla. Las figuras siguientes muestran algunos ejemplos de las pantallas implementadas y permiten comparar la propuesta visual con los diseños definidos durante la fase de prototipado.
+El resultado final plasma de manera fiel estos objetivos estéticos y de usabilidad:
+\begin{itemize}
+    \item \textbf{Identidad visual y dinamismo cromático:} Se adopta una paleta basada en tonos azules deportivos, complementada con tarjetas de fondo blanco de alto contraste y bordes suavemente redondeados que favorecen la legibilidad en pistas al aire libre o bajo iluminación intensa (satisfaciendo el requisito \textbf{RNF-USA-2}). Los botones de acción principal y los selectores interactivos disponen de transiciones visuales marcadas que otorgan una apariencia contemporánea y cercana a las plataformas deportivas comerciales.
+    \item \textbf{Claridad y jerarquía en autenticación:} En la pantalla de inicio de sesión (Figura \ref{fig:ui_login}) y creación de cuenta (Figura \ref{fig:ui_create_account}), se minimiza la fricción del usuario mediante campos de entrada despejados con iconografía contextual. La interfaz de registro integra de forma adaptativa la tarjeta condicional para árbitros, permitiendo seleccionar y añadir licencias por deporte de manera inmediata y sin saturar visualmente el formulario.
+    \item \textbf{Visualización deportiva y legibilidad de datos:} La pantalla de ligas (Figura \ref{fig:ui_leagues}) introduce una cabecera con identidad visual definida y acceso rápido al inicio de sesión. Por su parte, la pantalla de clasificación o \emph{leaderboard} (Figura \ref{fig:ui_classification}) plasma con exactitud los datos consolidados del banco de pruebas: los equipos se presentan en tarjetas contenidas con sus colores distintivos representados mediante indicadores circulares, las abreviaturas oficiales y un desglose numérico claro, destacando la puntuación (\texttt{PTS}) en tipografía reforzada. Asimismo, la barra de navegación inferior ofrece accesos directos semánticos (\emph{Info, Partidos, Clasificación, Fases, Equipos}) facilitando una navegación fluida con el pulgar.
+\end{itemize}
 
-% TODO Comentar el resutlado obtenido poniendo de ejemplo algunas pantallas.
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.42\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=6.8cm, keepaspectratio]{img/ui/ui-login.jpg}
+        \caption{Pantalla de inicio de sesión (\emph{Login})}
+        \label{fig:ui_login}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.54\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=6.8cm, keepaspectratio]{img/ui/ui-create-account.jpg}
+        \caption{Registro de usuario y selección de licencias}
+        \label{fig:ui_create_account}
+    \end{subfigure}
+    \caption{Interfaces de autenticación y registro implementadas.}
+    \label{fig:ui_auth_screens}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.46\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=7.2cm, keepaspectratio]{img/ui/clasification.jpg}
+        \caption{Clasificación de liga en vivo (\emph{Leaderboard})}
+        \label{fig:ui_classification}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.50\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, keepaspectratio]{img/ui/ui-leagues.jpg}
+        \vspace{1.2cm}
+        \caption{Cabecera y explorador de competiciones}
+        \label{fig:ui_leagues}
+    \end{subfigure}
+    \caption{Interfaces de consulta y seguimiento de competiciones.}
+    \label{fig:ui_competition_screens}
+\end{figure}
 
 \subsection{Flujos por rol}
 Tal y como se muestra en el diagrama de actividades de la Figura \ref{fig:roles_flux}, los flujos de trabajo de la aplicación se adaptan a las responsabilidades de cada rol. El administrador configura la competición, crea sus fases y jornadas, genera el calendario y supervisa su evolución. El capitán administra la información de su equipo, consulta los partidos asignados y coordina su disponibilidad. Durante la celebración de un encuentro, el árbitro registra los eventos y resultados, completa el acta y la cierra para que el sistema actualice la clasificación. Finalmente, el jugador puede consultar los próximos partidos, los resultados, la clasificación y la información relacionada con su equipo. Esta distribución de funciones permite limitar las operaciones disponibles según los permisos de cada usuario y ofrece una experiencia adaptada a las necesidades de cada participante.
