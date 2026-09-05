@@ -38,7 +38,16 @@ En la lista siguiente se pueden encontrar todos los entregables necesarios para 
 \end{enumerate}
 
 \section{Planificación temporal}
-En la Figura \ref{fig:cronogram} se muestra el cronograma del proyecto, donde se representan las diferentes fases del desarrollo y la secuencia temporal en la que se han llevado a cabo. Este esquema permite visualizar de forma clara el orden de ejecución de cada etapa, así como los hitos principales que marcan el avance del trabajo y la transición entre una fase y la siguiente. La planificación se ha estructurado de manera que responda tanto a la evolución técnica del sistema como al calendario académico del TFG, garantizando que cada bloque de trabajo se desarrolle en un periodo realista y con una carga de esfuerzo adecuada. En este sentido, la duración de las fases de análisis y desarrollo ha tenido en cuenta la necesidad de dedicar tiempo al estudio para los exámenes y para el aprendizaje de tecnologías, lo que ha condicionado la progresión del proyecto y ha motivado una distribución temporal más equilibrada entre trabajo académico y desarrollo del sistema. % TODO Indica fechas exactas de inicio y fin
+En la Figura \ref{fig:cronogram_compact} se muestra el cronograma del proyecto, desarrollado entre el \textbf{11 de diciembre de 2025} y el \textbf{4 de septiembre de 2026}, donde se representan las diferentes fases del desarrollo y la secuencia temporal en la que se han llevado a cabo.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/system_design/PlanificacionCompacta.png}
+    \caption{Vista compacta del cronograma}
+    \label{fig:cronogram_compact}
+\end{figure}
+
+En caso de querer ver una versión más detallada se puede consultar la Figura~\ref{fig:cronogram}. Este esquema permite visualizar de forma clara el orden de ejecución de cada etapa, así como los hitos principales que marcan el avance del trabajo y la transición entre una fase y la siguiente. La planificación se ha estructurado de manera que responda tanto a la evolución técnica del sistema como al calendario académico del TFG, garantizando que cada bloque de trabajo se desarrolle en un periodo realista y con una carga de esfuerzo adecuada. En este sentido, la duración de las fases de análisis y desarrollo ha tenido en cuenta la necesidad de dedicar tiempo al estudio para los exámenes y para el aprendizaje de tecnologías, lo que ha condicionado la progresión del proyecto y ha motivado una distribución temporal más equilibrada entre trabajo académico y desarrollo del sistema.
 
 \section{Hitos principales}
 Tal y como se muestra en la Figura \ref{fig:cronogram}, los hitos marcan la finalización formal de cada fase del proyecto. Cada hito se considera alcanzado cuando sus entregables asociados están terminados y verificados:
@@ -67,52 +76,49 @@ Los riesgos identificados durante la planificación del proyecto se han clasific
 \begin{table}[H]
     \centering
     \renewcommand{\arraystretch}{1.25}
-    \resizebox{\textwidth}{!}{
-    \begin{tabular}{|p{0.18\textwidth}|p{0.32\textwidth}|c|c|p{0.28\textwidth}|}
-        \hline
-        \textbf{Tipo de riesgo} & \textbf{Descripción} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Mitigación} \\ \hline
+    \begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{2.1cm} >{\RaggedRight\arraybackslash}X p{1.6cm} p{1.6cm} >{\RaggedRight\arraybackslash}X}
+        \textbf{Tipo de riesgo} & \textbf{Descripción} & \textbf{Probabilidad} & \textbf{Impacto} & \textbf{Mitigación} \\ \lightrule
         Cambios en requisitos &
         Modificaciones significativas una vez definidos los formularios y objetivos del sistema. &
         Baja &
         Medio &
-        Se establece un alcance inicial definido y requisitos priorizados para evitar ampliaciones no controladas. \\ \hline
+        Se establece un alcance inicial definido y requisitos priorizados para evitar ampliaciones no controladas. \\ \lightrule
         Dependencias tecnológicas &
         Cambios de versión, vulnerabilidades o incompatibilidades de librerías y frameworks. &
         Media &
         Alto &
-        Uso de versiones concretas, revisión de dependencias y validación tras cambios. \\ \hline
+        Uso de versiones concretas, revisión de dependencias y validación tras cambios. \\ \lightrule
         Carga académica &
         Retrasos por exámenes y otras asignaturas del curso. &
         Alta &
         Medio-Alto &
-        Planificación por fases con margen temporal y distribución equilibrada del trabajo. \\ \hline
+        Planificación por fases con margen temporal y distribución equilibrada del trabajo. \\ \lightrule
         Complejidad técnica &
         Dificultad derivada de integrar varios módulos funcionales en el sistema. &
         Media &
         Alto &
-        Diseño previo, separación por dominios y desarrollo incremental. \\ \hline
+        Diseño previo, separación por dominios y desarrollo incremental. \\ \lightrule
         Integración entre componentes &
-        Problemas de comunicación entre front-end, back-end, base de datos y almacenamiento. &
+        Problemas de comunicación entre \emph{front-end}, back-end, base de datos y almacenamiento. &
         Media &
         Medio-Alto &
-        Contrato API claro y pruebas de integración. \\ \hline
+        Contrato API claro y pruebas de integración. \\ \lightrule
         Seguridad y permisos &
         Accesos no autorizados o fallos en la gestión de roles y permisos. &
         Media &
         Alto &
-        Validaciones de acceso y control por roles. \\ \hline
+        Validaciones de acceso y control por roles. \\ \lightrule
         Deuda técnica &
         Soluciones rápidas que comprometen la mantenibilidad futura del sistema. &
         Media &
         Medio &
-        Revisión continua de la arquitectura y evitación de soluciones temporales. \\ \hline
+        Revisión continua de la arquitectura y evitación de soluciones temporales. \\ \lightrule
         Desviación de alcance &
         Añadir funcionalidades no previstas y retrasar el proyecto. &
         Media &
         Medio &
-        Definir requisitos esenciales y priorizar el alcance. \\ \hline
-    \end{tabular}%
-    }
+        Definir requisitos esenciales y priorizar el alcance. \\ \lightrule
+    \end{tabularx}
     \caption{Riesgos identificados y estrategias de mitigación}
     \label{tab:risks_management}
 \end{table}

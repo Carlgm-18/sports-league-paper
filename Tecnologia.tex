@@ -1,7 +1,7 @@
 \chapter{Tecnologías usadas}
 \label{ch:tech}
 
-Para implementar este tipo de sistemas requerimos de tecnologías que nos permitan cumplir con todos los requisitos especificados y el diseño mostrado en el capítulo anterior. Para cada componente veremos: una breve explicación de la necesidad de dicho componente, listado de las distintas alternativas ideales que existen para dicho componente, una tabla comparativa para distintos aspectos técnicos y la tecnología seleccionada con su correspondiente justificación. 
+Para implementar este tipo de sistemas se requiere de tecnologías que permitan cumplir con todos los requisitos especificados y el diseño mostrado en el capítulo anterior. Para cada componente veremos: una breve explicación de la necesidad de dicho componente, listado de las distintas alternativas ideales que existen para dicho componente, una tabla comparativa para distintos aspectos técnicos y la tecnología seleccionada con su correspondiente justificación. 
 
 \section{Servidor back-end}
 
@@ -20,18 +20,17 @@ Framework asíncrono ligero creado por JetBrains para Kotlin. Ofrece un alto ren
 
 \subsection*{Comparativa técnica}
 
-En la Cuadro~\ref{tab:comparativa-backend} se resumen las características fundamentales de cada entorno.
+En el Cuadro~\ref{tab:comparativa-backend} se resumen las características fundamentales de cada entorno.
 
 \begin{table}[H]
-    \hspace*{-0.25cm}
-    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
-        \hline
-        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{Spring Boot (Kotlin)} & \textbf{NestJS (TypeScript)} & \textbf{Ktor (Kotlin)} \\ \hline
-        \textbf{Paradigma} & Multihilo / Síncrono & Basado en eventos & Asíncrono (Corrutinas) \\ \hline
-        \textbf{Seguridad de tipos} & Estricta (Nativa) & Alta (Transpilado) & Estricta (Nativa) \\ \hline
-        \textbf{Ecosistema} & Muy maduro & Masivo (NPM) & En crecimiento \\ \hline
-        \textbf{Arquitectura} & Altamente estructurada & Modular & Minimalista \\ \hline
-    \end{tabular}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{1.9cm} >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X}
+        \textbf{Criterio} & \textbf{Spring Boot (Kotlin)} & \textbf{NestJS (TypeScript)} & \textbf{Ktor (Kotlin)} \\ \lightrule
+        \textbf{Paradigma} & Multihilo / Síncrono & Basado en eventos & Asíncrono (Corrutinas) \\ \lightrule
+        \textbf{Seguridad de tipos} & Estricta (Nativa) & Alta (Transpilado) & Estricta (Nativa) \\ \lightrule
+        \textbf{Ecosistema} & Muy maduro & Masivo (NPM) & En crecimiento \\ \lightrule
+        \textbf{Arquitectura} & Altamente estructurada & Modular & Minimalista \\ \lightrule
+    \end{tabularx}
     \caption{Comparativa de frameworks para el desarrollo del back-end.}
     \label{tab:comparativa-backend}
 \end{table}
@@ -62,18 +61,17 @@ Bifurcación comunitaria de MySQL, compatible a nivel de binarios, pero con opti
 
 \subsection*{Comparativa técnica}
 
-En la Cuadro~\ref{tab:comparativa-bd} se resumen las principales características técnicas evaluadas.
+En el Cuadro~\ref{tab:comparativa-bd} se resumen las principales características técnicas evaluadas.
 
 \begin{table}[H]
-    \hspace*{-0.25cm}
-    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
-        \hline
-        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{PostgreSQL} & \textbf{MySQL (InnoDB)} & \textbf{MariaDB} \\ \hline
-        \textbf{Modelo} & Objeto-relacional & Relacional & Relacional \\ \hline
-        \textbf{Cumplimiento SQL} & Estricto & Medio-alto & Medio-alto \\ \hline
-        \textbf{Consultas complejas} & Excelente (CTE, sub consultas) & Adecuado & Bueno \\ \hline
-        \textbf{Tipos avanzados} & Arrays, \texttt{JSONB} indexable, UUID & JSON básico & JSON básico \\ \hline
-    \end{tabular}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{1.9cm} >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X}
+        \textbf{Criterio} & \textbf{PostgreSQL} & \textbf{MySQL (InnoDB)} & \textbf{MariaDB} \\ \lightrule
+        \textbf{Modelo} & Objeto-relacional & Relacional & Relacional \\ \lightrule
+        \textbf{Cumplimiento SQL} & Estricto & Medio-alto & Medio-alto \\ \lightrule
+        \textbf{Consultas complejas} & Excelente (CTE, sub consultas) & Adecuado & Bueno \\ \lightrule
+        \textbf{Tipos avanzados} & Arrays, \texttt{JSONB} indexable, UUID & JSON básico & JSON básico \\ \lightrule
+    \end{tabularx}
     \caption{Comparativa de motores de bases de datos relacionales.}
     \label{tab:comparativa-bd}
 \end{table}
@@ -108,18 +106,17 @@ Servicio gestionado de Google orientado a integraciones rápidas en aplicaciones
 
 \subsection*{Comparativa técnica}
 
-En la Cuadro~\ref{tab:comparativa-os} se analizan las soluciones basándonos en las necesidades del entorno de desarrollo y producción del proyecto.
+En el Cuadro~\ref{tab:comparativa-os} se analizan las soluciones basándonos en las necesidades del entorno de desarrollo y producción del proyecto.
 
 \begin{table}[H]
-    \hspace*{-0.25cm}
-    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
-        \hline
-        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{MinIO} & \textbf{Amazon S3} & \textbf{Firebase Storage} \\ \hline
-        \textbf{Despliegue} & Local / Autoalojado (Docker) & Nube gestionada (AWS) & Nube gestionada (GCP) \\ \hline
-        \textbf{Compatibilidad API} & Estándar S3 & Estándar S3 & Propietaria \\ \hline
-        \textbf{Soberanía de datos} & Total (Bajo control propio) & Cedida al proveedor & Cedida al proveedor \\ \hline
-        \textbf{Gestión de Infraestructura} & Responsabilidad del desarrollador & Automática & Automática \\ \hline
-    \end{tabular}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{1.9cm} >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X}
+        \textbf{Criterio} & \textbf{MinIO} & \textbf{Amazon S3} & \textbf{Firebase Storage} \\ \lightrule
+        \textbf{Despliegue} & Local / Autoalojado (Docker) & Nube gestionada (AWS) & Nube gestionada (GCP) \\ \lightrule
+        \textbf{Compatibilidad API} & Estándar S3 & Estándar S3 & Propietaria \\ \lightrule
+        \textbf{Soberanía de datos} & Total (Bajo control propio) & Cedida al proveedor & Cedida al proveedor \\ \lightrule
+        \textbf{Gestión de Infraestructura} & Responsabilidad del desarrollador & Automática & Automática \\ \lightrule
+    \end{tabularx}
     \caption{Comparativa de soluciones de almacenamiento de objetos.}
     \label{tab:comparativa-os}
 \end{table}
@@ -133,7 +130,7 @@ Se ha seleccionado \textbf{MinIO} como motor de almacenamiento de objetos por la
     \item \textbf{Compatibilidad futura:} Al implementar exactamente la misma API que Amazon S3, el código desarrollado en el back-end es completamente agnóstico. Si en el futuro el proyecto requiere escalar a la nube pública, la migración a AWS S3 se podría realizar modificando únicamente variables de entorno, sin reescribir la lógica de la aplicación.
 \end{itemize}
 
-\section{Aplicación front-end}
+\section{Aplicación \emph{front-end}}
 
 Para la interfaz de usuario, se requiere una solución multiplataforma que evite la duplicidad de bases de código para web, iOS y Android, garantizando un rendimiento fluido y un acceso estandarizado a las funcionalidades nativas del dispositivo.
 
@@ -150,18 +147,17 @@ Solución híbrida que ejecuta una aplicación web estándar (HTML/CSS/JS) dentr
 
 \subsection*{Comparativa técnica}
 
-En la Cuadro~\ref{tab:comparativa-frontend} se detalla la comparativa técnica de las tecnologías evaluadas.
+En el Cuadro~\ref{tab:comparativa-frontend} se detalla la comparativa técnica de las tecnologías evaluadas.
 
 \begin{table}[H]
-    \hspace*{-0.25cm}
-    \begin{tabular}{|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|p{0.22\textwidth}|}
-        \hline
-        \diagbox[width=\dimexpr 0.22\textwidth+2\tabcolsep\relax]{\textbf{Criterio}}{\textbf{Tecnología}} & \textbf{React Native + Expo} & \textbf{Flutter} & \textbf{Ionic} \\ \hline
-        \textbf{Renderizado UI} & Componentes Nativos & Motor gráfico propio & WebView \\ \hline
-        \textbf{Lenguaje} & TypeScript / JavaScript & Dart & TypeScript / Web \\ \hline
-        \textbf{Acceso a Hardware} & Mediante puente (JSI) & Integración compilada & Plug-ins (Capacitor) \\ \hline
-        \textbf{Desarrollo ágil} & Muy alto (Expo) & Alto & Muy alto \\ \hline
-    \end{tabular}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabularx}{\textwidth}{>{\RaggedRight\arraybackslash}p{1.9cm} >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X >{\RaggedRight\arraybackslash}X}
+        \textbf{Criterio} & \textbf{React Native + Expo} & \textbf{Flutter} & \textbf{Ionic} \\ \lightrule
+        \textbf{Renderizado UI} & Componentes Nativos & Motor gráfico propio & WebView \\ \lightrule
+        \textbf{Lenguaje} & TypeScript / JavaScript & Dart & TypeScript / Web \\ \lightrule
+        \textbf{Acceso a Hardware} & Mediante puente (JSI) & Integración compilada & Plug-ins (Capacitor) \\ \lightrule
+        \textbf{Desarrollo ágil} & Muy alto (Expo) & Alto & Muy alto \\ \lightrule
+    \end{tabularx}
     \caption{Comparativa de frameworks para el desarrollo cliente.}
     \label{tab:comparativa-frontend}
 \end{table}
